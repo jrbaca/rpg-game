@@ -1,12 +1,9 @@
 package com.josephbaca.world;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.Tuple;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 
-import java.io.File;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -17,14 +14,19 @@ public class Room implements Context, Mappable {
 
   private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(Room.class);
 
-  private final String icon;
+  private final World world;
+  private final String icon; // Icon of the room as it appears on maps
   private final String description;
-  private CoordinateGrid<Room> grid;
-  private BiomeType biome;
+  private CoordinateGrid<Room> grid; // Map of the room
+  private BiomeType biome; // Type of room
 
   private final Map<String, Supplier<String>> commands = HashMap.of(
-          "where", this::whereAt,
-          "what", this::getRoomDescription);
+      "where", this::whereAt,
+      "what", this::getRoomDescription,
+      "up", this::moveUp,
+      "down", this::moveDown,
+      "left", this::moveLeft,
+      "right", this::moveRight);
 
   public enum BiomeType {
     FLOWERY,
@@ -36,12 +38,13 @@ public class Room implements Context, Mappable {
     PUROLAND
   }
 
-  Room(int x, int y) {
-    this(x, y, "R");
+  Room(int x, int y, World world) {
+    this(x, y, world, "R");
   }
 
-  Room(int x, int y, String icon) {
+  Room(int x, int y, World world, String icon) {
     Random r = new Random();
+    this.world = world;
     this.icon = icon;
     this.grid = new CoordinateGrid<>(x, y);
     this.biome = BiomeType.values()[r.nextInt(BiomeType.values().length)];
@@ -77,6 +80,26 @@ public class Room implements Context, Mappable {
 
   private String getRoomDescription() {
     return this.description;
+  }
+
+  private String moveUp() {
+    world.movePlayerUp();
+    return world.toDisplayString();
+  }
+
+  private String moveDown() {
+    world.movePlayerDown();
+    return world.toDisplayString();
+  }
+
+  private String moveRight() {
+    world.movePlayerRight();
+    return world.toDisplayString();
+  }
+
+  private String moveLeft() {
+    world.movePlayerLeft();
+    return world.toDisplayString();
   }
 
   /**
