@@ -89,7 +89,7 @@ public class World {
   private void generateWorld() {
     for (int x = 0; x < grid.sizeX(); x++) {
       for (int y = 0; y < grid.sizeY(); y++) {
-        Room r = new Room(5, 5);
+        Room r = new Room(5, 5, this);
         grid.setCoordinate(Coordinate.of(x, y), r);
       }
     }
