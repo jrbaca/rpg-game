@@ -30,7 +30,12 @@ public class Room implements Context, Mappable {
 
   public enum BiomeType {
     FLOWERY,
-    SUNNY
+    SUNNY,
+    DESSERT,
+    HALLOWEENTOWN,
+    STSPATRICKSDAYTOWN,
+    EASTERTOWN,
+    PUROLAND
   }
 
   Room(int x, int y, World world) {
@@ -107,11 +112,23 @@ public class Room implements Context, Mappable {
             "use your imagination bub.", "Wow!!!1!1!!! so pretty!!! These roses definitely won't kill you!!");
     static final List<String> sunnyDescriptions = List.of("hot. humid. congratz ur sweating now :/", "You know when the" +
             "weather is like 70 and the rain is barely misting down on you? That's this room its v comfy");
-
+    static final List<String> dessertDescriptions = List.of("Fruit salad, Yummy Yummy", "This room is shaped like a" +
+            "milkshake, and you have reason to believe that it brings all the boys to the yard.");
+    static final List <String> halloweentownDescriptions = List.of("it looks spooky. Probably has a couple skeletons" +
+            "in it's closet");
+    static final List <String> stPatricksDayTownDescriptions = List.of("Green. Smells like beer and bad decisions");
+    static final List <String> easterTownDescriptions = List.of("Oh cool theres easter eggs!!! It smells like chocolate!");
+    static final List <String> puroLandDescriptions = List.of("It's so cute!!!!!!!!!! Literally dead!!! Theres Kuromi" +
+            "posters and my little twin star plushies!!!!! Actual best room");
     static String getDescription(BiomeType biome) {
       switch(biome) {
         case FLOWERY: return floweryDescriptions.shuffle().head();
         case SUNNY: return sunnyDescriptions.shuffle().head();
+        case DESSERT: return dessertDescriptions.shuffle().head();
+        case HALLOWEENTOWN: return halloweentownDescriptions.shuffle().head();
+        case STSPATRICKSDAYTOWN: return stPatricksDayTownDescriptions.shuffle().head();
+        case EASTERTOWN: return easterTownDescriptions.shuffle().head();
+        case PUROLAND: return puroLandDescriptions.shuffle().head();
         default: throw new RuntimeException("Unknown biome");
       }
     }
