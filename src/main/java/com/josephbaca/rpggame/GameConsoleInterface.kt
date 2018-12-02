@@ -17,7 +17,7 @@ fun main(args : Array<String>) {
 
     while (true) {
         print("> ")
-        input = sc.next()
+        input = sc.nextLine()
         if (input == "quit") {
             break
         } else {
