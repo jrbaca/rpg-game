@@ -1,6 +1,10 @@
 package com.josephbaca.world;
 
-import org.intellij.lang.annotations.Language;
+import io.vavr.Tuple;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.Map;
+
+import java.util.function.Supplier;
 
 /**
  * A room that a player can be in. May have any number of enemies, items, curses, doors, etc.
@@ -9,6 +13,8 @@ public class Room implements Context, Mappable {
 
   private final String icon;
   private CoordinateGrid<Room> grid;
+
+  private final Map<String, Supplier<String>> commands = HashMap.of(Tuple.of("where", this::whereAt));
 
   Room(int x, int y) {
 
@@ -35,6 +41,11 @@ public class Room implements Context, Mappable {
    */
   public String toDisplayString() {
     throw new RuntimeException("Not yet implemented.");
+  }
+
+  @Override
+  public String runInput(String input) {
+    return commands.get(input).getOrElse(() -> "Unknown command").get();
   }
 
   @Override

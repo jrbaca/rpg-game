@@ -5,7 +5,7 @@ import kotlin.text.Charsets.UTF_8
 
 
 /**
- * Starts loop to accept user interaction.
+ * Runs loop to accept user interaction from a console.
  */
 fun main(args : Array<String>) {
 

@@ -5,7 +5,7 @@ package com.josephbaca.world;
  */
 public interface Context {
 
-//  Runnable getTokenToFunction(Token<? extends TokenPatterns> t);
+  String runInput(String input);
 
   String whereAt();
 }

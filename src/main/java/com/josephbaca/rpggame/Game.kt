@@ -17,7 +17,6 @@ class Game {
     }
 
     internal fun input(input: String): String {
-
-        throw RuntimeException("Not yet implemented.")
+        return Parser.parseInput(input, context.currentContext)
     }
 }
