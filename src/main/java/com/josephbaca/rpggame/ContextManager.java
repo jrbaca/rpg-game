@@ -13,7 +13,7 @@ public class ContextManager {
 
   private final List<Context> contextStack = new ArrayList<>();
 
-  ContextManager() { }
+  public ContextManager() { }
 
   public void addContextLayer(Context c) {
     contextStack.add(c);

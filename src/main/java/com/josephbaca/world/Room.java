@@ -79,22 +79,22 @@ public class Room implements Context, Mappable {
 
   private String moveUp() {
     world.movePlayerUp();
-    return world.toDisplayString();
+    return getRoomDescription();
   }
 
   private String moveDown() {
     world.movePlayerDown();
-    return world.toDisplayString();
+    return getRoomDescription();
   }
 
   private String moveRight() {
     world.movePlayerRight();
-    return world.toDisplayString();
+    return getRoomDescription();
   }
 
   private String moveLeft() {
     world.movePlayerLeft();
-    return world.toDisplayString();
+    return getRoomDescription();
   }
 
   /**

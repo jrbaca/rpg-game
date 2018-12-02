@@ -46,9 +46,12 @@ public class World {
   }
 
   private void setPlayerCoords(Coordinate c) {
-    playerCoords = c;
-    context.replaceContextLayer(getCurrentRoom());
-
+    if (c.x >= 0 && c.x < grid.sizeX() && c.y > 0 && c.y < grid.sizeY()) {
+      playerCoords = c;
+      context.replaceContextLayer(getCurrentRoom());
+    } else {
+      LOG.info("Player tried to walk off the world.");
+    }
   }
 
   /**

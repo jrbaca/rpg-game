@@ -1,5 +1,6 @@
 package com.josephbaca.world;
 
+import com.josephbaca.rpggame.ContextManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,9 @@ class RoomTest {
 
   @Test
   void testRoom() {
-    Room r = new Room(5, 5);
+    ContextManager context = new ContextManager();
+    World w = new World("the dungeon", 10, 10, context);
+    Room r = new Room(5, 5, w);
 
   }
 
