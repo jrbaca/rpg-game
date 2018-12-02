@@ -9,6 +9,8 @@ import com.josephbaca.rpggame.ContextManager;
  */
 public class World {
 
+  private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(World.class);
+
   private final String name;
 
   /**
@@ -39,6 +41,8 @@ public class World {
 
     this.context = context;
     context.addContextLayer(getCurrentRoom()); // Add current room to context
+
+    LOG.info("Created world logger");
   }
 
   private void setPlayerCoords(Coordinate c) {
