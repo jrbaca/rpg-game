@@ -26,7 +26,7 @@ class World
                 field = value
                 contextManager.replaceContextLayer(currentRoom)
             } else {
-                LOG.info("Player tried to walk off the world os size (%s, %s).".format(grid.sizeX(), grid.sizeY()))
+                LOG.info("Player tried to walk off the world of size (%s, %s).".format(grid.sizeX(), grid.sizeY()))
             }
         }
 

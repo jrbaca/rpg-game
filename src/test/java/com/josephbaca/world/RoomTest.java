@@ -1,5 +1,7 @@
 package com.josephbaca.world;
 
+import com.josephbaca.entity.Weapon;
+import com.josephbaca.entity.WeaponFactory;
 import com.josephbaca.rpggame.ContextManager;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,6 @@ class RoomTest {
     ContextManager context = new ContextManager();
     World w = new World("the dungeon", 10, 10, context);
     Room r = new Room(5, 5, w);
-
   }
 
 }

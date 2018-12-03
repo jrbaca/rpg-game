@@ -19,8 +19,6 @@ class GameTest {
 
   @Test
   void testContext() {
-    // Setup
-    System.out.println(game.getContext().getCurrentContext());
 
     // Test default context is in room
     Context currentContext = game.getContext().getCurrentContext();
@@ -43,6 +41,12 @@ class GameTest {
     assertNotEquals(currentContext, newContext);
 
     // Right then left should be the same
+    game.getWorld().movePlayerLeft();
+    newContext = game.getContext().getCurrentContext();
+    assertEquals(currentContext, newContext);
+
+    // Can't walk off world
+    game.getWorld().movePlayerDown();
     game.getWorld().movePlayerLeft();
     newContext = game.getContext().getCurrentContext();
     assertEquals(currentContext, newContext);
