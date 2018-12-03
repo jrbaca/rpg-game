@@ -9,8 +9,8 @@ class WeaponFactory {
     companion object {
         fun buildWeapon(weaponType: WeaponType): Weapon {
             return when (weaponType) {
-                WeaponFactory.WeaponType.SWORD -> Weapon("sword", 5,"a sword")
-                WeaponFactory.WeaponType.AXE -> Weapon("axe", 3,"an axe")
+                WeaponFactory.WeaponType.SWORD -> Weapon("sword", 5, "a sword")
+                WeaponFactory.WeaponType.AXE -> Weapon("axe", 3, "an axe")
             }
         }
 

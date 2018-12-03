@@ -8,7 +8,7 @@ import com.josephbaca.util.setLogLevel
 /**
  * Runs loop to accept user interaction from a console.
  */
-fun main(args : Array<String>) {
+fun main(args: Array<String>) {
     setLogLevel("DEBUG", "root")
 
     val game = Game()
@@ -20,6 +20,6 @@ fun main(args : Array<String>) {
     while (true) {
         print("> ")
         input = sc.nextLine()
-        if (input == "quit" ) break else println(game.input(input))
+        if (input == "quit") break else println(game.input(input))
     }
 }

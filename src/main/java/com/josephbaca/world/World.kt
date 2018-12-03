@@ -9,7 +9,7 @@ import com.josephbaca.util.ContextManager
  * of the player.
  */
 class World
-(private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager): Context {
+    (private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager) : Context {
 
     /**
      * Internal representation of the world.
@@ -22,8 +22,10 @@ class World
     private var playerCoords: Coordinate = Coordinate.of(0, 0)
         set(value) {
             if (value.x >= 0 && value.x < grid.sizeX() && value.y >= 0 && value.y < grid.sizeY()) {
-                LOG.info("Player moving from (%s, %s) to (%s, %s)"
-                        .format(playerCoords.x, playerCoords.y, value.x, value.y))
+                LOG.info(
+                    "Player moving from (%s, %s) to (%s, %s)"
+                        .format(playerCoords.x, playerCoords.y, value.x, value.y)
+                )
                 field = value
                 contextManager.replaceContextLayer(currentRoom)
             } else {
