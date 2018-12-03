@@ -5,11 +5,11 @@ package com.josephbaca.entity;
  */
 public class Human extends LivingEntity {
 
-  private Weapon weapon = new Weapon("fist", 1);
+  private Weapon weapon = new Weapon("fist", 1, "a weapon");
   private int strength = 1;
 
   public Human(String name, int health) {
-    super(name, health);
+    super(name, health, "A human.");
   }
 
   public void setWeapon(Weapon weapon) {

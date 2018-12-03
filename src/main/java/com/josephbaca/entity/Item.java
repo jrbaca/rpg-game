@@ -6,8 +6,8 @@ package com.josephbaca.entity;
  */
 public abstract class Item extends Entity {
 
-  public Item(String name) {
-    super(name);
+  public Item(String name, String description) {
+    super(name, description);
   }
 
 }

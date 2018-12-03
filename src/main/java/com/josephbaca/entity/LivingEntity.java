@@ -11,8 +11,8 @@ public abstract class LivingEntity extends Entity {
   private int health;
   private Inventory inventory = new Inventory();
 
-  LivingEntity(String name, int health) {
-    super(name);
+  LivingEntity(String name, int health, String description) {
+    super(name, description);
     this.health = health;
   }
 

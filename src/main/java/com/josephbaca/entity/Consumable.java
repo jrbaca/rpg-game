@@ -7,8 +7,8 @@ public class Consumable extends Item {
 
   int healing;
 
-  public Consumable(String name, int healing) {
-    super(name);
+  public Consumable(String name, int healing, String description) {
+    super(name, description);
     this.healing = healing;
   }
 }
