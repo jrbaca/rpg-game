@@ -2,7 +2,7 @@ package com.josephbaca.world;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.josephbaca.rpggame.ContextManager;
+import com.josephbaca.util.ContextManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

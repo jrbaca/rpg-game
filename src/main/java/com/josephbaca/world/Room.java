@@ -1,6 +1,7 @@
 package com.josephbaca.world;
 
-import com.josephbaca.rpggame.ContextManager;
+import com.josephbaca.util.Context;
+import com.josephbaca.util.ContextManager;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;

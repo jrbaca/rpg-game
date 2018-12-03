@@ -1,4 +1,4 @@
-package com.josephbaca.world;
+package com.josephbaca.util;
 
 /**
  * Interface for any class that can be used in contextManager in the parser etc.

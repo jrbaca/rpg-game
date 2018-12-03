@@ -1,4 +1,4 @@
-package com.josephbaca.rpggame
+package com.josephbaca.util
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext

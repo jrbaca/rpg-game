@@ -1,7 +1,7 @@
 package com.josephbaca.world;
 
 import com.josephbaca.rpggame.Game;
-import com.josephbaca.rpggame.LoggerUtilKt;
+import com.josephbaca.util.LoggerUtilKt;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 

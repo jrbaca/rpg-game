@@ -1,6 +1,7 @@
 package com.josephbaca.world
 
-import com.josephbaca.rpggame.ContextManager
+import com.josephbaca.util.Context
+import com.josephbaca.util.ContextManager
 
 /**
  * Contains all the geography about the world the player is in. Specifically,

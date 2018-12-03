@@ -1,6 +1,4 @@
-package com.josephbaca.rpggame
-
-import com.josephbaca.world.Context
+package com.josephbaca.util
 
 /**
  * Interprets user input and appropriately dispatches it.

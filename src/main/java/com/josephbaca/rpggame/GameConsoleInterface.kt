@@ -2,16 +2,14 @@ package com.josephbaca.rpggame
 
 import java.util.*
 import kotlin.text.Charsets.UTF_8
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.LoggerContext
-import org.slf4j.LoggerFactory
+import com.josephbaca.util.setLogLevel
 
 
 /**
  * Runs loop to accept user interaction from a console.
  */
 fun main(args : Array<String>) {
-   setLogLevel("DEBUG", "root")
+    setLogLevel("DEBUG", "root")
 
     val game = Game()
 

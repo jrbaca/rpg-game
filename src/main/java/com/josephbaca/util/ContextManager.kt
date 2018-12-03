@@ -1,7 +1,5 @@
-package com.josephbaca.rpggame
+package com.josephbaca.util
 
-
-import com.josephbaca.world.Context
 
 import java.util.ArrayList
 
