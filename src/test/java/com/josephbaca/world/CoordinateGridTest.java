@@ -23,7 +23,7 @@ class CoordinateGridTest {
 
     for (int i = 0; i < grid.sizeX(); i++) {
       for (int j = 0; j < grid.sizeX(); j++) {
-        grid.setCoordinate(Coordinate.of(i, j), new Room(5, 5, world));
+        grid.setCoordinate(Coordinate.of(i, j), new Room(contextManager, 5, 5, world));
       }
     }
 
@@ -31,7 +31,7 @@ class CoordinateGridTest {
     assertEquals("R R\nR R", grid.toDisplayString());
 
     // Set top left
-    grid.setCoordinate(Coordinate.of(0, 1), new Room(5, 5, world, "T"));
+    grid.setCoordinate(Coordinate.of(0, 1), new Room(contextManager, 5, 5, world, "T"));
     assertEquals("T R\nR R", grid.toDisplayString());
   }
 
@@ -41,7 +41,7 @@ class CoordinateGridTest {
 
     for (int i = 0; i < grid.sizeX(); i++) {
       for (int j = 0; j < grid.sizeX(); j++) {
-        grid.setCoordinate(Coordinate.of(i, j), new Room(5, 5, world));
+        grid.setCoordinate(Coordinate.of(i, j), new Room(contextManager, 5, 5, world));
       }
     }
 

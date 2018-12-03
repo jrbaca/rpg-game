@@ -8,7 +8,7 @@ import com.josephbaca.rpggame.ContextManager
  * of the player.
  */
 class World
-(private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager) {
+(private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager): Context {
 
     /**
      * Internal representation of the world.
@@ -33,9 +33,16 @@ class World
     private val currentRoom: Room
         get() = grid.getCoordinate(playerCoords)
 
+    override fun runInput(input: String?): String {
+        LOG.error("Should never run user commands on this context")
+        return "Error"
+    }
+
     init {
         generateWorld()
         contextManager.addContextLayer(currentRoom) // Add current room to contextManager
+        LOG.debug("Added current room (%s) to context.".format(currentRoom))
+        LOG.debug("Context is: %s".format(contextManager.contextStack))
     }
 
     /**
@@ -72,14 +79,18 @@ class World
     private fun generateWorld() {
         for (x in 0 until grid.sizeX()) {
             for (y in 0 until grid.sizeY()) {
-                val r = Room(5, 5, this)
+                val r = Room(contextManager, 5, 5, this)
                 grid.setCoordinate(Coordinate.of(x, y), r)
             }
         }
     }
 
     override fun toString(): String {
-        return grid.toString()
+        return "World (%sx%s)".format(grid.sizeX(), grid.sizeY())
+    }
+
+    override fun whereAt(): String {
+        return "World level"
     }
 
     /**

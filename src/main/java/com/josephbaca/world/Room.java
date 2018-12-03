@@ -1,5 +1,6 @@
 package com.josephbaca.world;
 
+import com.josephbaca.rpggame.ContextManager;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
@@ -15,6 +16,7 @@ public class Room implements Context, Mappable {
   private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(Room.class);
 
   private final World world;
+  private final ContextManager contextManager;
   private final String icon; // Icon of the room as it appears on maps
   private final String description;
   private CoordinateGrid<Room> grid; // Map of the room
@@ -22,7 +24,6 @@ public class Room implements Context, Mappable {
 
   private final Map<String, Supplier<String>> commands = HashMap.of(
       "where", this::whereAt,
-      "what", this::getRoomDescription,
       "up", this::moveUp,
       "down", this::moveDown,
       "left", this::moveLeft,
@@ -38,17 +39,18 @@ public class Room implements Context, Mappable {
     PUROLAND
   }
 
-  Room(int x, int y, World world) {
-    this(x, y, world, "R");
+  Room(ContextManager contextManager, int x, int y, World world) {
+    this(contextManager, x, y, world, "R");
   }
 
-  Room(int x, int y, World world, String icon) {
+  Room(ContextManager contextManager, int x, int y, World world, String icon) {
     Random r = new Random();
     this.world = world;
     this.icon = icon;
     this.grid = new CoordinateGrid<>(x, y);
     this.biome = BiomeType.values()[r.nextInt(BiomeType.values().length)];
     this.description = Biome.getDescription(this.biome);
+    this.contextManager = contextManager;
   }
 
   @Override
@@ -75,31 +77,27 @@ public class Room implements Context, Mappable {
 
   @Override
   public String whereAt() {
-    return "You are in a room";
-  }
-
-  private String getRoomDescription() {
-    return this.description;
+    return "Room:" + this.description;
   }
 
   private String moveUp() {
     world.movePlayerUp();
-    return getRoomDescription();
+    return contextManager.getCurrentContext().whereAt();
   }
 
   private String moveDown() {
     world.movePlayerDown();
-    return getRoomDescription();
+    return contextManager.getCurrentContext().whereAt();
   }
 
   private String moveRight() {
     world.movePlayerRight();
-    return getRoomDescription();
+    return contextManager.getCurrentContext().whereAt();
   }
 
   private String moveLeft() {
     world.movePlayerLeft();
-    return getRoomDescription();
+    return contextManager.getCurrentContext().whereAt();
   }
 
   /**

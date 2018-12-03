@@ -20,35 +20,35 @@ class GameTest {
   @Test
   void testContext() {
 
-    // Test default context is in room
-    Context currentContext = game.getContext().getCurrentContext();
+    // Test default contextManager is in room
+    Context currentContext = game.getContextManager().getCurrentContext();
     assertTrue(currentContext instanceof Room);
 
     // Test we properly enter/exist new contexts (room (replace), battle (stack), etc)
     // Up should be different than base
     game.getWorld().movePlayerUp();
-    Context newContext = game.getContext().getCurrentContext();
+    Context newContext = game.getContextManager().getCurrentContext();
     assertNotEquals(currentContext, newContext);
 
     // Up then down should be the same
     game.getWorld().movePlayerDown();
-    newContext = game.getContext().getCurrentContext();
+    newContext = game.getContextManager().getCurrentContext();
     assertEquals(currentContext, newContext);
 
     // Right should be different from base
     game.getWorld().movePlayerRight();
-    newContext = game.getContext().getCurrentContext();
+    newContext = game.getContextManager().getCurrentContext();
     assertNotEquals(currentContext, newContext);
 
     // Right then left should be the same
     game.getWorld().movePlayerLeft();
-    newContext = game.getContext().getCurrentContext();
+    newContext = game.getContextManager().getCurrentContext();
     assertEquals(currentContext, newContext);
 
     // Can't walk off world
     game.getWorld().movePlayerDown();
     game.getWorld().movePlayerLeft();
-    newContext = game.getContext().getCurrentContext();
+    newContext = game.getContextManager().getCurrentContext();
     assertEquals(currentContext, newContext);
 
     // TODO test add/remove from stack

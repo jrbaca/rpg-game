@@ -6,14 +6,14 @@ import com.josephbaca.world.Context
 import java.util.ArrayList
 
 /**
- * Internal representation of the context to manage current game context.
+ * Internal representation of the contextManager to manage current game contextManager.
  */
 class ContextManager {
 
-    private val contextStack = ArrayList<Context>()
+    val contextStack = ArrayList<Context>()
 
     val currentContext: Context
-        get() = contextStack[contextStack.size - 1]
+        get() = contextStack.last()
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)
@@ -26,5 +26,9 @@ class ContextManager {
     fun replaceContextLayer(c: Context) {
         removeContextLayer()
         addContextLayer(c)
+    }
+
+    fun insertContextLayer(c: Context, index: Int) {
+        contextStack.add(index, c)
     }
 }
