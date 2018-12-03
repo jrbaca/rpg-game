@@ -4,8 +4,8 @@ import com.josephbaca.entity.Human
 import com.josephbaca.world.World
 
 /**
- * Main game class that holds the input processing and game state management.
- */
+* Main game class that holds the input processing and game state management.
+*/
 class Game {
 
     val world: World
