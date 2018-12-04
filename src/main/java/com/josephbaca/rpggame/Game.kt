@@ -1,22 +1,34 @@
 package com.josephbaca.rpggame
 
 import com.josephbaca.entity.Human
+import com.josephbaca.util.ContextManager
+import com.josephbaca.util.Parser
 import com.josephbaca.world.World
 
 /**
- * Main game class that holds the input processing and game state management.
+ ** Main game class that holds the input processing and game state management.
  */
 class Game {
 
     val world: World
     private val player = Human("player", 10)
-    val context = ContextManager()
+    val contextManager = ContextManager()
+
+    var ilist = listOf("1", "2", "3")
 
     init {
-        world = World("the dungeon", 10, 10, context)
+        world = World("the dungeon", 10, 10, contextManager)
+        contextManager.insertContextLayer(world, 0) // Adds world as base level of context
+        LOG.debug("Added world to beginning of context.")
+        LOG.debug("Context is: %s".format(contextManager.contextStack))
     }
 
-    internal fun input(input: String): String {
-        return Parser.parseInput(input, context.currentContext)
+    fun input(input: String): String {
+        return Parser.parseInput(input, contextManager.currentContext)
+    }
+
+    companion object {
+
+        private val LOG = org.slf4j.LoggerFactory.getLogger(Game::class.java)
     }
 }

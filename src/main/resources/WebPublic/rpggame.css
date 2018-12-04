@@ -1,0 +1,46 @@
+#banner {
+    background-color: #001f3f;
+    color: #FFFFFF
+}
+
+#textOutput {
+    position: fixed;
+    display: inline-block;
+    vertical-align: bottom;
+    overflow-y: auto;
+
+    top: 0;
+    left: 10px;
+    right: 10px;
+    bottom: 100px;
+
+    margin-left: 0;
+    margin-top: 80px;
+
+    background-color: #FFFFFF;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+#footer {
+    z-index: 2;
+    position: fixed;
+    height: 80px;
+
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+
+    margin-left: 0;
+
+    background-color: #FFFFFF;
+    padding-top: 10px;
+    padding-bottom: 65px;
+}
+
+#submitButton {
+    z-index: 3;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
