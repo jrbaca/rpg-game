@@ -14,6 +14,8 @@ class Game {
     private val player = Human("player", 10)
     val contextManager = ContextManager()
 
+    var ilist = listOf("1", "2", "3")
+
     init {
         world = World("the dungeon", 10, 10, contextManager)
         contextManager.insertContextLayer(world, 0) // Adds world as base level of context
