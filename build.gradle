@@ -40,7 +40,14 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25' // Logger API
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3' // LogBack
 
-    // testing libraries: these are only visible from our "test" code, not the "main" code
+    // Web stuff
+    compile('com.sparkjava:spark-core:2.7.2') { // Web server
+        exclude module: 'slf4j-simple' // Using logback
+    }
+    compile 'com.j2html:j2html:1.0.0' // HTML builder
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7' // JSON
+
+    // Testing libraries: these are only visible from our "test" code, not the "main" code
     testCompile 'org.mockito:mockito-core:2.19.0' // mock testing library
     testCompile 'org.quicktheories:quicktheories:0.25' // pattern-based testing library
 
