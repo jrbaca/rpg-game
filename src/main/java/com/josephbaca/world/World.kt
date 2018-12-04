@@ -19,9 +19,9 @@ class World
     /**
      * Player coordinates.
      */
-    private var playerCoords: Coordinate = Coordinate.of(0, 0)
+    private var playerCoords: Coordinate = Coordinate(0, 0)
         set(value) {
-            if (value.x >= 0 && value.x < grid.sizeX() && value.y >= 0 && value.y < grid.sizeY()) {
+            if (value.x >= 0 && value.x < grid.sizeX && value.y >= 0 && value.y < grid.sizeY) {
                 LOG.info(
                     "Player moving from (%s, %s) to (%s, %s)"
                         .format(playerCoords.x, playerCoords.y, value.x, value.y)
@@ -29,14 +29,14 @@ class World
                 field = value
                 contextManager.replaceContextLayer(currentRoom)
             } else {
-                LOG.info("Player tried to walk off the world of size (%s, %s).".format(grid.sizeX(), grid.sizeY()))
+                LOG.info("Player tried to walk off the world of size (%s, %s).".format(grid.sizeX, grid.sizeY))
             }
         }
 
     private val currentRoom: Room
         get() = grid.getCoordinate(playerCoords)
 
-    override fun runInput(input: String?): String {
+    override fun runInput(input: String): String {
         LOG.error("Should never run user commands on this context")
         return "Error"
     }
@@ -52,44 +52,44 @@ class World
      * Move the player up one unit.
      */
     fun movePlayerUp() {
-        playerCoords = Coordinate.of(playerCoords.x, playerCoords.y + 1)
+        playerCoords = Coordinate(playerCoords.x, playerCoords.y + 1)
     }
 
     /**
      * Move the player down one unit.
      */
     fun movePlayerDown() {
-        playerCoords = Coordinate.of(playerCoords.x, playerCoords.y - 1)
+        playerCoords = Coordinate(playerCoords.x, playerCoords.y - 1)
     }
 
     /**
      * Move the player right one unit.
      */
     fun movePlayerRight() {
-        playerCoords = Coordinate.of(playerCoords.x + 1, playerCoords.y)
+        playerCoords = Coordinate(playerCoords.x + 1, playerCoords.y)
     }
 
     /**
      * Move the player left one unit.
      */
     fun movePlayerLeft() {
-        playerCoords = Coordinate.of(playerCoords.x - 1, playerCoords.y)
+        playerCoords = Coordinate(playerCoords.x - 1, playerCoords.y)
     }
 
     /**
      * World generator function.
      */
     private fun generateWorld() {
-        for (x in 0 until grid.sizeX()) {
-            for (y in 0 until grid.sizeY()) {
+        for (x in 0 until grid.sizeX) {
+            for (y in 0 until grid.sizeY) {
                 val r = Room(contextManager, 5, 5, this)
-                grid.setCoordinate(Coordinate.of(x, y), r)
+                grid.setCoordinate(Coordinate(x, y), r)
             }
         }
     }
 
     override fun toString(): String {
-        return "World (%sx%s)".format(grid.sizeX(), grid.sizeY())
+        return "World (%sx%s)".format(grid.sizeX, grid.sizeY)
     }
 
     override fun whereAt(): String {

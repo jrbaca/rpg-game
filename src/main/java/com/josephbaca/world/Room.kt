@@ -3,7 +3,6 @@ package com.josephbaca.world
 import com.josephbaca.util.Context
 import com.josephbaca.util.ContextManager
 
-import java.util.Random
 
 /**
  * A room that a player can be in. May have any number of enemies, items, curses, doors, etc.
@@ -13,12 +12,13 @@ class Room @JvmOverloads internal constructor(
     x: Int,
     y: Int,
     private val world: World,
-    private val icon: String = "R" // Icon of the room as it appears on maps
+    override val icon: String = "R" // Icon of the room as it appears on maps
 ) : Context, Mappable {
-    private val description: String
-    private val grid: CoordinateGrid<Room> // Map of the room
-    private val biome: BiomeType // Type of room
 
+    private val grid: CoordinateGrid<Room> = CoordinateGrid(x, y) // Map of the room
+    private val biome: BiomeType = BiomeType.values().random() // Type of room
+
+    private val description: String = Biome.getDescription(biome) // Random description from chosen biome
     private val commands = hashMapOf(
         Pair("where", this::whereAt),
         Pair("up", this::moveUp),
@@ -37,19 +37,8 @@ class Room @JvmOverloads internal constructor(
         PUROLAND
     }
 
-    init {
-        val r = Random()
-        this.grid = CoordinateGrid(x, y)
-        this.biome = BiomeType.values()[r.nextInt(BiomeType.values().size)]
-        this.description = Biome.getDescription(this.biome)
-    }
-
     override fun toString(): String {
         return String.format("Room (%s)", icon)
-    }
-
-    override fun getIcon(): String {
-        return icon
     }
 
     /**
@@ -64,7 +53,7 @@ class Room @JvmOverloads internal constructor(
     }
 
     override fun whereAt(): String {
-        return "Room:" + this.description
+        return "Room: " + this.description
     }
 
     private fun moveUp(): String {
