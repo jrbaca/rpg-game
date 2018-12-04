@@ -1,6 +1,6 @@
 package com.josephbaca.entity
 
-import java.util.ArrayList
+import com.josephbaca.util.Inventory
 
 /**
  * Any entity that is alive, meaning it can take actions.
@@ -11,16 +11,4 @@ abstract class LivingEntity protected constructor
     private val inventory = Inventory()
     abstract val attackDamage: Int
 
-    /**
-     * Holds a living entity's [Item].
-     */
-    internal inner class Inventory {
-
-        private val inventory = ArrayList<Item>()
-
-        fun add(item: Item) {
-            inventory.add(item)
-        }
-
-    }
 }
