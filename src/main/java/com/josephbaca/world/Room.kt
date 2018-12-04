@@ -15,7 +15,7 @@ class Room @JvmOverloads internal constructor(
     override val icon: String = "R" // Icon of the room as it appears on maps
 ) : Context, Mappable {
 
-    private val grid: CoordinateGrid<Room> = CoordinateGrid(x, y) // Map of the room
+    private val grid: CoordinateGrid<Tile> = CoordinateGrid(x, y) // Map of the room
     private val biome: BiomeType = BiomeType.values().random() // Type of room
 
     private val description: String = Biome.getDescription(biome) // Random description from chosen biome
@@ -45,7 +45,7 @@ class Room @JvmOverloads internal constructor(
      * Returns a string displaying the contents of the room.
      */
     fun toDisplayString(): String {
-        throw RuntimeException("Not yet implemented.")
+        return grid.toDisplayString()
     }
 
     override fun runInput(input: String): String {
