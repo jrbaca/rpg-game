@@ -30,7 +30,8 @@ class Room @JvmOverloads internal constructor(
         Pair("down", this::moveDown),
         Pair("left", this::moveLeft),
         Pair("right", this::moveRight),
-        Pair("fight", this::fight)
+        Pair("fight", this::fight),
+        Pair("DemonGalaxyMasterSword", this::lolhack)
     )
 
     enum class BiomeType {
@@ -117,6 +118,11 @@ class Room @JvmOverloads internal constructor(
         }
     }
 
+    private fun lolhack(): String {
+        // TODO give a sword
+        return "Oh shit you unlocked a sister secret"
+    }
+
     /**
      * Type of room which determines it's contents ?
      */
@@ -162,15 +168,15 @@ class Room @JvmOverloads internal constructor(
                     "It's a cute cafe! but it doesn't really look like anyones working here"
                 ).random()
                 Room.BiomeType.SHAMELESSOTHERREFRENCES -> listOf(
-                    "You hear a weirdly high pitched song. You're very uncomfy",
-                    "Oh sick it's a purple room! You feel a weird presence tho",
-                    "oh this room is filled with weird yellow rat plushies. You kinda love them",
-                    "The walls are made of rocks! Theres a poster with a dude you would 100% smash.",
-                    "Oh on one wall theres a line, and then on the other theres the same line and a shorter one" +
-                            "Then theres two lines of the same height. Then on the last wall theres the same line and" +
-                            "another lying on it's side.",
+                    "You hear a weirdly high pitched song. You're very uncomfy.",
+                    "Oh sick it's a purple room! You feel a weird presence tho.",
+                    "oh this room is filled with weird yellow rat plushies. You kinda love them.",
+                    "The walls are made of rocks! Theres a poster with a dude you would 100% smash(it's Brock by the way).",
+                    "Oh on one wall theres a line, and then on the other theres the same line and a shorter one." +
+                            " Then theres two lines of the same height. Then on the last wall theres the same line and" +
+                            " another lying on it's side.",
                     "Its a small room(after all), its a small room(after all) ITS A SMALL ROOM (AFTER ALL), issa" +
-                            "small room(after all)"
+                            "small room(after all)."
 
                 ).random()
             }
@@ -221,7 +227,7 @@ class Room @JvmOverloads internal constructor(
                 "You won!"
             } else if (!player.isAlive) {
                 listOf(
-                    "cya later alligator"
+                    "cy@ later alligator"
                 ).random()
             } else {
                 info()

@@ -3,30 +3,59 @@ package com.josephbaca.entity
 class WeaponFactory {
 
     enum class WeaponType {
-        SWORD, AXE, STAFF, KNIFE, THROWINGKNIFE, PISTOL
+        SWORD, AXE, STAFF, KNIFE, THROWINGKNIFE, PISTOL, SPECIALBOY, DEMONGALAXYMASTERSWORD
     }
 
     companion object {
         fun buildWeapon(weaponType: WeaponType): Weapon {
             return when (weaponType) {
-                WeaponFactory.WeaponType.SWORD -> Weapon("sword", 5, "a sword")
-                WeaponFactory.WeaponType.AXE -> Weapon("axe", 4, "an axe")
-                WeaponFactory.WeaponType.STAFF -> Weapon("staff", 6, "Magic!")
-                WeaponFactory.WeaponType.KNIFE -> Weapon("knife", 3, "Edgy!")
-                WeaponFactory.WeaponType.THROWINGKNIFE -> Weapon(
-                    "Throwing Knife", 4,
+                WeaponType.SWORD -> Weapon("sword", 5, "a sword")
+                WeaponType.AXE -> Weapon("axe", 4, "an axe")
+                WeaponType.STAFF -> Weapon("staff", 6, "Magic!")
+                WeaponType.KNIFE -> Weapon("knife", 3, "Edgy!")
+                WeaponType.THROWINGKNIFE -> Weapon(
+                    "Throwing Knife",
+                    4,
                     "still edgy, more deadly."
                 )
-                WeaponFactory.WeaponType.PISTOL -> Weapon("pistol", 7, "Pew pew pew!")
-
+                WeaponType.PISTOL -> Weapon("pistol", 7, "Pew pew pew!")
+                WeaponType.SPECIALBOY -> Weapon("Special Boy", 13, "a VERY special boy")
+                WeaponType.DEMONGALAXYMASTERSWORD -> Weapon(
+                    "Demon Galaxy Master Galaxy Demon Master Sword",
+                    69,
+                    "bruh idek."
+                )
             }
         }
 
         /**
-         * This function goes through the weapons, picks a random one and builds it.
+         * Builds any random [WeaponType].
          */
-        fun buildRandomWeapon(): Weapon {
+        fun buildAnyRandomWeapon(): Weapon {
             return buildWeapon(WeaponType.values().random())
+        }
+
+        /**
+         * Builds any random [WeaponType] that is specifically in [allowedWeaponSet].
+         */
+        fun buildWeaponWithWhitelist(allowedWeaponSet: Set<WeaponType>): Weapon {
+            return buildWeapon(allowedWeaponSet.random())
+        }
+
+        /**
+         * Builds any random [WeaponType] that is not in [blacklistedWeaponSet].
+         */
+        fun buildWeaponWithBlacklist(blacklistedWeaponSet: Set<WeaponType>): Weapon {
+            return buildWeapon(WeaponType.values().toSet().minus(blacklistedWeaponSet).random())
+        }
+
+        fun buildRandomCommonWeapon(): Weapon {
+            return buildWeaponWithBlacklist(
+                setOf(
+                    WeaponType.SPECIALBOY,
+                    WeaponType.DEMONGALAXYMASTERSWORD
+                )
+            )
         }
     }
 

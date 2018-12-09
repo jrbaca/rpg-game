@@ -6,7 +6,7 @@ package com.josephbaca.entity
 class Humanoid(name: String, maxHealth: Int, description: String, strength: Int) :
     LivingEntity(name, maxHealth, description) {
 
-    private var weapon = WeaponFactory.buildRandomWeapon()
+    private var weapon = WeaponFactory.buildAnyRandomWeapon()
 
     private val strength = 1
 
