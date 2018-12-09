@@ -1,10 +1,8 @@
-package com.josephbaca.world
+package com.josephbaca.context
 
-import com.josephbaca.context.Context
-import com.josephbaca.context.ContextManager
-import com.josephbaca.context.World
 import com.josephbaca.entity.LivingEntity
 import com.josephbaca.entity.LivingEntityFactory
+import com.josephbaca.world.Mappable
 
 
 /**
@@ -12,10 +10,8 @@ import com.josephbaca.entity.LivingEntityFactory
  */
 class Room @JvmOverloads internal constructor(
     private val contextManager: ContextManager,
-    x: Int,
-    y: Int,
     private val world: World,
-    override val icon: String = "R" // Icon of the room as it appears on maps
+    override val icon: String = "R" // Icon of the room as it appears on maps){}
 ) : Context, Mappable {
 
     // About the room

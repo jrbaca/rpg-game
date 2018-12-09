@@ -6,7 +6,7 @@ class LivingEntityFactory {
     }
 
     companion object {
-        fun buildLivingEntity(livingEntityType: LivingEntityType): LivingEntity {
+        private fun buildLivingEntity(livingEntityType: LivingEntityType): LivingEntity {
             return when (livingEntityType) {
                 LivingEntityFactory.LivingEntityType.JOHNTHESKELETON ->
                     Humanoid("john the skeleton", 7, "he once was a boy :(", 10)

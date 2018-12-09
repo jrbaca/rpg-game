@@ -2,15 +2,14 @@ package com.josephbaca.context
 
 import com.josephbaca.world.Coordinate
 import com.josephbaca.world.CoordinateGrid
-import com.josephbaca.world.Room
 
 /**
  * Contains all the geography about the world the player is in. Specifically,
- * it contains the coordinates of every [Tile] and the current location
+ * it contains the coordinates of every [Room] and the current location
  * of the player.
  */
 class World
-    (private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager) :
+    (maxx: Int, maxy: Int, private val contextManager: ContextManager) :
     Context {
 
     /**
@@ -85,7 +84,7 @@ class World
     private fun generateWorld() {
         for (x in 0 until grid.sizeX) {
             for (y in 0 until grid.sizeY) {
-                val r = Room(contextManager, 5, 5, this)
+                val r = Room(contextManager, this)
                 grid.setCoordinate(Coordinate(x, y), r)
             }
         }

@@ -13,7 +13,7 @@ class Game {
     val contextManager = ContextManager()
 
     init {
-        world = World("the dungeon", 10, 10, contextManager)
+        world = World(10, 10, contextManager)
         contextManager.insertContextLayer(world, 0) // Adds world as base level of context
         LOG.debug("Added world to beginning of context.")
         LOG.debug("Context is: %s".format(contextManager.contextStack))
