@@ -11,6 +11,10 @@ class Game {
 
     val world: World
     val contextManager = ContextManager()
+    private val commands = mapOf(
+        Pair("new game", this::newGame),
+        Pair("help", this::help)
+    )
 
     init {
         world = World(10, 10, contextManager)
@@ -19,20 +23,26 @@ class Game {
         LOG.debug("Context is: %s".format(contextManager.contextStack))
     }
 
-    fun input(input: String): String {
+    fun input(inputRaw: String): String {
+        val input = inputRaw.toLowerCase()
 
-        // For starting new games
-        if (input == "new game") {
-            contextManager.gameOver = true
-            return "Starting new game..."
+        return when {
+            commands.containsKey(input) -> commands[input]!!.invoke() // Run special commands
+            contextManager.player.isAlive -> Parser.parseInput(
+                input,
+                contextManager.currentContext
+            ) // Run commands in context
+            else -> "Dead men tell no tables...?" // can't run regular commands if dead
         }
+    }
 
-        // Input processing
-        return if (contextManager.player.isAlive) {
-            Parser.parseInput(input, contextManager.currentContext)
-        } else {
-            "Dead men tell no tables...?"
-        }
+    private fun newGame(): String {
+        contextManager.gameOver = true
+        return "Starting new game..."
+    }
+
+    private fun help(): String {
+        return contextManager.currentContext.commands.keys.sorted().toString()
     }
 
     companion object {

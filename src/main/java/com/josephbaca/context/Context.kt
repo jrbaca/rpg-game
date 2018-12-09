@@ -5,7 +5,11 @@ package com.josephbaca.context
  */
 interface Context {
 
-    fun runInput(input: String): String
+    val commands: HashMap<String, () -> String> // Commands that can be executed
+
+    fun runInput(input: String): String {
+        return commands[input]?.invoke() ?: "Unknown command"
+    }
 
     fun whereAt(): String
 }
