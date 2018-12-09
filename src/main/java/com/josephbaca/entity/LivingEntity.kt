@@ -15,7 +15,7 @@ abstract class LivingEntity protected constructor
         set(value) {
             field = if (value < 0) 0 else if (value > maxHealth) maxHealth else value
         }
-    private val inventory = Inventory()
+    val inventory = Inventory()
     abstract val attackDamage: Int
 
     override fun toString(): String {

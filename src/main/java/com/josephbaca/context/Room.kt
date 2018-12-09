@@ -2,6 +2,7 @@ package com.josephbaca.context
 
 import com.josephbaca.entity.LivingEntity
 import com.josephbaca.entity.LivingEntityFactory
+import com.josephbaca.entity.WeaponFactory
 import com.josephbaca.world.Mappable
 
 
@@ -27,7 +28,10 @@ class Room @JvmOverloads internal constructor(
         Pair("left", this::moveLeft),
         Pair("right", this::moveRight),
         Pair("fight", this::fight),
-        Pair("DemonGalaxyMasterSword", this::lolhack)
+        Pair("inventory", this::getInventoryString),
+        // Cheats
+        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", this::lolhack),
+        Pair("4ce7fca0eee7bf957796eb64b684a5af", this::asdf) // Yes or yes Korean lyric MD5
     )
 
     enum class BiomeType {
@@ -106,7 +110,7 @@ class Room @JvmOverloads internal constructor(
 
     private fun fight(): String {
         return if (enemySet.isEmpty()) {
-            "No enemySet to fight!"
+            "No enemies to fight!"
         } else {
             val battle = Battle(contextManager.player, enemySet, contextManager)
             contextManager.addContextLayer(battle)
@@ -114,8 +118,17 @@ class Room @JvmOverloads internal constructor(
         }
     }
 
+    private fun getInventoryString(): String {
+        return contextManager.player.inventory.toString()
+    }
+
     private fun lolhack(): String {
-        // TODO give a sword
+        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.DEMONGALAXYMASTERSWORD))
+        return "Oh shit you unlocked a sister secret"
+    }
+
+    private fun asdf(): String {
+        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.TWICESWORD))
         return "Oh shit you unlocked a sister secret"
     }
 

@@ -3,10 +3,14 @@ package com.josephbaca.entity
 class WeaponFactory {
 
     enum class WeaponType {
-        SWORD, AXE, STAFF, KNIFE, THROWINGKNIFE, PISTOL, SPECIALBOY, DEMONGALAXYMASTERSWORD
+        SWORD, AXE, STAFF, KNIFE, THROWINGKNIFE, PISTOL, SPECIALBOY, DEMONGALAXYMASTERSWORD, TWICESWORD
     }
 
     companion object {
+
+        /**
+         * Builds a specified weapon from [WeaponType].
+         */
         fun buildWeapon(weaponType: WeaponType): Weapon {
             return when (weaponType) {
                 WeaponType.SWORD -> Weapon("sword", 5, "a sword")
@@ -25,6 +29,7 @@ class WeaponFactory {
                     69,
                     "bruh idek."
                 )
+                WeaponType.TWICESWORD -> Weapon("Twice Sword", 494, "yes or YES!")
             }
         }
 
@@ -53,7 +58,8 @@ class WeaponFactory {
             return buildWeaponWithBlacklist(
                 setOf(
                     WeaponType.SPECIALBOY,
-                    WeaponType.DEMONGALAXYMASTERSWORD
+                    WeaponType.DEMONGALAXYMASTERSWORD,
+                    WeaponType.TWICESWORD
                 )
             )
         }
