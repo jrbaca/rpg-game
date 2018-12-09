@@ -20,7 +20,7 @@ class Room @JvmOverloads internal constructor(
     // About the room
     private val grid: CoordinateGrid<Tile> = CoordinateGrid(x, y) // Map of the room
     private val biome: BiomeType = BiomeType.values().random() // Type of room
-    private val description: String = Biome.getDescription(biome) // Random description from chosen biome
+    private val description: String // Room description
     private val enemySet: MutableSet<LivingEntity> = mutableSetOf()
 
     // Commands that can be executed
@@ -40,15 +40,39 @@ class Room @JvmOverloads internal constructor(
         HALLOWEENTOWN,
         STSPATRICKSDAYTOWN,
         EASTERTOWN,
-        PUROLAND
+        PUROLAND,
+        SHAMELESSOTHERREFRENCES
     }
 
     init {
         setEnemies()
+        description = setDescription()
     }
 
     private fun setEnemies() {
         enemySet.add(LivingEntityFactory.buildRandomDude())
+    }
+
+    private fun setDescription(): String {
+        val enemyInfo = if (enemySet.isEmpty()) {
+            "Oof looks like you're alone :((("
+        } else {
+            listOf(
+                "Bad Guy???????",
+                "oh shit theres %s bad guy(s?).".format(enemySet.size),
+                "Theres %s bad men. Consider skrt skrting and or calling your mom :/".format(enemySet.size),
+                "Oh look a pal!!!!!!!!!! waiiitttt maybe not.",
+                "its an enemy.",
+                "uh oh spaghettio issa bad bih!",
+                "you're gonna have a bad time?",
+                "Enemy Encounter!",
+                "Jinkies!! it a bad man!!!!",
+                "OH theres a dude :/"
+            ).random()
+        }
+
+        val biomeInfo = Biome.getDescription(biome)
+        return "%s %s".format(enemyInfo, biomeInfo)
     }
 
     override fun toString(): String {
@@ -67,7 +91,7 @@ class Room @JvmOverloads internal constructor(
     }
 
     override fun whereAt(): String {
-        return "Room: " + this.description
+        return this.description
     }
 
     private fun moveUp(): String {
@@ -105,41 +129,57 @@ class Room @JvmOverloads internal constructor(
      */
     private object Biome {
 
-        internal val floweryDescriptions = listOf(
-            "gg bois u got da worst description in the game. Theres a buncha dumbass dandelions up in dis club. " +
-                    "Also hope you don't have allergies. I guess theres cool grass idk use your imagination bub.",
-            "Wow!!!1!1!!! so pretty!!! These roses definitely won't kill you!!"
-        )
-        internal val sunnyDescriptions = listOf(
-            "hot. humid. congratz ur sweating now :/",
-            "You know when the weather is like 70 and the rain is barely misting down on you? That's this room its v comfy"
-        )
-        internal val dessertDescriptions = listOf(
-            "Fruit salad, Yummy Yummy",
-            "This room is shaped like a milkshake, and you have reason to believe that it brings all the boys to the yard."
-        )
-        internal val halloweentownDescriptions = listOf(
-            "it looks spooky. Probably has a couple skeletons in it's closet"
-        )
-        internal val stPatricksDayTownDescriptions = listOf(
-            "Green. Smells like beer and bad decisions"
-        )
-        internal val easterTownDescriptions = listOf(
-            "Oh cool theres easter eggs!!! It smells like chocolate!"
-        )
-        internal val puroLandDescriptions = listOf(
-            "It's so cute!!!!!!!!!! Literally dead!!! Theres Kuromi posters and my little twin star plushies!!!!! Actual best room"
-        )
-
         internal fun getDescription(biome: BiomeType): String {
             return when (biome) {
-                Room.BiomeType.FLOWERY -> floweryDescriptions.random()
-                Room.BiomeType.SUNNY -> sunnyDescriptions.random()
-                Room.BiomeType.DESSERT -> dessertDescriptions.random()
-                Room.BiomeType.HALLOWEENTOWN -> halloweentownDescriptions.random()
-                Room.BiomeType.STSPATRICKSDAYTOWN -> stPatricksDayTownDescriptions.random()
-                Room.BiomeType.EASTERTOWN -> easterTownDescriptions.random()
-                Room.BiomeType.PUROLAND -> puroLandDescriptions.random()
+                Room.BiomeType.FLOWERY -> listOf(
+                    "gg bois u got da worst description in the game. Theres a buncha dumbass dandelions up in dis club. " +
+                            "Also hope you don't have allergies. I guess theres cool grass idk use your imagination bub.",
+                    "Wow!!!1!1!!! so pretty!!! Those bad gu definitely won't kill you!!",
+                    "Wow look at all that natural lighting!!! It's so pleasant! you can feel the sun on your skin",
+                    "The world is a beautiful place and you're no longer afraid to die."
+                ).random()
+                Room.BiomeType.SUNNY -> listOf(
+                    "hot. humid. congratz ur sweating now :/",
+                    "You know when the weather is like 70 and the rain is barely misting down on you? That's this room its v comfy"
+                ).random()
+                Room.BiomeType.DESSERT -> listOf(
+                    "Fruit salad, Yummy Yummy",
+                    "This room is shaped like a milkshake, and you have reason to believe that it brings all the boys to the yard.",
+                    "You know that one part in shark boy and lava girl with the sea of milk and cookies? This that",
+                    "The walls are made of jello",
+                    "The floor is lava!!!!! oh wait that's chocolate syrup.",
+                    "You can barely walk around! There's little popcorn kettles everywhere",
+                    "It looks like Willy Wonka threw up in here."
+                ).random()
+                Room.BiomeType.HALLOWEENTOWN -> listOf(
+                    "it looks spooky. Probably has a couple skeletons in it's closet",
+                    "This is halloween! This is Halloween(town(room))",
+                    "Big Bone Energy."
+                ).random()
+                Room.BiomeType.STSPATRICKSDAYTOWN -> listOf(
+                    "Green. Smells like beer and bad decisions"
+                ).random()
+                Room.BiomeType.EASTERTOWN -> listOf(
+                    "Oh cool theres easter eggs!!! It smells like chocolate!",
+                    "Theres a giant rabbit portrait. Weird flex, but ok."
+                ).random()
+                Room.BiomeType.PUROLAND -> listOf(
+                    "It's so cute!!!!!!!!!! Literally dead!!! Theres Kuromi posters and my little twin star plushies!!!!! Actual best room",
+                    "it's pink i guess? It smells like marshmallows",
+                    "It's a cute cafe! but it doesn't really look like anyones working here"
+                ).random()
+                Room.BiomeType.SHAMELESSOTHERREFRENCES -> listOf(
+                    "You hear a weirdly high pitched song. You're very uncomfy",
+                    "Oh sick it's a purple room! You feel a weird presence tho",
+                    "oh this room is filled with weird yellow rat plushies. You kinda love them",
+                    "The walls are made of rocks! Theres a poster with a dude you would 100% smash.",
+                    "Oh on one wall theres a line, and then on the other theres the same line and a shorter one" +
+                            "Then theres two lines of the same height. Then on the last wall theres the same line and" +
+                            "another lying on it's side.",
+                    "Its a small room(after all), its a small room(after all) ITS A SMALL ROOM (AFTER ALL), issa" +
+                            "small room(after all)"
+
+                ).random()
             }
         }
     }

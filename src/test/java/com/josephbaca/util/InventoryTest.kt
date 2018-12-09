@@ -3,19 +3,12 @@ package com.josephbaca.util
 import com.josephbaca.entity.WeaponFactory
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class InventoryTest {
 
-    @BeforeEach
-    fun setUp() {
-
-    }
-
     @Test
     fun testAdd() {
-        // TODO write a test
         val newInventory = Inventory()
         val aSword = WeaponFactory.buildWeapon(WeaponFactory.WeaponType.SWORD)
 
