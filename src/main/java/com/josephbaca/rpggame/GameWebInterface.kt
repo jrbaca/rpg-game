@@ -10,13 +10,11 @@ object GameWebInterface {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val sessionMap: MutableMap<Int, Game> = mutableMapOf()
-
         port(System.getenv("PORT")?.toInt() ?: 8000)
         staticFileLocation("/WebPublic/")
 
         // Path that the client views
-        get("/") { request, response ->
+        get("/") { _, _ ->
             val title = "RPG game"
             html().with(buildHeader(title), buildBody(title))
         }
@@ -58,8 +56,8 @@ object GameWebInterface {
                 nav().withId("banner").withClass("mui-container-fluid").with(h1(title))
             ),
             div().withId("textOutput"),
-            div().withId("submitButton").with(
-                button("GO").withClass("mui-btn mui-btn--fab mui-btn--primary")
+            div().with(
+                button("GO").withId("submitButton").withClass("mui-btn mui-btn--fab mui-btn--primary")
             ),
             div().withId("footer").with(
                 form().with(

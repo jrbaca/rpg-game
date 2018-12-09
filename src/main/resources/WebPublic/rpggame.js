@@ -27,7 +27,7 @@ function outputText(text) {
 
 $(document).ready(function () {
 
-    $("#goButton").on("click", readInput);
+    $("#submitButton").on("click", readInput);
 
     // Override enter with submission
     $("#entryBox").keydown(function (event) {
