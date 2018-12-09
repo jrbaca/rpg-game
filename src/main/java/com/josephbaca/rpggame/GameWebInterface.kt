@@ -7,14 +7,12 @@ import spark.Spark.*
 
 object GameWebInterface {
 
-    private val LOG = org.slf4j.LoggerFactory.getLogger(GameWebInterface::class.java)!!
-
     @JvmStatic
     fun main(args: Array<String>) {
 
         val game = Game()
 
-        port(System.getenv("PORT")?.toInt() ?: 4567)
+        port(System.getenv("PORT")?.toInt() ?: 8000)
         staticFileLocation("/WebPublic/")
 
         // Path that the client views

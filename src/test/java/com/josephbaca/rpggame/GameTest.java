@@ -1,7 +1,7 @@
 package com.josephbaca.rpggame;
 
 import com.josephbaca.context.Context;
-import com.josephbaca.world.Room;
+import com.josephbaca.context.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

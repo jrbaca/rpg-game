@@ -1,10 +1,8 @@
-package com.josephbaca.world
+package com.josephbaca.context
 
-import com.josephbaca.context.Context
-import com.josephbaca.context.ContextManager
-import com.josephbaca.context.World
 import com.josephbaca.entity.LivingEntity
 import com.josephbaca.entity.LivingEntityFactory
+import com.josephbaca.world.Mappable
 
 
 /**
@@ -12,10 +10,8 @@ import com.josephbaca.entity.LivingEntityFactory
  */
 class Room @JvmOverloads internal constructor(
     private val contextManager: ContextManager,
-    x: Int,
-    y: Int,
     private val world: World,
-    override val icon: String = "R" // Icon of the room as it appears on maps
+    override val icon: String = "R" // Icon of the room as it appears on maps){}
 ) : Context, Mappable {
 
     // About the room
@@ -124,18 +120,18 @@ class Room @JvmOverloads internal constructor(
 
         internal fun getDescription(biome: BiomeType): String {
             return when (biome) {
-                Room.BiomeType.FLOWERY -> listOf(
+                BiomeType.FLOWERY -> listOf(
                     "gg bois u got da worst description in the game. Theres a buncha dumbass dandelions up in dis club. " +
                             "Also hope you don't have allergies. I guess theres cool grass idk use your imagination bub.",
                     "Wow!!!1!1!!! so pretty!!! Those bad gu definitely won't kill you!!",
                     "Wow look at all that natural lighting!!! It's so pleasant! you can feel the sun on your skin",
                     "The world is a beautiful place and you're no longer afraid to die."
                 ).random()
-                Room.BiomeType.SUNNY -> listOf(
+                BiomeType.SUNNY -> listOf(
                     "hot. humid. congratz ur sweating now :/",
                     "You know when the weather is like 70 and the rain is barely misting down on you? That's this room its v comfy"
                 ).random()
-                Room.BiomeType.DESSERT -> listOf(
+                BiomeType.DESSERT -> listOf(
                     "Fruit salad, Yummy Yummy",
                     "This room is shaped like a milkshake, and you have reason to believe that it brings all the boys to the yard.",
                     "You know that one part in shark boy and lava girl with the sea of milk and cookies? This that",
@@ -144,24 +140,24 @@ class Room @JvmOverloads internal constructor(
                     "You can barely walk around! There's little popcorn kettles everywhere",
                     "It looks like Willy Wonka threw up in here."
                 ).random()
-                Room.BiomeType.HALLOWEENTOWN -> listOf(
+                BiomeType.HALLOWEENTOWN -> listOf(
                     "it looks spooky. Probably has a couple skeletons in it's closet",
                     "This is halloween! This is Halloween(town(room))",
                     "Big Bone Energy."
                 ).random()
-                Room.BiomeType.STSPATRICKSDAYTOWN -> listOf(
+                BiomeType.STSPATRICKSDAYTOWN -> listOf(
                     "Green. Smells like beer and bad decisions"
                 ).random()
-                Room.BiomeType.EASTERTOWN -> listOf(
+                BiomeType.EASTERTOWN -> listOf(
                     "Oh cool theres easter eggs!!! It smells like chocolate!",
                     "Theres a giant rabbit portrait. Weird flex, but ok."
                 ).random()
-                Room.BiomeType.PUROLAND -> listOf(
+                BiomeType.PUROLAND -> listOf(
                     "It's so cute!!!!!!!!!! Literally dead!!! Theres Kuromi posters and my little twin star plushies!!!!! Actual best room",
                     "it's pink i guess? It smells like marshmallows",
                     "It's a cute cafe! but it doesn't really look like anyones working here"
                 ).random()
-                Room.BiomeType.SHAMELESSOTHERREFRENCES -> listOf(
+                BiomeType.SHAMELESSOTHERREFRENCES -> listOf(
                     "You hear a weirdly high pitched song. You're very uncomfy",
                     "Oh sick it's a purple room! You feel a weird presence tho",
                     "oh this room is filled with weird yellow rat plushies. You kinda love them",
