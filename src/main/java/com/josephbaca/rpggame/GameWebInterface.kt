@@ -10,19 +10,28 @@ object GameWebInterface {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val game = Game()
+        val sessionMap: MutableMap<Int, Game> = mutableMapOf()
 
         port(System.getenv("PORT")?.toInt() ?: 8000)
         staticFileLocation("/WebPublic/")
 
         // Path that the client views
-        get("/") { _, _ ->
+        get("/") { request, response ->
             val title = "RPG game"
             html().with(buildHeader(title), buildBody(title))
         }
 
         // Path for server to respond to requests
         get("/rpgserver/") { request, response ->
+
+            // Get game from session
+            val sessionGame: Game? = request.session().attribute("game")
+            val game: Game = if (sessionGame != null && !sessionGame.contextManager.gameOver) {
+                sessionGame
+            } else {
+                request.session().attribute("game", Game())
+                request.session().attribute("game")
+            }
 
             // JSON builders
             val mapper = ObjectMapper()
@@ -41,6 +50,7 @@ object GameWebInterface {
             objectNode
         }
     }
+
 
     private fun buildBody(title: String): ContainerTag {
         return body().with(

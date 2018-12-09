@@ -20,6 +20,14 @@ class Game {
     }
 
     fun input(input: String): String {
+
+        // For starting new games
+        if (input == "new game") {
+            contextManager.gameOver = true
+            return "Starting new game..."
+        }
+
+        // Input processing
         return if (contextManager.player.isAlive) {
             Parser.parseInput(input, contextManager.currentContext)
         } else {

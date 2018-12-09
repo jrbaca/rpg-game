@@ -10,6 +10,7 @@ import java.util.*
  */
 class ContextManager {
 
+    var gameOver = false
     val contextStack = ArrayList<Context>()
     val currentContext: Context
         get() = contextStack.last()
