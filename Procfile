@@ -1,0 +1,1 @@
+web: bash build/install/rpggame/bin/rpggame
