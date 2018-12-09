@@ -1,7 +1,8 @@
-package com.josephbaca.world
+package com.josephbaca.context
 
-import com.josephbaca.util.Context
-import com.josephbaca.util.ContextManager
+import com.josephbaca.world.Coordinate
+import com.josephbaca.world.CoordinateGrid
+import com.josephbaca.world.Room
 
 /**
  * Contains all the geography about the world the player is in. Specifically,
@@ -9,12 +10,14 @@ import com.josephbaca.util.ContextManager
  * of the player.
  */
 class World
-    (private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager) : Context {
+    (private val name: String, maxx: Int, maxy: Int, private val contextManager: ContextManager) :
+    Context {
 
     /**
      * Internal representation of the world.
      */
-    private val grid: CoordinateGrid<Room> = CoordinateGrid(maxx, maxy)
+    private val grid: CoordinateGrid<Room> =
+        CoordinateGrid(maxx, maxy)
 
     /**
      * Player coordinates.

@@ -49,7 +49,7 @@ internal class LivingEntityTest {
     }
 
     @Test
-    fun settingHealthBelowZeroSetsToMax() {
+    fun settingHealthBelowZeroSetsToZero() {
         qt().forAll(
             integers().allPositive(),
             integers().allPositive()

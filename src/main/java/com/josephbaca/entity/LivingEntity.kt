@@ -8,6 +8,9 @@ import com.josephbaca.util.Inventory
 abstract class LivingEntity protected constructor
     (name: String, val maxHealth: Int, description: String) : Entity(name, description) {
 
+    val isAlive: Boolean
+        get() = health > 0
+
     var health: Int = maxHealth
         set(value) {
             field = if (value < 0) 0 else if (value > maxHealth) maxHealth else value

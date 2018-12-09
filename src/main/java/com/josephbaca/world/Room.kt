@@ -1,9 +1,10 @@
 package com.josephbaca.world
 
+import com.josephbaca.context.Context
+import com.josephbaca.context.ContextManager
+import com.josephbaca.context.World
 import com.josephbaca.entity.LivingEntity
 import com.josephbaca.entity.LivingEntityFactory
-import com.josephbaca.util.Context
-import com.josephbaca.util.ContextManager
 
 
 /**
@@ -18,7 +19,6 @@ class Room @JvmOverloads internal constructor(
 ) : Context, Mappable {
 
     // About the room
-    private val grid: CoordinateGrid<Tile> = CoordinateGrid(x, y) // Map of the room
     private val biome: BiomeType = BiomeType.values().random() // Type of room
     private val description: String = Biome.getDescription(biome) // Random description from chosen biome
     private val enemySet: MutableSet<LivingEntity> = mutableSetOf()
@@ -55,13 +55,6 @@ class Room @JvmOverloads internal constructor(
         return String.format("Room (%s)", icon)
     }
 
-    /**
-     * Returns a string displaying the contents of the room.
-     */
-    fun toDisplayString(): String {
-        return grid.toDisplayString()
-    }
-
     override fun runInput(input: String): String {
         return commands[input]?.invoke() ?: "Unknown command"
     }
@@ -94,7 +87,7 @@ class Room @JvmOverloads internal constructor(
         return if (enemySet.isEmpty()) {
             "No enemySet to fight!"
         } else {
-            val battle = Battle(contextManager.player, enemySet)
+            val battle = Battle(contextManager.player, enemySet, contextManager)
             contextManager.addContextLayer(battle)
             battle.info()
         }
@@ -144,7 +137,12 @@ class Room @JvmOverloads internal constructor(
         }
     }
 
-    private class Battle(val player: LivingEntity, val enemySet: Set<LivingEntity>) : Context {
+    private class Battle(
+        val player: LivingEntity,
+        val enemySet: MutableSet<LivingEntity>,
+        val contextManager: ContextManager
+    ) :
+        Context {
 
         init {
             LOG.info("Creating a fight")
@@ -173,22 +171,49 @@ class Room @JvmOverloads internal constructor(
                 enemySet.map { e -> e.name })
         }
 
+        /**
+         * Carries out one round of fighting. Contains checking logic.
+         */
         fun fight(): String {
+            fightHelper()
+            return if (enemySet.isEmpty()) {
+                contextManager.removeContextLayer()
+                "You won!"
+            } else if (!player.isAlive) {
+                listOf(
+                    "cya later alligator"
+                ).random()
+            } else {
+                info()
+            }
+        }
+
+        /**
+         * Has players attack each other.
+         */
+        private fun fightHelper() {
             // Player attacks random enemy
             val targetEnemy = enemySet.random()
             targetEnemy.health = targetEnemy.health - player.attackDamage
+            purgeEnemySet()
 
             // Enemies all attack player
-//            for (enemy in enemySet) {
             enemySet.forEach { enemy ->
                 val damage = enemy.attackDamage
                 LOG.info("%s doing %s damage to %s".format(enemy, damage, player))
                 player.health = player.health - damage
             }
+            purgeEnemySet()
+
             LOG.info("Player has %sHP".format(player.health))
             LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
+        }
 
-            return info()
+        /**
+         * Removes [LivingEntity] from the [enemySet] if dead.
+         */
+        private fun purgeEnemySet() {
+            enemySet.removeIf { enemy -> enemy.health == 0 }
         }
     }
 

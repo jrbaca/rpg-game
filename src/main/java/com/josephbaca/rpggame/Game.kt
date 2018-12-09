@@ -1,8 +1,8 @@
 package com.josephbaca.rpggame
 
-import com.josephbaca.util.ContextManager
+import com.josephbaca.context.ContextManager
+import com.josephbaca.context.World
 import com.josephbaca.util.Parser
-import com.josephbaca.world.World
 
 /**
  ** Main game class that holds the input processing and game state management.
@@ -20,7 +20,11 @@ class Game {
     }
 
     fun input(input: String): String {
-        return Parser.parseInput(input, contextManager.currentContext)
+        return if (contextManager.player.isAlive) {
+            Parser.parseInput(input, contextManager.currentContext)
+        } else {
+            "Dead men tell no tables...?"
+        }
     }
 
     companion object {
