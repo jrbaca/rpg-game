@@ -1,7 +1,9 @@
 package com.josephbaca.util
 
 
-import java.util.ArrayList
+import com.josephbaca.entity.Humanoid
+import com.josephbaca.entity.LivingEntity
+import java.util.*
 
 /**
  * Internal representation of the contextManager to manage current game contextManager.
@@ -9,9 +11,10 @@ import java.util.ArrayList
 class ContextManager {
 
     val contextStack = ArrayList<Context>()
-
     val currentContext: Context
         get() = contextStack.last()
+
+    val player: LivingEntity = Humanoid("player", 10, "The player", 1)
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)

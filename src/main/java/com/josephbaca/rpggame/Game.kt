@@ -1,6 +1,5 @@
 package com.josephbaca.rpggame
 
-import com.josephbaca.entity.Humanoid
 import com.josephbaca.util.ContextManager
 import com.josephbaca.util.Parser
 import com.josephbaca.world.World
@@ -11,10 +10,7 @@ import com.josephbaca.world.World
 class Game {
 
     val world: World
-    private val player = Humanoid("player", 10)
     val contextManager = ContextManager()
-
-    var ilist = listOf("1", "2", "3")
 
     init {
         world = World("the dungeon", 10, 10, contextManager)
