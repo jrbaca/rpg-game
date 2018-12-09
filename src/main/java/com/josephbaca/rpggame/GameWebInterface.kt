@@ -3,8 +3,7 @@ package com.josephbaca.rpggame
 import com.fasterxml.jackson.databind.ObjectMapper
 import j2html.TagCreator.*
 import j2html.tags.ContainerTag
-import spark.Spark.get
-import spark.Spark.staticFileLocation
+import spark.Spark.*
 
 object GameWebInterface {
 
@@ -15,6 +14,7 @@ object GameWebInterface {
 
         val game = Game()
 
+        port(System.getenv("PORT")?.toInt() ?: 4567)
         staticFileLocation("/WebPublic/")
 
         // Path that the client views
