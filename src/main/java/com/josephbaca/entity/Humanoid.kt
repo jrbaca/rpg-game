@@ -3,9 +3,11 @@ package com.josephbaca.entity
 /**
  * A humanoid living entity. The most simple of enemy/player classes.
  */
-class Human(name: String, health: Int) : LivingEntity(name, health, "A human.") {
+class Humanoid(name: String, health: Int, description: String, strength: Int) :
+    LivingEntity(name, health, description) {
 
     var weapon = WeaponFactory.buildRandomWeapon()
+
     private val strength = 1
 
     override val attackDamage: Int

@@ -22,6 +22,9 @@ class WeaponFactory {
             }
         }
 
+        /**
+         * This function goes through the weapons, picks a random one and builds it.
+         */
         fun buildRandomWeapon(): Weapon {
             return buildWeapon(WeaponType.values().random())
         }
