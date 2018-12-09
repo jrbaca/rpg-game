@@ -12,6 +12,8 @@ class World
     (maxx: Int, maxy: Int, private val contextManager: ContextManager) :
     Context {
 
+    override val commands: HashMap<String, () -> String> = hashMapOf()
+
     /**
      * Internal representation of the world.
      */
@@ -37,11 +39,6 @@ class World
 
     private val currentRoom: Room
         get() = grid.getCoordinate(playerCoords)
-
-    override fun runInput(input: String): String {
-        LOG.error("Should never run user commands on this context")
-        return "Error"
-    }
 
     init {
         generateWorld()

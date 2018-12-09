@@ -21,17 +21,18 @@ class Room @JvmOverloads internal constructor(
     private val enemySet: MutableSet<LivingEntity> = mutableSetOf()
 
     // Commands that can be executed
-    private val commands = hashMapOf(
-        Pair("where", this::whereAt),
-        Pair("up", this::moveUp),
-        Pair("down", this::moveDown),
-        Pair("left", this::moveLeft),
-        Pair("right", this::moveRight),
-        Pair("fight", this::fight),
-        Pair("inventory", this::getInventoryString),
+    override val commands = hashMapOf(
+        Pair("where", { whereAt() }),
+        Pair("up", { moveUp() }),
+        Pair("down", { moveDown() }),
+        Pair("left", { moveLeft() }),
+        Pair("right", { moveRight() }),
+        Pair("fight", { fight() }),
+        Pair("inventory", { getInventoryString() })
+
         // Cheats
-        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", this::lolhack),
-        Pair("4ce7fca0eee7bf957796eb64b684a5af", this::asdf) // Yes or yes Korean lyric MD5
+//        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", { lolhack() }),
+//        Pair("4ce7fca0eee7bf957796eb64b684a5af", { asdf() }) // Yes or yes Korean lyric MD5
     )
 
     enum class BiomeType {
@@ -205,14 +206,10 @@ class Room @JvmOverloads internal constructor(
             LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
         }
 
-        private val commands = hashMapOf(
-            Pair("where", this::whereAt),
-            Pair("fight", this::fight)
+        override val commands = hashMapOf(
+            Pair("where", { whereAt() }),
+            Pair("fight", { fight() })
         )
-
-        override fun runInput(input: String): String {
-            return commands[input]?.invoke() ?: "Unknown command"
-        }
 
         override fun whereAt(): String {
             return "In a battle"
