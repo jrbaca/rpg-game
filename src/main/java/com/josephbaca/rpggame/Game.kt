@@ -24,7 +24,7 @@ class Game {
     }
 
     fun input(inputRaw: String): String {
-        val input = inputRaw.toLowerCase()
+        val input = inputRaw.toLowerCase().trim()
 
         return when {
             commands.containsKey(input) -> commands[input]!!.invoke() // Run special commands
