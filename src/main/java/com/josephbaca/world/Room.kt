@@ -146,6 +146,12 @@ class Room @JvmOverloads internal constructor(
 
     private class Battle(val player: LivingEntity, val enemySet: Set<LivingEntity>) : Context {
 
+        init {
+            LOG.info("Creating a fight")
+            LOG.info("Player has %sHP".format(player.health))
+            LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
+        }
+
         private val commands = hashMapOf(
             Pair("where", this::whereAt),
             Pair("fight", this::fight)
@@ -160,12 +166,27 @@ class Room @JvmOverloads internal constructor(
         }
 
         fun info(): String {
-            return "%s vs %s".format(player.name, enemySet.map { e -> e.name })
+            return "%s (%s/%sHP) vs %s".format(
+                player.name,
+                player.health,
+                player.maxHealth,
+                enemySet.map { e -> e.name })
         }
 
         fun fight(): String {
             // Player attacks random enemy
-            // TODO this
+            val targetEnemy = enemySet.random()
+            targetEnemy.health = targetEnemy.health - player.attackDamage
+
+            // Enemies all attack player
+//            for (enemy in enemySet) {
+            enemySet.forEach { enemy ->
+                val damage = enemy.attackDamage
+                LOG.info("%s doing %s damage to %s".format(enemy, damage, player))
+                player.health = player.health - damage
+            }
+            LOG.info("Player has %sHP".format(player.health))
+            LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
 
             return info()
         }
