@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.quicktheories.QuickTheory.qt
 import org.quicktheories.generators.SourceDSL.integers
+import java.lang.Integer.max
+import java.lang.Integer.min
 
 internal class EntityTest {
 
@@ -49,8 +51,8 @@ internal class EntityTest {
 
     @Test
     fun settingHealthOnMultipleOfOneTypeWorks() {
-        val human1: Entity = Humanoids.HUMAN
-        val human2: Entity = Humanoids.HUMAN
+        val human1: Entity = Humanoid("player", 10, "The player", 1)
+        val human2: Entity = Humanoid("player", 10, "The player", 1)
 
         assertEquals(10, human1.health)
         assertEquals(10, human2.health)
