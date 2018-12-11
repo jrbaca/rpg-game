@@ -3,8 +3,6 @@ package com.josephbaca.entity
 import org.junit.jupiter.api.Test
 import org.quicktheories.QuickTheory.qt
 import org.quicktheories.generators.SourceDSL.integers
-import kotlin.math.max
-import kotlin.math.min
 
 internal class EntityTest {
 

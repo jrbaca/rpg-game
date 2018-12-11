@@ -299,6 +299,7 @@ class Room @JvmOverloads internal constructor(
                 LOG.info("%s doing %s damage to %s".format(enemy, damage, player))
                 player.health = player.health - damage
             }
+            LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
             purgeEnemySet()
 
             LOG.info("Player has %sHP".format(player.health))
@@ -309,7 +310,7 @@ class Room @JvmOverloads internal constructor(
          * Removes [Entity] from the [enemySet] if dead.
          */
         private fun purgeEnemySet() {
-            enemySet.removeIf { enemy -> enemy.health == 0 }
+            enemySet.removeIf { enemy -> !enemy.isAlive }
         }
     }
 

@@ -13,7 +13,7 @@ enum class Humanoids(
     SKELETON(2, "idk a non john skeleton", 2)
     ;
 
-    override var health: Int = 1
+    override var health: Int = maxHealth
         set(value) {
             field = if (value < 0) 0 else if (value > maxHealth) maxHealth else value
         }
