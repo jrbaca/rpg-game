@@ -1,5 +1,10 @@
 package com.josephbaca.entity
 
+import com.josephbaca.item.Weapon
+
+/**
+ * A data implementation of [Entity]. This class is used to provide backing data for premade [Entity] of this type.
+ */
 enum class Humanoids(
     override val maxHealth: Int,
     override val description: String,

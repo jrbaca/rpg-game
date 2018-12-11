@@ -1,6 +1,8 @@
-package com.josephbaca.entity
+package com.josephbaca.item
 
-
+/**
+ * All of the specific types of Weapons that can be created. Implements [Weapon].
+ */
 enum class Weapons(
     override val power: Int,
     override val description: String

@@ -1,7 +1,7 @@
 package com.josephbaca.util
 
-import com.josephbaca.entity.Weapon
-import com.josephbaca.entity.Weapons
+import com.josephbaca.item.Weapon
+import com.josephbaca.item.Weapons
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

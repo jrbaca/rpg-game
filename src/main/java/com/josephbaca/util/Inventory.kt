@@ -1,6 +1,6 @@
 package com.josephbaca.util
 
-import com.josephbaca.entity.Item
+import com.josephbaca.item.Item
 
 class Inventory {
 

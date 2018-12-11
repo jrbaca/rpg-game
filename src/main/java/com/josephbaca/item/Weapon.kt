@@ -1,6 +1,9 @@
-package com.josephbaca.entity
+package com.josephbaca.item
 
-
+/**
+ * Interface for [Weapons]. The static builders directly initialize the enums, so all weapons are the same in memory,
+ * reducing the footprint.
+ */
 interface Weapon : Item {
 
     val power: Int
@@ -27,7 +30,11 @@ interface Weapon : Item {
          * Builds a [Weapon] from [Weapons] that is not in [blacklistedWeaponSet].
          */
         fun buildWeaponWithBlacklist(blacklistedWeaponSet: Set<Weapons>): Weapon {
-            return buildWeapon(Weapons.values().toSet().minus(blacklistedWeaponSet).random())
+            return buildWeapon(
+                Weapons.values().toSet().minus(
+                    blacklistedWeaponSet
+                ).random()
+            )
         }
 
 

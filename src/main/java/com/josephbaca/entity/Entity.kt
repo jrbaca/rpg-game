@@ -2,6 +2,9 @@ package com.josephbaca.entity
 
 import com.josephbaca.util.Inventory
 
+/**
+ * An [Entity] that can take action. Can be backed by by an enum implementing [EntityData] if a premade one is desired.
+ */
 class Entity private constructor(
     val name: String,
     val maxHealth: Int,

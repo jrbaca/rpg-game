@@ -1,4 +1,4 @@
-package com.josephbaca.entity
+package com.josephbaca.item
 
 
 interface Item {
