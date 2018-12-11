@@ -17,5 +17,5 @@ interface Context {
         ).random()
     }
 
-    fun whereAt(): String
+    fun currentContext(): String
 }
