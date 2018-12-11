@@ -1,7 +1,6 @@
 package com.josephbaca.entity
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.quicktheories.QuickTheory.qt
 import org.quicktheories.generators.SourceDSL.integers
@@ -12,39 +11,59 @@ internal class EntityTest {
 
     @Test
     fun settingAppropriateHealthWorks() {
-        val h: Entity = Humanoids.HUMAN
-
         qt().forAll(
-            integers().from(0).upToAndIncluding(h.maxHealth)
+            integers().allPositive(),
+            integers().allPositive()
         )
-            .check { set ->
+            .check { i, j ->
+                val set = min(i, j) // Set lesser value for setting
+                val max = max(i, j) // Use greater value for maxHealth
+
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
+
+                LOG.info("Setting health to %s. Max is %s".format(set, max))
+                LOG.info("Health is %s".format(h.health))
+
                 h.health == set
             }
     }
 
     @Test
     fun settingHealthAboveMaxSetsToMax() {
-        val h: Entity = Humanoids.HUMAN
-
         qt().forAll(
-            integers().between(h.maxHealth, 10000)
+            integers().allPositive(),
+            integers().allPositive()
         )
-            .check { set ->
+            .check { i, j ->
+                val set = max(i, j) // Set greater value for setting
+                val max = min(i, j) // Use lesser value for maxHealth
 
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
-                h.health == h.maxHealth
+
+                LOG.info("Setting health to %s. Max is %s".format(set, max))
+                LOG.info("Health is %s".format(h.health))
+
+                h.health == max
             }
     }
 
     @Test
     fun settingHealthBelowZeroSetsToZero() {
-        val h: Entity = Humanoids.HUMAN
         qt().forAll(
-            integers().between(-10000, 0)
+            integers().allPositive(),
+            integers().allPositive()
         )
-            .check { set ->
+            .check { i, max ->
+                val set = i * -1 // Set value below zero for setting
+
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
+
+                LOG.info("Setting health to %s. Max is %s".format(set, max))
+                LOG.info("Health is %s".format(h.health))
+
                 h.health == 0
             }
     }

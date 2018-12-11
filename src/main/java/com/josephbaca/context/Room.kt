@@ -54,7 +54,7 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun setEnemies() {
-        enemySet.add(Entity.buildRandomDude())
+        enemySet.add(Entity.buildFromExisting(Humanoids.values().random()))
     }
 
     private fun setEnemyDescription(): String {
@@ -134,12 +134,12 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun lolhack(): String {
-        contextManager.player.inventory.additem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
+        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
         return "Oh shit you unlocked a sister secret"
     }
 
     private fun asdf(): String {
-        contextManager.player.inventory.additem(Weapon.buildWeapon(Weapons.TWICESWORD))
+        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
         return "Oh shit you unlocked a sister secret"
     }
 

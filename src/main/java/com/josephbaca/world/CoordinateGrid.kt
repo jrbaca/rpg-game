@@ -11,16 +11,10 @@ class CoordinateGrid<T : Mappable> internal constructor(val sizeX: Int, val size
     private val grid: MutableList<MutableList<T?>> = MutableList(sizeY) { MutableList<T?>(sizeX) { null } }
 
 
-    /**
-     * Gets the T at the provided coordinate.
-     */
     fun getCoordinate(c: Coordinate): T {
         return grid[c.y][c.x]!!
     }
 
-    /**
-     * Sets a coordinate to a specified T.
-     */
     fun setCoordinate(c: Coordinate, t: T) {
         grid[c.y][c.x] = t
     }

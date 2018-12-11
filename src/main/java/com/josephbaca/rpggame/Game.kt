@@ -9,15 +9,15 @@ import com.josephbaca.util.Parser
  */
 class Game {
 
-    val world: World
     val contextManager = ContextManager()
+    val world: World = World(10, 10, contextManager)
+
     private val commands = mapOf(
         Pair("new game", this::newGame),
         Pair("help", this::help)
     )
 
     init {
-        world = World(10, 10, contextManager)
         contextManager.insertContextLayer(world, 0) // Adds world as base level of context
         LOG.debug("Added world to beginning of context.")
         LOG.debug("Context is: %s".format(contextManager.contextStack))
@@ -28,17 +28,17 @@ class Game {
 
         return when {
             commands.containsKey(input) -> commands[input]!!.invoke() // Run special commands
-            contextManager.player.isAlive -> Parser.parseInput(
+            contextManager.player.isAlive -> Parser.parseInputWithCurrentContext(
                 input,
                 contextManager.currentContext
-            ) // Run commands in context
+            )
             else -> "Dead men tell no tables...?" // can't run regular commands if dead
         }
     }
 
     private fun newGame(): String {
         contextManager.gameOver = true
-        return "Starting new game..."
+        return "New game started!"
     }
 
     private fun help(): String {

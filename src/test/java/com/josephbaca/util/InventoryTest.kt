@@ -13,7 +13,7 @@ internal class InventoryTest {
         val newInventory = Inventory()
         val aSword = Weapon.buildWeapon(Weapons.SWORD)
 
-        newInventory.additem(aSword)
+        newInventory.addItem(aSword)
         LOG.info(newInventory.toString())
 
         assertTrue(newInventory.contains(aSword))
@@ -26,14 +26,14 @@ internal class InventoryTest {
         val coolersword = Weapon.buildWeapon(Weapons.SWORD)
         val coolstaff = Weapon.buildWeapon(Weapons.STAFF)
 
-        newInventory.additem(coolersword)
-        newInventory.additem(coolstaff)
+        newInventory.addItem(coolersword)
+        newInventory.addItem(coolstaff)
 
         // test both are in inventory
         assertTrue(newInventory.contains(coolstaff))
         assertTrue(newInventory.contains(coolersword))
 
-        newInventory.removeitem(coolersword)
+        newInventory.removeItem(coolersword)
 
         // test staff is in, sword is not in
         assertTrue(newInventory.contains(coolstaff))

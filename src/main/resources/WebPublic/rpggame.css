@@ -1,8 +1,10 @@
+/*noinspection ALL*/
 #banner {
     background-color: #001f3f;
     color: #FFFFFF
 }
 
+/*noinspection ALL*/
 #textOutput {
     position: fixed;
     display: inline-block;
@@ -22,6 +24,7 @@
     line-height: 20px;
 }
 
+/*noinspection ALL*/
 #footer {
     z-index: 2;
     position: fixed;
@@ -38,6 +41,7 @@
     padding-bottom: 65px;
 }
 
+/*noinspection ALL*/
 #submitButton {
     z-index: 3;
     position: fixed;

@@ -13,7 +13,7 @@ class ContextManager {
     val currentContext: Context
         get() = contextStack.last()
 
-    val player: Entity = Humanoids.HUMAN
+    val player: Entity = Entity.buildFromScratch("player", 10, 1, "The player")
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)

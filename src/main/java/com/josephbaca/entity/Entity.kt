@@ -16,13 +16,17 @@ class Entity private constructor(
         entityData.description
     )
 
-    val inventory: Inventory
-    val attackDamage: Int
-
-    companion object {
-        fun buildRandomDude(): Entity {
-            return Humanoids.values().random()
+    var health: Int = maxHealth
+        set(value) {
+            field = if (value < 0) 0 else if (value > maxHealth) maxHealth else value
         }
+    val isAlive: Boolean
+        get() = health > 0
+
+    val inventory = Inventory()
+
+    override fun toString(): String {
+        return "%s(%s/%s)".format(name, health, maxHealth)
     }
 
     companion object {
