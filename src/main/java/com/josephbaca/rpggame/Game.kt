@@ -1,7 +1,6 @@
 package com.josephbaca.rpggame
 
 import com.josephbaca.context.ContextManager
-import com.josephbaca.context.World
 import com.josephbaca.util.Parser
 
 /**
@@ -10,18 +9,11 @@ import com.josephbaca.util.Parser
 class Game {
 
     val contextManager = ContextManager()
-    val world: World = World(10, 10, contextManager)
 
     private val commands = mapOf(
         Pair("new game", this::newGame),
         Pair("help", this::help)
     )
-
-    init {
-        contextManager.insertContextLayer(world, 0) // Adds world as base level of context
-        LOG.debug("Added world to beginning of context.")
-        LOG.debug("Context is: %s".format(contextManager.contextStack))
-    }
 
     fun input(inputRaw: String): String {
         val input = inputRaw.toLowerCase().trim()

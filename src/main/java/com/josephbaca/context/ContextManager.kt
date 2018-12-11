@@ -14,6 +14,7 @@ class ContextManager {
         get() = contextStack.last()
 
     val player: Entity = Entity.buildFromScratch("player", 10, 1, "The player")
+    val world: World = World(10, 10, this)
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)
@@ -26,9 +27,5 @@ class ContextManager {
     fun replaceContextLayer(c: Context) {
         removeContextLayer()
         addContextLayer(c)
-    }
-
-    fun insertContextLayer(c: Context, index: Int) {
-        contextStack.add(index, c)
     }
 }
