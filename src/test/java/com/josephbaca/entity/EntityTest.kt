@@ -1,5 +1,7 @@
 package com.josephbaca.entity
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.quicktheories.QuickTheory.qt
 import org.quicktheories.generators.SourceDSL.integers
@@ -45,6 +47,21 @@ internal class EntityTest {
                 h.health = set
                 h.health == 0
             }
+    }
+
+    @Test
+    fun settingHealthOnMultipleOfOneTypeWorks() {
+        val human1: Entity = Humanoids.HUMAN
+        val human2: Entity = Humanoids.HUMAN
+
+        assertEquals(10, human1.health)
+        assertEquals(10, human2.health)
+
+        human1.health = 8
+
+        assertEquals(8, human1.health)
+        assertEquals(10, human2.health)
+
     }
 
     companion object {
