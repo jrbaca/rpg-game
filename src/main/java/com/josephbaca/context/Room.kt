@@ -1,8 +1,6 @@
 package com.josephbaca.context
 
-import com.josephbaca.entity.LivingEntity
-import com.josephbaca.entity.LivingEntityFactory
-import com.josephbaca.entity.WeaponFactory
+import com.josephbaca.entity.*
 import com.josephbaca.world.Mappable
 
 
@@ -18,7 +16,7 @@ class Room @JvmOverloads internal constructor(
     // About the room
     private val biome: BiomeType = BiomeType.values().random() // Type of room
     private val description: String // Room description
-    private val enemySet: MutableSet<LivingEntity> = mutableSetOf()
+    private val enemySet: MutableSet<Entity> = mutableSetOf()
 
     // Commands that can be executed
     override val commands = hashMapOf(
@@ -52,7 +50,7 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun setEnemies() {
-        enemySet.add(LivingEntityFactory.buildRandomDude())
+        enemySet.add(EntityFactory.buildRandomDude())
     }
 
     private fun setDescription(): String {
@@ -124,12 +122,12 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun lolhack(): String {
-        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.DEMONGALAXYMASTERSWORD))
+        contextManager.player.inventory.additem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
         return "Oh shit you unlocked a sister secret"
     }
 
     private fun asdf(): String {
-        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.TWICESWORD))
+        contextManager.player.inventory.additem(Weapon.buildWeapon(Weapons.TWICESWORD))
         return "Oh shit you unlocked a sister secret"
     }
 
@@ -194,8 +192,8 @@ class Room @JvmOverloads internal constructor(
     }
 
     private class Battle(
-        val player: LivingEntity,
-        val enemySet: MutableSet<LivingEntity>,
+        val player: Entity,
+        val enemySet: MutableSet<Entity>,
         val contextManager: ContextManager
     ) :
         Context {
@@ -262,7 +260,7 @@ class Room @JvmOverloads internal constructor(
         }
 
         /**
-         * Removes [LivingEntity] from the [enemySet] if dead.
+         * Removes [Entity] from the [enemySet] if dead.
          */
         private fun purgeEnemySet() {
             enemySet.removeIf { enemy -> enemy.health == 0 }

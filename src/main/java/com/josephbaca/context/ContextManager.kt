@@ -2,7 +2,7 @@ package com.josephbaca.context
 
 
 import com.josephbaca.entity.Humanoid
-import com.josephbaca.entity.LivingEntity
+import com.josephbaca.entity.Entity
 import java.util.*
 
 /**
@@ -15,7 +15,7 @@ class ContextManager {
     val currentContext: Context
         get() = contextStack.last()
 
-    val player: LivingEntity = Humanoid("player", 10, "The player", 1)
+    val player: Entity = Humanoid("player", 10, "The player", 1)
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)

@@ -6,7 +6,7 @@ import org.quicktheories.generators.SourceDSL.integers
 import kotlin.math.max
 import kotlin.math.min
 
-internal class LivingEntityTest {
+internal class EntityTest {
 
     @Test
     fun settingAppropriateHealthWorks() {
@@ -18,7 +18,7 @@ internal class LivingEntityTest {
                 val set = min(i, j) // Set lesser value for setting
                 val max = max(i, j) // Use greater value for maxHealth
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Humanoid("name", max, "description", 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -38,7 +38,7 @@ internal class LivingEntityTest {
                 val set = max(i, j) // Set greater value for setting
                 val max = min(i, j) // Use lesser value for maxHealth
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Humanoid("name", max, "description", 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -57,7 +57,7 @@ internal class LivingEntityTest {
             .check { i, max ->
                 val set = i * -1 // Set value below zero for setting
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Humanoid("name", max, "description", 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -69,6 +69,6 @@ internal class LivingEntityTest {
 
     companion object {
 
-        private val LOG = org.slf4j.LoggerFactory.getLogger(LivingEntityTest::class.java)
+        private val LOG = org.slf4j.LoggerFactory.getLogger(EntityTest::class.java)
     }
 }

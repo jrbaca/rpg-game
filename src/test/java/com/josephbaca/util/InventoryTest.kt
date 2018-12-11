@@ -1,6 +1,7 @@
 package com.josephbaca.util
 
-import com.josephbaca.entity.WeaponFactory
+import com.josephbaca.entity.Weapon
+import com.josephbaca.entity.Weapons
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -10,7 +11,7 @@ internal class InventoryTest {
     @Test
     fun testAdd() {
         val newInventory = Inventory()
-        val aSword = WeaponFactory.buildWeapon(WeaponFactory.WeaponType.SWORD)
+        val aSword = Weapon.buildWeapon(Weapons.SWORD)
 
         newInventory.additem(aSword)
         LOG.info(newInventory.toString())
@@ -22,8 +23,8 @@ internal class InventoryTest {
     fun testRemoveItem() {
         val newInventory = Inventory()
 
-        val coolersword = WeaponFactory.buildWeapon(WeaponFactory.WeaponType.SWORD)
-        val coolstaff = WeaponFactory.buildWeapon(WeaponFactory.WeaponType.STAFF)
+        val coolersword = Weapon.buildWeapon(Weapons.SWORD)
+        val coolstaff = Weapon.buildWeapon(Weapons.STAFF)
 
         newInventory.additem(coolersword)
         newInventory.additem(coolstaff)

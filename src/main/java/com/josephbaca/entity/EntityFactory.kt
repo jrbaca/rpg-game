@@ -1,23 +1,23 @@
 package com.josephbaca.entity
 
-class LivingEntityFactory {
+class EntityFactory {
     enum class LivingEntityType {
         JOHNTHESKELETON, ZOMBIE, SKELETON
     }
 
     companion object {
-        private fun buildLivingEntity(livingEntityType: LivingEntityType): LivingEntity {
+        private fun buildLivingEntity(livingEntityType: LivingEntityType): Entity {
             return when (livingEntityType) {
-                LivingEntityFactory.LivingEntityType.JOHNTHESKELETON ->
+                EntityFactory.LivingEntityType.JOHNTHESKELETON ->
                     Humanoid("john the skeleton", 7, "he once was a boy :(", 10)
-                LivingEntityFactory.LivingEntityType.ZOMBIE ->
+                EntityFactory.LivingEntityType.ZOMBIE ->
                     Humanoid("Zombie", 3, "he uglyyyyyyyyyyyyyyyyy", 2)
-                LivingEntityFactory.LivingEntityType.SKELETON ->
+                EntityFactory.LivingEntityType.SKELETON ->
                     Humanoid("Skeleton", 2, "idk a non john skeleton", 2)
             }
         }
 
-        fun buildRandomDude(): LivingEntity {
+        fun buildRandomDude(): Entity {
             return buildLivingEntity(LivingEntityType.values().random())
         }
     }
