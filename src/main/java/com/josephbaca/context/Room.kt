@@ -88,10 +88,6 @@ class Room @JvmOverloads internal constructor(
         return String.format("Room (%s)", icon)
     }
 
-    override fun runInput(input: String): String {
-        return commands[input]?.invoke() ?: "Unknown command"
-    }
-
     override fun currentContext(): String {
         return "in a room"
     }
