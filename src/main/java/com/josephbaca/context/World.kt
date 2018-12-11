@@ -91,7 +91,7 @@ class World
         return "World (%sx%s)".format(grid.sizeX, grid.sizeY)
     }
 
-    override fun whereAt(): String {
+    override fun currentContext(): String {
         return "World level"
     }
 

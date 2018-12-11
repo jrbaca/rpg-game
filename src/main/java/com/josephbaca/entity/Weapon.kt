@@ -1,11 +1,45 @@
 package com.josephbaca.entity
 
-/**
- * A weapon to be used in an inventory, in fights, etc.
- */
-class Weapon(name: String, val power: Int, description: String) : Item(name, description) {
 
-    override fun toString(): String {
-        return "Weapon (Name: %s, Power: %s, Description: %s)".format(name, power.toString(), description)
+interface Weapon : Item {
+
+    val power: Int
+
+
+    companion object {
+
+        fun buildWeapon(weaponType: Weapons): Weapon {
+            return weaponType
+        }
+
+        fun buildAnyRandomWeapon(): Weapon {
+            return Weapons.values().random()
+        }
+
+        /**
+         * Builds a [Weapon] from [Weapons] that is specifically in [allowedWeaponSet].
+         */
+        fun buildWeaponWithWhitelist(allowedWeaponSet: Set<Weapons>): Weapon {
+            return buildWeapon(allowedWeaponSet.random())
+        }
+
+        /**
+         * Builds a [Weapon] from [Weapons] that is not in [blacklistedWeaponSet].
+         */
+        fun buildWeaponWithBlacklist(blacklistedWeaponSet: Set<Weapons>): Weapon {
+            return buildWeapon(Weapons.values().toSet().minus(blacklistedWeaponSet).random())
+        }
+
+
+        fun buildRandomCommonWeapon(): Weapon {
+            // TODO make this based on a property instead of a blacklist
+            return buildWeaponWithBlacklist(
+                setOf(
+                    Weapons.SPECIALBOY,
+                    Weapons.DEMONGALAXYMASTERSWORD,
+                    Weapons.TWICESWORD
+                )
+            )
+        }
     }
 }

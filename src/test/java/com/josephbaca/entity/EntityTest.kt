@@ -1,12 +1,13 @@
 package com.josephbaca.entity
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.quicktheories.QuickTheory.qt
 import org.quicktheories.generators.SourceDSL.integers
-import kotlin.math.max
-import kotlin.math.min
+import java.lang.Integer.max
+import java.lang.Integer.min
 
-internal class LivingEntityTest {
+internal class EntityTest {
 
     @Test
     fun settingAppropriateHealthWorks() {
@@ -18,7 +19,7 @@ internal class LivingEntityTest {
                 val set = min(i, j) // Set lesser value for setting
                 val max = max(i, j) // Use greater value for maxHealth
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -38,7 +39,7 @@ internal class LivingEntityTest {
                 val set = max(i, j) // Set greater value for setting
                 val max = min(i, j) // Use lesser value for maxHealth
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -57,7 +58,7 @@ internal class LivingEntityTest {
             .check { i, max ->
                 val set = i * -1 // Set value below zero for setting
 
-                val h: LivingEntity = Humanoid("name", max, "description", 1)
+                val h: Entity = Entity.buildFromScratch("name", max, 1)
                 h.health = set
 
                 LOG.info("Setting health to %s. Max is %s".format(set, max))
@@ -67,8 +68,24 @@ internal class LivingEntityTest {
             }
     }
 
+    @Test
+    fun settingHealthOnMultipleOfOneTypeWorks() {
+        val human1: Entity = Entity.buildFromExisting(Humanoids.HUMAN)
+        val human2: Entity = Entity.buildFromExisting(Humanoids.HUMAN)
+
+        assertEquals(10, human1.health)
+        assertEquals(10, human2.health)
+
+        human1.health = 8
+
+        assertEquals(8, human1.health)
+        assertEquals(10, human2.health)
+
+
+    }
+
     companion object {
 
-        private val LOG = org.slf4j.LoggerFactory.getLogger(LivingEntityTest::class.java)
+        private val LOG = org.slf4j.LoggerFactory.getLogger(EntityTest::class.java)
     }
 }

@@ -6,7 +6,7 @@ package com.josephbaca.world
 interface Mappable {
 
     /**
-     * Returns an icon representing the object on a map.
+     * An icon representing the object on a map.
      */
     val icon: String
 }

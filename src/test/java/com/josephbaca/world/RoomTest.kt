@@ -1,9 +1,8 @@
 package com.josephbaca.world
 
 import com.josephbaca.rpggame.Game
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class RoomTest {
 
@@ -20,7 +19,7 @@ internal class RoomTest {
                 g.input("up")
                 g.input("right")
 
-                val description1 = g.input("where")
+                val description1 = g.input("what")
                 val description2 = g.input(command)
 
                 description1 != description2

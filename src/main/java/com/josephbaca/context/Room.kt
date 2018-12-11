@@ -1,8 +1,6 @@
 package com.josephbaca.context
 
-import com.josephbaca.entity.LivingEntity
-import com.josephbaca.entity.LivingEntityFactory
-import com.josephbaca.entity.WeaponFactory
+import com.josephbaca.entity.*
 import com.josephbaca.world.Mappable
 
 
@@ -17,18 +15,22 @@ class Room @JvmOverloads internal constructor(
 
     // About the room
     private val biome: BiomeType = BiomeType.values().random() // Type of room
-    private val description: String // Room description
-    private val enemySet: MutableSet<LivingEntity> = mutableSetOf()
+    private val enemySet: MutableSet<Entity> = mutableSetOf()
+    private val biomeinfo: String = getBiomeDescription()
+    private val enemyinfo: String
 
     // Commands that can be executed
     override val commands = hashMapOf(
-        Pair("where", { whereAt() }),
+        Pair("where", { currentContext() }),
         Pair("up", { moveUp() }),
         Pair("down", { moveDown() }),
         Pair("left", { moveLeft() }),
         Pair("right", { moveRight() }),
         Pair("fight", { fight() }),
-        Pair("inventory", { getInventoryString() })
+        Pair("inventory", { getInventoryString() }),
+        Pair("what", { whatThere() }),
+        Pair("who", { whoDat() }),
+        Pair("baby shark", { babyShark() })
 
         // Cheats
 //        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", { lolhack() }),
@@ -48,14 +50,14 @@ class Room @JvmOverloads internal constructor(
 
     init {
         setEnemies()
-        description = setDescription()
+        enemyinfo = setEnemyDescription()
     }
 
     private fun setEnemies() {
-        enemySet.add(LivingEntityFactory.buildRandomDude())
+        enemySet.add(Entity.buildFromExisting(Humanoids.values().random()))
     }
 
-    private fun setDescription(): String {
+    private fun setEnemyDescription(): String {
         val enemyInfo = if (enemySet.isEmpty()) {
             "Oof looks like you're alone :((("
         } else {
@@ -72,41 +74,49 @@ class Room @JvmOverloads internal constructor(
                 "OH theres a dude :/"
             ).random()
         }
+        return enemyInfo
+    }
 
-        val biomeInfo = Biome.getDescription(biome)
-        return "%s %s".format(enemyInfo, biomeInfo)
+    private fun getBiomeDescription(): String {
+        val biomeinfo = Biome.getDescription(biome)
+        return biomeinfo
     }
 
     override fun toString(): String {
         return String.format("Room (%s)", icon)
     }
 
-    override fun runInput(input: String): String {
-        return commands[input]?.invoke() ?: "Unknown command"
+    override fun currentContext(): String {
+        return "in a room"
     }
 
-    override fun whereAt(): String {
-        return this.description
+    private fun whatThere(): String {
+        return biomeinfo
     }
+
+    private fun whoDat(): String {
+        return enemyinfo
+    }
+
 
     private fun moveUp(): String {
         world.movePlayerUp()
-        return contextManager.currentContext.whereAt()
+        return contextManager.currentContext.currentContext()
     }
 
     private fun moveDown(): String {
         world.movePlayerDown()
-        return contextManager.currentContext.whereAt()
+        return contextManager.currentContext.currentContext()
     }
 
     private fun moveRight(): String {
         world.movePlayerRight()
-        return contextManager.currentContext.whereAt()
+        return contextManager.currentContext.currentContext()
     }
 
     private fun moveLeft(): String {
         world.movePlayerLeft()
-        return contextManager.currentContext.whereAt()
+        return contextManager.currentContext.currentContext()
     }
 
     private fun fight(): String {
@@ -124,13 +134,41 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun lolhack(): String {
-        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.DEMONGALAXYMASTERSWORD))
+        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
         return "Oh shit you unlocked a sister secret"
     }
 
     private fun asdf(): String {
-        contextManager.player.inventory.additem(WeaponFactory.buildWeapon(WeaponFactory.WeaponType.TWICESWORD))
+        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
         return "Oh shit you unlocked a sister secret"
+    }
+
+    private fun babyShark(): String {
+        return "doo doo doo doo doo doo\n" +
+                "Baby shark, doo doo doo doo doo doo\n" +
+                "Baby shark, doo doo doo doo doo doo\n" +
+                "Baby shark!\n" +
+                "Mommy shark, doo doo doo doo doo doo\n" +
+                "Mommy shark, doo doo doo doo doo doo\n" +
+                "Mommy shark, doo doo doo doo doo doo\n" +
+                "Mommy shark!\n" +
+                "Daddy shark, doo doo doo doo doo doo\n" +
+                "Daddy shark, doo doo doo doo doo doo\n" +
+                "Daddy shark, doo doo doo doo doo doo\n" +
+                "Daddy shark!\n" +
+                "Grandma shark, doo doo doo doo doo doo\n" +
+                "Grandma shark, doo doo doo doo doo doo\n" +
+                "Grandma shark, doo doo doo doo doo doo\n" +
+                "Grandma shark!\n" +
+                "Grandpa shark, doo doo doo doo doo doo\n" +
+                "Grandpa shark, doo doo doo doo doo doo\n" +
+                "Grandpa shark, doo doo doo doo doo doo\n" +
+                "Grandpa shark!\n" +
+                "Let’s go hunt, doo doo doo doo doo doo\n" +
+                "Let’s go hunt, doo doo doo doo doo doo\n" +
+                "Let’s go hunt, doo doo doo doo doo doo\n" +
+                "Let’s go hunt!\n" +
+                "Run away,…"
     }
 
     /**
@@ -194,8 +232,8 @@ class Room @JvmOverloads internal constructor(
     }
 
     private class Battle(
-        val player: LivingEntity,
-        val enemySet: MutableSet<LivingEntity>,
+        val player: Entity,
+        val enemySet: MutableSet<Entity>,
         val contextManager: ContextManager
     ) :
         Context {
@@ -207,11 +245,11 @@ class Room @JvmOverloads internal constructor(
         }
 
         override val commands = hashMapOf(
-            Pair("where", { whereAt() }),
+            Pair("where", { currentContext() }),
             Pair("fight", { fight() })
         )
 
-        override fun whereAt(): String {
+        override fun currentContext(): String {
             return "In a battle"
         }
 
@@ -255,6 +293,7 @@ class Room @JvmOverloads internal constructor(
                 LOG.info("%s doing %s damage to %s".format(enemy, damage, player))
                 player.health = player.health - damage
             }
+            LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
             purgeEnemySet()
 
             LOG.info("Player has %sHP".format(player.health))
@@ -262,10 +301,10 @@ class Room @JvmOverloads internal constructor(
         }
 
         /**
-         * Removes [LivingEntity] from the [enemySet] if dead.
+         * Removes [Entity] from the [enemySet] if dead.
          */
         private fun purgeEnemySet() {
-            enemySet.removeIf { enemy -> enemy.health == 0 }
+            enemySet.removeIf { enemy -> !enemy.isAlive }
         }
     }
 
