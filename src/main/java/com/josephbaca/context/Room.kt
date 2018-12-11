@@ -1,7 +1,6 @@
 package com.josephbaca.context
 
 import com.josephbaca.entity.Entity
-import com.josephbaca.entity.EntityFactory
 import com.josephbaca.entity.Weapon
 import com.josephbaca.entity.Weapons
 import com.josephbaca.world.Mappable
