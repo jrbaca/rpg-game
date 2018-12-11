@@ -1,7 +1,6 @@
 package com.josephbaca.context
 
-
-import com.josephbaca.entity.*
+import com.josephbaca.entity.Entity
 import java.util.*
 
 /**

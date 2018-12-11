@@ -51,8 +51,8 @@ internal class EntityTest {
 
     @Test
     fun settingHealthOnMultipleOfOneTypeWorks() {
-        val human1: Entity = Humanoid("player", 10, "The player", 1)
-        val human2: Entity = Humanoid("player", 10, "The player", 1)
+        val human1: Entity = Entity.buildFromExisting(Humanoids.HUMAN)
+        val human2: Entity = Entity.buildFromExisting(Humanoids.HUMAN)
 
         assertEquals(10, human1.health)
         assertEquals(10, human2.health)
@@ -61,6 +61,7 @@ internal class EntityTest {
 
         assertEquals(8, human1.health)
         assertEquals(10, human2.health)
+
 
     }
 
