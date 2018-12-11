@@ -57,7 +57,7 @@ class Room @JvmOverloads internal constructor(
     }
 
     private fun setEnemies() {
-        enemySet.add(EntityFactory.buildRandomDude())
+        enemySet.add(Entity.buildRandomDude())
     }
 
     private fun setEnemyDescription(): String {
