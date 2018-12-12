@@ -1,6 +1,7 @@
 package com.josephbaca.context
 
 import com.josephbaca.entity.Entity
+import com.josephbaca.parser.ContextCommands
 
 class Battle(
     private val player: Entity,
@@ -14,9 +15,9 @@ class Battle(
         LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
     }
 
-    override val commands = hashMapOf(
-        Pair("where", { currentContext() }),
-        Pair("fight", { fight() })
+    override val contextCommands: Map<ContextCommands, () -> String> = hashMapOf(
+        Pair(BattleCommands.WHERE, { currentContext() }),
+        Pair(BattleCommands.FIGHT, { fight() })
     )
 
     override fun currentContext(): String {
@@ -75,6 +76,14 @@ class Battle(
      */
     private fun purgeEnemySet() {
         enemySet.removeIf { enemy -> !enemy.isAlive }
+    }
+
+    enum class BattleCommands(
+        override val regex: Regex
+    ) : ContextCommands {
+
+        WHERE(Regex("where")),
+        FIGHT(Regex("fight"));
     }
 
     companion object {

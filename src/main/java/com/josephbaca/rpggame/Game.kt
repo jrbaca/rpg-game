@@ -34,7 +34,7 @@ class Game {
     }
 
     private fun help(): String {
-        return contextManager.currentContext.commands.keys.sorted().toString()
+        return contextManager.currentContext.contextCommands.keys.toString()
     }
 
     companion object {

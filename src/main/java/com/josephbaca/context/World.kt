@@ -8,11 +8,7 @@ import com.josephbaca.world.CoordinateGrid
  * it contains the coordinates of every [Room] and the current location
  * of the player.
  */
-class World
-    (maxx: Int, maxy: Int, private val contextManager: ContextManager) :
-    Context {
-
-    override val commands: HashMap<String, () -> String> = hashMapOf()
+class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
 
     /**
      * Internal representation of the world.
@@ -89,10 +85,6 @@ class World
 
     override fun toString(): String {
         return "World (%sx%s)".format(grid.sizeX, grid.sizeY)
-    }
-
-    override fun currentContext(): String {
-        return "World level"
     }
 
     /**

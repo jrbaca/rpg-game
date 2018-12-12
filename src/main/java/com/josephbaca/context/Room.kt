@@ -3,6 +3,7 @@ package com.josephbaca.context
 import com.josephbaca.entity.*
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
+import com.josephbaca.parser.ContextCommands
 import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
@@ -22,17 +23,17 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val commands = hashMapOf(
-        Pair("where", { currentContext() }),
-        Pair("up", { moveUp() }),
-        Pair("down", { moveDown() }),
-        Pair("left", { moveLeft() }),
-        Pair("right", { moveRight() }),
-        Pair("fight", { fight() }),
-        Pair("inventory", { getInventoryString() }),
-        Pair("what", { getBiomeDescription() }),
-        Pair("who", { getEnemyDescription() }),
-        Pair("baby shark", { babyShark() })
+    override val contextCommands: Map<ContextCommands, () -> String> = hashMapOf(
+        Pair(RoomCommands.WHERE, { currentContext() }),
+        Pair(RoomCommands.UP, { moveUp() }),
+        Pair(RoomCommands.DOWN, { moveDown() }),
+        Pair(RoomCommands.LEFT, { moveLeft() }),
+        Pair(RoomCommands.RIGHT, { moveRight() }),
+        Pair(RoomCommands.FIGHT, { fight() }),
+        Pair(RoomCommands.INVENTORY, { getInventoryString() }),
+        Pair(RoomCommands.WHAT, { getBiomeDescription() }),
+        Pair(RoomCommands.WHO, { getEnemyDescription() })
+//        Pair("baby shark", { babyShark() })
 
         // Cheats
 //        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", { lolhack() }),
@@ -153,6 +154,22 @@ class Room @JvmOverloads internal constructor(
                 "Let’s go hunt!\n" +
                 "Run away,…"
     }
+
+    enum class RoomCommands(
+        override val regex: Regex
+    ) : ContextCommands {
+
+        WHERE(Regex("where")),
+        UP(Regex("up")),
+        DOWN(Regex("down")),
+        LEFT(Regex("left")),
+        RIGHT(Regex("right")),
+        FIGHT(Regex("fight")),
+        INVENTORY(Regex("inventory")),
+        WHAT(Regex("what")),
+        WHO(Regex("who"));
+    }
+
 
     companion object {
 
