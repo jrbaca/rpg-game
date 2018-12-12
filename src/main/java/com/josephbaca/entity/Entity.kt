@@ -1,6 +1,6 @@
 package com.josephbaca.entity
 
-import com.josephbaca.util.Inventory
+import com.josephbaca.item.Inventory
 
 /**
  * An [Entity] that can take action. Can be backed by by an enum implementing [EntityData] if a premade one is desired.

@@ -24,7 +24,7 @@ internal class CoordinateGridTest {
 
         for (i in 0 until grid.sizeX) {
             for (j in 0 until grid.sizeX) {
-                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!, world!!))
+                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!))
             }
         }
 
@@ -32,7 +32,7 @@ internal class CoordinateGridTest {
         assertEquals("R R\nR R", grid.toDisplayString())
 
         // Set top left
-        grid.setCoordinate(Coordinate(0, 1), Room(contextManager!!, world!!, "T"))
+        grid.setCoordinate(Coordinate(0, 1), Room(contextManager!!, "T"))
         assertEquals("T R\nR R", grid.toDisplayString())
     }
 
@@ -43,7 +43,7 @@ internal class CoordinateGridTest {
 
         for (i in 0 until grid.sizeX) {
             for (j in 0 until grid.sizeY) {
-                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!, world!!))
+                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!))
             }
         }
 

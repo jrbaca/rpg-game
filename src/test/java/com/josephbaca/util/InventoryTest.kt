@@ -1,5 +1,6 @@
 package com.josephbaca.util
 
+import com.josephbaca.item.Inventory
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
 import org.junit.jupiter.api.Assertions.assertFalse

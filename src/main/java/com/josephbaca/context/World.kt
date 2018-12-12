@@ -81,7 +81,7 @@ class World
     private fun generateWorld() {
         for (x in 0 until grid.sizeX) {
             for (y in 0 until grid.sizeY) {
-                val r = Room(contextManager, this)
+                val r = Room(contextManager)
                 grid.setCoordinate(Coordinate(x, y), r)
             }
         }

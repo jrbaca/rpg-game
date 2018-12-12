@@ -5,7 +5,10 @@ package com.josephbaca.context
  */
 interface Context {
 
-    val commands: HashMap<String, () -> String> // Commands that can be executed
+    /**
+     * Commands that can be executed
+     */
+    val commands: HashMap<String, () -> String>
 
     fun runInput(input: String): String {
         return commands[input]?.invoke() ?: listOf(
