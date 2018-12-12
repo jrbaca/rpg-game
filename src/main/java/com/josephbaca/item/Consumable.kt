@@ -6,4 +6,10 @@ package com.josephbaca.item
  */
 interface Consumable {
     val healing: Int
+
+    companion object {
+        fun buildConsumable(consumableType: Consumables): Consumable {
+            return consumableType
+        }
+    }
 }
