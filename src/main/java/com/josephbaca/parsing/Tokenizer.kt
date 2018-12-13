@@ -1,7 +1,5 @@
 package com.josephbaca.parsing
 
-import java.lang.Integer.min
-
 /**
  *
  */
@@ -20,26 +18,35 @@ internal object Tokenizer {
     }
 
     private fun preProcessInput(input: String): String {
-        return input.toLowerCase()
+        val processedInput = input.toLowerCase().trim().replace(Regex("\\s+"), " ")
+        LOG.debug("Processed \"%s\" into \"%s\"".format(input, processedInput))
+        return processedInput
     }
 
     private fun iterativelyMatchTokens(input: String, contextCommands: Set<ContextCommand>): List<ContextCommand>? {
-        return iterativelyMatchTokens(input, contextCommands, 0)
+        return iterativelyMatchTokens(input, contextCommands, 0, 0)
     }
 
     private fun iterativelyMatchTokens(
         input: String,
         contextCommands: Set<ContextCommand>,
-        index: Int
+        startIndex: Int,
+        endIndex: Int
     ): List<ContextCommand>? {
 
-        if (input.isEmpty()) return listOf()
+        if (endIndex == input.length + 1) return listOf()
 
-        val remainingTokens =
-            iterativelyMatchTokens(input.drop(1), contextCommands) ?: return null // Propagate bad matches
+        val searchString = input.substring(startIndex, endIndex).trim()
+        LOG.debug("Searching \"%s\" from \"%s\"".format(searchString, input))
 
         val matchingCommand =
-            getMatchingContextCommand(input, contextCommands) ?: return null // Bad if too many matches
+            getMatchingContextCommand(searchString, contextCommands) ?: return null // Bad if too many matches
+
+        val newStartIndex = if (matchingCommand.size == 1) endIndex - startIndex else startIndex
+
+        val remainingTokens =
+            iterativelyMatchTokens(input, contextCommands, newStartIndex, endIndex + 1) ?: return null // Propagate bad matches
+
 
         return matchingCommand.plus(remainingTokens)
         //TODO match on the correct substring
@@ -60,6 +67,6 @@ internal object Tokenizer {
     }
 
     private fun inputMatchesContextCommandRegex(input: String, contextCommand: ContextCommand): Boolean {
-        return input.trim().matches(contextCommand.regex)
+        return input.matches(contextCommand.regex)
     }
 }

@@ -11,7 +11,6 @@ object GameConsoleInterface {
      */
     @JvmStatic
     fun main(args: Array<String>) {
-        setLogLevel("DEBUG", "root")
 
         val game = Game()
 

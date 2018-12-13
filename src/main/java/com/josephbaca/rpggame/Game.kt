@@ -39,6 +39,6 @@ class Game {
 
     companion object {
 
-        private val LOG = org.slf4j.LoggerFactory.getLogger(Game::class.java)
+        private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
     }
 }

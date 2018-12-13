@@ -2,6 +2,7 @@ package com.josephbaca.parsing
 
 import com.josephbaca.context.ContextManager
 import com.josephbaca.context.Room
+import com.josephbaca.util.setLogLevel
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -14,6 +15,7 @@ internal class TokenizerTest {
     @BeforeEach
     internal fun setUp() {
         contextManager = ContextManager()
+        setLogLevel("DEBUG")
     }
 
     @Test
@@ -63,5 +65,35 @@ internal class TokenizerTest {
         val input3 = "   %s   %s   ".format(token1.toString(), token2.toString())
         val tokenList3 = Tokenizer.tokenizeInputWithContextCommandsRegex(input3, allTokens)
         assertEquals(listOf(token1, token2), tokenList3)
+    }
+
+    @Test
+    fun invalidStringReturnsNull() {
+        val context = Room(contextManager)
+        val allTokens = context.contextCommands.keys
+
+        val input = "fakeinput"
+        val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+        assertNull(tokenList)
+
+    }
+
+    @Test
+    fun duplicateTokensReturnsNull() {
+
+        val allTokens = BadTokens.values().toSet()
+
+        val input = "bad"
+        val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+        assertNull(tokenList)
+
+    }
+
+    enum class BadTokens(
+        override val regex: Regex
+    ) : ContextCommand {
+
+        DUP1(Regex("bad")),
+        DUP2(Regex("bad"));
     }
 }
