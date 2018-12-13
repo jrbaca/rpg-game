@@ -1,4 +1,4 @@
-package com.josephbaca.parser
+package com.josephbaca.parsing
 
 /**
  *
@@ -11,13 +11,19 @@ internal object Tokenizer {
         input: String,
         contextCommands: Set<ContextCommand>
     ): List<ContextCommand>? {
-        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(input, contextCommands))
-        return tokenizeUsingFullMatch(contextCommands, input)
+        val preProcessedInput = preProcessInput(input)
+
+        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, contextCommands))
+        return tokenizeUsingFullMatch(preProcessedInput, contextCommands)
+    }
+
+    private fun preProcessInput(input: String): String {
+        return input.toLowerCase()
     }
 
     private fun tokenizeUsingFullMatch(
-        contextCommands: Set<ContextCommand>,
-        input: String
+        input: String,
+        contextCommands: Set<ContextCommand>
     ): List<ContextCommand>? {
         return try {
             listOf(contextCommands.single { contextCommand ->
@@ -31,6 +37,10 @@ internal object Tokenizer {
             null
         }
     }
+
+//    private fun iterativelyMatchTokens(input: String, contextCommands: Set<ContextCommand>): List<ContextCommand>? {
+//
+//    }
 
     private fun inputMatchesContextCommandRegex(input: String, contextCommand: ContextCommand): Boolean {
         return input.matches(contextCommand.regex)

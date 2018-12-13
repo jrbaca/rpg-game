@@ -1,7 +1,7 @@
 package com.josephbaca.context
 
 import com.josephbaca.entity.Entity
-import com.josephbaca.parser.ContextCommand
+import com.josephbaca.parsing.ContextCommand
 
 class Battle(
     private val player: Entity,

@@ -1,7 +1,7 @@
 package com.josephbaca.rpggame
 
 import com.josephbaca.context.ContextManager
-import com.josephbaca.parser.Parser
+import com.josephbaca.parsing.Parser
 
 /**
  ** Main game class that holds the input processing and game state management.

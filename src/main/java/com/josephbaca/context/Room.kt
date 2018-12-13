@@ -3,7 +3,7 @@ package com.josephbaca.context
 import com.josephbaca.entity.*
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
-import com.josephbaca.parser.ContextCommand
+import com.josephbaca.parsing.ContextCommand
 import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType

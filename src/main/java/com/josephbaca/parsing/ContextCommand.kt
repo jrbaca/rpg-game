@@ -1,4 +1,4 @@
-package com.josephbaca.parser
+package com.josephbaca.parsing
 
 interface ContextCommand {
 
