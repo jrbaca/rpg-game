@@ -11,7 +11,7 @@ object Parser {
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     /**
-     * Uses the [Tokenizer] to tokenize an input using the [ContextVerb] from the [Context]. It then
+     * Uses the [Tokenizer] to tokenize an input using the [VerbToken] from the [Context]. It then
      * validates the tokens and invokes the appropriate commands.
      */
     internal fun parseInputWithCurrentContext(input: String, context: Context): String {
@@ -30,13 +30,12 @@ object Parser {
 
     private fun parseTokens(context: Context, tokens: List<Token>): (() -> String?)? {
         LOG.info("Attempting to parse tokens %s from context %s".format(tokens, context))
-        return parseTokensHelper(context, tokens)?.getInvocable()
+        return if (tokens.isEmpty()) null else parseTokensHelper(context, tokens)?.getInvocable()
     }
 
     private fun parseTokensHelper(context: Context, tokens: List<Token>): TokenWithArgs? {
-//        val numArgs = tokens[0].numArgs
-        val verbToken = tokens[0] as? ContextVerb ?: return null
-        val nounTokens = tokens.drop(1).filterIsInstance<ContextNoun>()
+        val verbToken = tokens[0] as? VerbToken ?: return null
+        val nounTokens = tokens.drop(1).filterIsInstance<NounToken>()
             .apply { if (size != tokens.size - 1) return null }
 
         return TokenWithArgs(context, verbToken, nounTokens)
@@ -59,15 +58,15 @@ object Parser {
 
     private class TokenWithArgs(
         private val context: Context,
-        private val contextVerb: ContextVerb,
-        private val args: List<ContextNoun>
+        private val verbToken: VerbToken,
+        private val args: List<NounToken>
     ) {
-        private val numArgs = contextVerb.numArgs
+        private val numArgs = verbToken.numArgs
 
         fun getInvocable(): () -> String? {
-            val command = context.contextVerbs[contextVerb]
+            val command = context.verbsToken[verbToken]
 
-            return if (contextVerb.numArgs == numArgs) {
+            return if (verbToken.numArgs == numArgs) {
                 { command?.invoke(args) }
             } else {
                 { null }

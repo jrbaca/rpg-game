@@ -1,12 +1,12 @@
 package com.josephbaca.context
 
-import com.josephbaca.parsing.ContextNoun
-import com.josephbaca.parsing.ContextVerb
+import com.josephbaca.parsing.NounToken
+import com.josephbaca.parsing.VerbToken
 
 enum class RoomVerbs(
     override val regex: Regex,
     override val numArgs: Int
-) : ContextVerb {
+) : VerbToken {
 
     WHERE(Regex("where"), 0),
     GO(Regex("go"), 1),
@@ -18,7 +18,7 @@ enum class RoomVerbs(
 
 enum class RoomNouns(
     override val regex: Regex
-) : ContextNoun {
+) : NounToken {
     UP(Regex("up")),
     DOWN(Regex("down")),
     LEFT(Regex("left")),

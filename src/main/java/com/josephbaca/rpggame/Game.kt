@@ -34,7 +34,7 @@ class Game {
     }
 
     private fun help(): String {
-        return contextManager.currentContext.contextVerbs.keys.toString()
+        return contextManager.currentContext.verbsToken.keys.toString()
     }
 
     companion object {

@@ -3,8 +3,8 @@ package com.josephbaca.context
 import com.josephbaca.entity.*
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
-import com.josephbaca.parsing.ContextNoun
-import com.josephbaca.parsing.ContextVerb
+import com.josephbaca.parsing.NounToken
+import com.josephbaca.parsing.VerbToken
 import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
@@ -24,7 +24,7 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val contextVerbs: Map<ContextVerb, (List<ContextNoun>) -> String?> = hashMapOf(
+    override val verbsToken: Map<VerbToken, (List<NounToken>) -> String?> = hashMapOf(
         Pair(RoomVerbs.GO, { args -> go(args) }),
         Pair(RoomVerbs.WHERE, { args -> currentContext() }),
         Pair(RoomVerbs.FIGHT, { args -> fight() }),
@@ -38,7 +38,7 @@ class Room @JvmOverloads internal constructor(
 //        Pair("4ce7fca0eee7bf957796eb64b684a5af", { asdf() }) // Yes or yes Korean lyric MD5
     )
 
-    override val contextNouns: Set<ContextNoun> = setOf(
+    override val nounTokens: Set<NounToken> = setOf(
         RoomNouns.UP,
         RoomNouns.DOWN,
         RoomNouns.LEFT,
@@ -84,9 +84,8 @@ class Room @JvmOverloads internal constructor(
         return "in a room"
     }
 
-    private fun go(args: List<ContextNoun>): String? {
-        // Should have one arg
-        val direction: ContextNoun? = args.singleOrNull()
+    private fun go(args: List<NounToken>): String? {
+        val direction: NounToken? = args.singleOrNull()
 
         return when (direction) {
             RoomNouns.UP -> {

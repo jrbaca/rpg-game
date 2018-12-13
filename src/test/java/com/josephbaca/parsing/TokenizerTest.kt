@@ -21,7 +21,7 @@ internal class TokenizerTest {
     @Test
     fun tokenizeOneToken() {
         val context = Room(contextManager)
-        val allTokens = context.contextVerbs.keys
+        val allTokens = context.verbsToken.keys
 
         allTokens.forEach {
             val token = it
@@ -35,7 +35,7 @@ internal class TokenizerTest {
     @Test
     fun tokenizeTwoTokens() {
         val context = Room(contextManager)
-        val allTokens = context.contextVerbs.keys
+        val allTokens = context.verbsToken.keys
 
         val token1 = allTokens.random()
         val token2 = allTokens.random()
@@ -49,7 +49,7 @@ internal class TokenizerTest {
     @Test
     fun tokenizeTwoTokensWithExtraWhitespace() {
         val context = Room(contextManager)
-        val allTokens = context.contextVerbs.keys
+        val allTokens = context.verbsToken.keys
 
         val token1 = allTokens.random()
         val token2 = allTokens.random()
@@ -70,7 +70,7 @@ internal class TokenizerTest {
     @Test
     fun invalidStringReturnsNull() {
         val context = Room(contextManager)
-        val allTokens = context.contextVerbs.keys
+        val allTokens = context.verbsToken.keys
 
         val input = "fakeinput"
         val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
@@ -92,7 +92,7 @@ internal class TokenizerTest {
     enum class BadTokens(
         override val regex: Regex,
         override val numArgs: Int
-    ) : ContextVerb {
+    ) : VerbToken {
 
         DUP1(Regex("bad"), 0),
         DUP2(Regex("bad"), 0);

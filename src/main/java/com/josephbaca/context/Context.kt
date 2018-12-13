@@ -1,7 +1,7 @@
 package com.josephbaca.context
 
-import com.josephbaca.parsing.ContextNoun
-import com.josephbaca.parsing.ContextVerb
+import com.josephbaca.parsing.NounToken
+import com.josephbaca.parsing.VerbToken
 import com.josephbaca.parsing.Token
 
 /**
@@ -12,12 +12,12 @@ interface Context {
     /**
      * Commands that can be executed. Is null if given invalid arguments
      */
-    val contextVerbs: Map<ContextVerb, (List<ContextNoun>) -> String?>
+    val verbsToken: Map<VerbToken, (List<NounToken>) -> String?>
 
-    val contextNouns: Set<ContextNoun>
+    val nounTokens: Set<NounToken>
 
     val tokens: Set<Token>
-        get() = contextVerbs.keys.toSet().plus(contextNouns)
+        get() = verbsToken.keys.toSet().plus(nounTokens)
 
     fun currentContext(): String
 }
