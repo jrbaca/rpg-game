@@ -2,7 +2,6 @@ package com.josephbaca.world
 
 import com.josephbaca.context.ContextManager
 import com.josephbaca.context.Room
-import com.josephbaca.context.World
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

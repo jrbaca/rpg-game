@@ -3,43 +3,47 @@ package com.josephbaca.parser
 import com.josephbaca.context.Context
 
 /**
- * Interprets user input and appropriately dispatches it.
+ * Object used for both parsing and tokenizing user inputs given their current [Context].
+ * Use [parseInputWithCurrentContext] to do so.
  */
 object Parser {
 
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * Uses the [Tokenizer] to tokenize an input using the [ContextCommand] from the [Context]. It then
+     * validates the tokens and invokes the appropriate commands.
+     */
     internal fun parseInputWithCurrentContext(input: String, context: Context): String {
 
-        LOG.info("Parsing \"%s\" with context %s".format(input, context))
-        val contextCommand = parseInputWithContextCommands(input, context.contextCommands.keys)
-        return if (contextCommand != null) context.runInput(contextCommand) else "Unable to match command"
-    }
+        val tokenizedInput = Tokenizer.tokenizeInputWithContextCommandsRegex(input, context.contextCommands.keys)
 
-    private fun parseInputWithContextCommands(input: String, contextCommands: Set<ContextCommands>): ContextCommands? {
-        LOG.info("Parsing %s given commands %s".format(input, contextCommands))
-
-        return try {
-            contextCommands.single { contextCommand ->
-                inputMatchesContextCommandRegex(input, contextCommand)
-            }
-        } catch (e: NoSuchElementException) {
-            LOG.error("Nothing matches!")
-            null
-        } catch (e: IllegalArgumentException) {
-            LOG.error("too many matching!")
+        val parsedInput = if (tokenizedInput != null) {
+            parseTokens(context, tokenizedInput)
+        } else {
             null
         }
+
+        return invokeParsedInput(parsedInput)
     }
 
-    private fun inputMatchesContextCommandRegex(input: String, contextCommand: ContextCommands): Boolean {
-        return input.matches(contextCommand.regex)
+    private fun parseTokens(context: Context, tokens: List<ContextCommand>): (() -> String)? {
+        LOG.info("Attempting to parse tokens %s from context %s".format(tokens, context))
+        return context.contextCommands[tokens[0]]
     }
 
-// Need to add commands to parser to recognize as enums. The parser should match the strings to the enums and dispatch
-// appropriately. The commands need to be aware of how many arguments they take, and some interact with the
-// player at runtime. For example:
-// UP might be aliased by "up", "go up", "move up", etc. And takes no arguments
-// INSPECT takes an argument of an item in the players possession
-// EQUIP is aliased by "put on" and takes an argument of an item in the players possession
+    private fun invokeParsedInput(parsedInput: (() -> String)?): String {
+        return parsedInput?.invoke() ?: getUnknownCommandString()
+    }
+
+    private fun getUnknownCommandString(): String {
+        LOG.warn("Cannot parse tokens.")
+        return listOf(
+            "i dont think youre old enough to access that content mister",
+            "i dont think youre old enough for that mister",
+            "No no no I don't think so!",
+            "Nah man, not today",
+            "Baby shark, doo doo doo doo doo doo"
+        ).random()
+    }
 }

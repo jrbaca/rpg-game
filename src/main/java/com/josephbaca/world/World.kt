@@ -1,7 +1,7 @@
-package com.josephbaca.context
+package com.josephbaca.world
 
-import com.josephbaca.world.Coordinate
-import com.josephbaca.world.CoordinateGrid
+import com.josephbaca.context.ContextManager
+import com.josephbaca.context.Room
 
 /**
  * Contains all the geography about the world the player is in. Specifically,

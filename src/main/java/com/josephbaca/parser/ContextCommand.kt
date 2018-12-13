@@ -1,6 +1,6 @@
 package com.josephbaca.parser
 
-interface ContextCommands {
+interface ContextCommand {
 
     val regex: Regex
 }

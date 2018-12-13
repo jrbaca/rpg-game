@@ -3,7 +3,7 @@ package com.josephbaca.context
 import com.josephbaca.entity.*
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
-import com.josephbaca.parser.ContextCommands
+import com.josephbaca.parser.ContextCommand
 import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
@@ -23,7 +23,7 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val contextCommands: Map<ContextCommands, () -> String> = hashMapOf(
+    override val contextCommands: Map<ContextCommand, () -> String> = hashMapOf(
         Pair(RoomCommands.WHERE, { currentContext() }),
         Pair(RoomCommands.UP, { moveUp() }),
         Pair(RoomCommands.DOWN, { moveDown() }),
@@ -157,7 +157,7 @@ class Room @JvmOverloads internal constructor(
 
     enum class RoomCommands(
         override val regex: Regex
-    ) : ContextCommands {
+    ) : ContextCommand {
 
         WHERE(Regex("where")),
         UP(Regex("up")),
