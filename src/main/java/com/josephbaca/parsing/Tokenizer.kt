@@ -6,12 +6,12 @@ internal object Tokenizer {
 
     fun tokenizeInputWithContextCommandsRegex(
         input: String,
-        contextCommands: Set<ContextCommand>
-    ): List<ContextCommand>? {
+        contextTokens: Set<Token>
+    ): List<Token>? {
         val preProcessedInput = preProcessInput(input)
 
-        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, contextCommands))
-        return iterativelyMatchTokens(preProcessedInput, contextCommands)
+        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, contextTokens))
+        return iterativelyMatchTokens(preProcessedInput, contextTokens)
     }
 
     private fun preProcessInput(input: String): String {
@@ -22,10 +22,10 @@ internal object Tokenizer {
 
     private fun iterativelyMatchTokens(
         input: String,
-        contextCommands: Set<ContextCommand>
-    ): List<ContextCommand>? {
+        contextTokens: Set<Token>
+    ): List<Token>? {
 
-        val foundTokens: MutableList<ContextCommand> = mutableListOf()
+        val foundTokens: MutableList<Token> = mutableListOf()
         val matchedStrings: MutableList<String> = mutableListOf()
 
         var startIndex = 0
@@ -34,7 +34,7 @@ internal object Tokenizer {
             LOG.debug("Searching \"%s\" from \"%s\"".format(searchString, input))
 
             val matchingCommand =
-                getMatchingContextCommand(searchString, contextCommands) ?: return null // Bad if too many matches
+                getMatchingContextCommand(searchString, contextTokens) ?: return null // Bad if too many matches
 
             if (!matchingCommand.isEmpty()) {
                 startIndex = endIndex
@@ -47,10 +47,10 @@ internal object Tokenizer {
 
     private fun getMatchingContextCommand(
         input: String,
-        contextCommands: Set<ContextCommand>
-    ): List<ContextCommand>? {
+        contextTokens: Set<Token>
+    ): List<Token>? {
 
-        val matchingCommands = contextCommands.filter { command -> inputMatchesContextCommandRegex(input, command) }
+        val matchingCommands = contextTokens.filter { command -> inputMatchesContextCommandRegex(input, command) }
         return if (matchingCommands.size > 1) {
             LOG.warn("Too many tokens match!")
             null
@@ -59,7 +59,7 @@ internal object Tokenizer {
         }
     }
 
-    private fun inputMatchesContextCommandRegex(input: String, contextCommand: ContextCommand): Boolean {
-        return input.matches(contextCommand.regex)
+    private fun inputMatchesContextCommandRegex(input: String, contextToken: Token): Boolean {
+        return input.matches(contextToken.regex)
     }
 }

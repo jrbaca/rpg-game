@@ -1,11 +1,11 @@
 package com.josephbaca.context
 
-import com.josephbaca.parsing.ContextCommand
+import com.josephbaca.parsing.ContextVerb
 
 enum class BattleCommands(
     override val regex: Regex,
     override val numArgs: Int
-) : ContextCommand {
+) : ContextVerb {
 
     WHERE(Regex("where"), 0),
     FIGHT(Regex("fight"), 0);

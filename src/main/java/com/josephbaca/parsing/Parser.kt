@@ -11,12 +11,12 @@ object Parser {
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     /**
-     * Uses the [Tokenizer] to tokenize an input using the [ContextCommand] from the [Context]. It then
+     * Uses the [Tokenizer] to tokenize an input using the [ContextVerb] from the [Context]. It then
      * validates the tokens and invokes the appropriate commands.
      */
     internal fun parseInputWithCurrentContext(input: String, context: Context): String {
 
-        val tokenizedInput = Tokenizer.tokenizeInputWithContextCommandsRegex(input, context.contextCommands.keys)
+        val tokenizedInput = Tokenizer.tokenizeInputWithContextCommandsRegex(input, context.tokens)
 
         val parsedInput = if (tokenizedInput != null) {
             parseTokens(context, tokenizedInput)
@@ -28,16 +28,18 @@ object Parser {
         return invokeParsedInput(parsedInput)
     }
 
-    private fun parseTokens(context: Context, tokens: List<ContextCommand>): (() -> String?)? {
+    private fun parseTokens(context: Context, tokens: List<Token>): (() -> String?)? {
         LOG.info("Attempting to parse tokens %s from context %s".format(tokens, context))
-        return parseTokensHelper(context, tokens).getInvocable()
+        return parseTokensHelper(context, tokens)?.getInvocable()
     }
 
-    private fun parseTokensHelper(context: Context, tokens: List<ContextCommand>): TokenWithArgs {
+    private fun parseTokensHelper(context: Context, tokens: List<Token>): TokenWithArgs? {
 //        val numArgs = tokens[0].numArgs
+        val verbToken = tokens[0] as? ContextVerb ?: return null
+        val nounTokens = tokens.drop(1).filterIsInstance<ContextNoun>()
+            .apply { if (size != tokens.size - 1) return null }
 
-
-        return TokenWithArgs(context, tokens[0], listOf()) // TODO finish this
+        return TokenWithArgs(context, verbToken, nounTokens)
     }
 
     private fun invokeParsedInput(parsedInput: (() -> String?)?): String {
@@ -57,15 +59,15 @@ object Parser {
 
     private class TokenWithArgs(
         private val context: Context,
-        private val contextCommand: ContextCommand,
-        private val args: List<ContextCommand>
+        private val contextVerb: ContextVerb,
+        private val args: List<ContextNoun>
     ) {
-        private val numArgs = contextCommand.numArgs
+        private val numArgs = contextVerb.numArgs
 
         fun getInvocable(): () -> String? {
-            val command = context.contextCommands[contextCommand]
+            val command = context.contextVerbs[contextVerb]
 
-            return if (contextCommand.numArgs == numArgs) {
+            return if (contextVerb.numArgs == numArgs) {
                 { command?.invoke(args) }
             } else {
                 { null }

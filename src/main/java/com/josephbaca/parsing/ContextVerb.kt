@@ -1,7 +1,6 @@
 package com.josephbaca.parsing
 
-interface ContextCommand {
+interface ContextVerb : Token {
 
-    val regex: Regex
     val numArgs: Int
 }

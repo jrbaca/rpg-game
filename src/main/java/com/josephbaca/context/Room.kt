@@ -3,7 +3,8 @@ package com.josephbaca.context
 import com.josephbaca.entity.*
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
-import com.josephbaca.parsing.ContextCommand
+import com.josephbaca.parsing.ContextNoun
+import com.josephbaca.parsing.ContextVerb
 import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
@@ -23,22 +24,25 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val contextCommands: Map<ContextCommand, (List<ContextCommand>) -> String?> = hashMapOf(
-        Pair(RoomCommands.GO, { args -> go(args) }),
-        Pair(RoomCommands.WHERE, { args -> currentContext() }),
-        Pair(RoomCommands.UP, { args -> moveUp() }),
-        Pair(RoomCommands.DOWN, { args -> moveDown() }),
-        Pair(RoomCommands.LEFT, { args -> moveLeft() }),
-        Pair(RoomCommands.RIGHT, { args -> moveRight() }),
-        Pair(RoomCommands.FIGHT, { args -> fight() }),
-        Pair(RoomCommands.INVENTORY, { args -> getInventoryString() }),
-        Pair(RoomCommands.WHAT, { args -> getBiomeDescription() }),
-        Pair(RoomCommands.WHO, { args -> getEnemyDescription() })
+    override val contextVerbs: Map<ContextVerb, (List<ContextNoun>) -> String?> = hashMapOf(
+        Pair(RoomVerbs.GO, { args -> go(args) }),
+        Pair(RoomVerbs.WHERE, { args -> currentContext() }),
+        Pair(RoomVerbs.FIGHT, { args -> fight() }),
+        Pair(RoomVerbs.INVENTORY, { args -> getInventoryString() }),
+        Pair(RoomVerbs.WHAT, { args -> getBiomeDescription() }),
+        Pair(RoomVerbs.WHO, { args -> getEnemyDescription() })
 //        Pair("baby shark", { babyShark() })
 
         // Cheats
 //        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", { lolhack() }),
 //        Pair("4ce7fca0eee7bf957796eb64b684a5af", { asdf() }) // Yes or yes Korean lyric MD5
+    )
+
+    override val contextNouns: Set<ContextNoun> = setOf(
+        RoomNouns.UP,
+        RoomNouns.DOWN,
+        RoomNouns.LEFT,
+        RoomNouns.RIGHT
     )
 
     private fun generateBiomeType(): BiomeType {
@@ -80,53 +84,29 @@ class Room @JvmOverloads internal constructor(
         return "in a room"
     }
 
-    private fun go(args: List<ContextCommand>): String? {
+    private fun go(args: List<ContextNoun>): String? {
         // Should have one arg
-        val direction: ContextCommand? = args.singleOrNull()
+        val direction: ContextNoun? = args.singleOrNull()
 
         return when (direction) {
-            RoomCommands.UP -> {
+            RoomNouns.UP -> {
                 contextManager.world.movePlayerUp()
                 contextManager.currentContext.currentContext()
             }
-            RoomCommands.DOWN -> {
+            RoomNouns.DOWN -> {
                 contextManager.world.movePlayerDown()
                 contextManager.currentContext.currentContext()
             }
-            RoomCommands.RIGHT -> {
+            RoomNouns.RIGHT -> {
                 contextManager.world.movePlayerRight()
                 contextManager.currentContext.currentContext()
             }
-            RoomCommands.LEFT -> {
+            RoomNouns.LEFT -> {
                 contextManager.world.movePlayerLeft()
                 contextManager.currentContext.currentContext()
             }
             else -> null
         }
-    }
-
-    @Deprecated("go")
-    private fun moveUp(): String {
-        contextManager.world.movePlayerUp()
-        return contextManager.currentContext.currentContext()
-    }
-
-    @Deprecated("go")
-    private fun moveDown(): String {
-        contextManager.world.movePlayerDown()
-        return contextManager.currentContext.currentContext()
-    }
-
-    @Deprecated("go")
-    private fun moveRight(): String {
-        contextManager.world.movePlayerRight()
-        return contextManager.currentContext.currentContext()
-    }
-
-    @Deprecated("go")
-    private fun moveLeft(): String {
-        contextManager.world.movePlayerLeft()
-        return contextManager.currentContext.currentContext()
     }
 
     private fun fight(): String {

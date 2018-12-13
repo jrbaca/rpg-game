@@ -1,7 +1,8 @@
 package com.josephbaca.context
 
 import com.josephbaca.entity.Entity
-import com.josephbaca.parsing.ContextCommand
+import com.josephbaca.parsing.ContextNoun
+import com.josephbaca.parsing.ContextVerb
 
 class Battle(
     private val player: Entity,
@@ -15,10 +16,12 @@ class Battle(
         LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
     }
 
-    override val contextCommands: Map<ContextCommand, (List<ContextCommand>) -> String?> = hashMapOf(
+    override val contextVerbs: Map<ContextVerb, (List<ContextNoun>) -> String?> = hashMapOf(
         Pair(BattleCommands.WHERE, { args -> currentContext() }),
         Pair(BattleCommands.FIGHT, { args -> fight() })
     )
+
+    override val contextNouns: Set<ContextNoun> = setOf()
 
     override fun currentContext(): String {
         return "In a battle"
