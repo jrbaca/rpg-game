@@ -15,9 +15,9 @@ class Battle(
         LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
     }
 
-    override val contextCommands: Map<ContextCommand, () -> String> = hashMapOf(
-        Pair(BattleCommands.WHERE, { currentContext() }),
-        Pair(BattleCommands.FIGHT, { fight() })
+    override val contextCommands: Map<ContextCommand, (List<ContextCommand>) -> String?> = hashMapOf(
+        Pair(BattleCommands.WHERE, { args -> currentContext() }),
+        Pair(BattleCommands.FIGHT, { args -> fight() })
     )
 
     override fun currentContext(): String {

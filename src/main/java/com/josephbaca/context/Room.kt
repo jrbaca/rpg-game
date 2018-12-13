@@ -23,16 +23,17 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val contextCommands: Map<ContextCommand, () -> String> = hashMapOf(
-        Pair(RoomCommands.WHERE, { currentContext() }),
-        Pair(RoomCommands.UP, { moveUp() }),
-        Pair(RoomCommands.DOWN, { moveDown() }),
-        Pair(RoomCommands.LEFT, { moveLeft() }),
-        Pair(RoomCommands.RIGHT, { moveRight() }),
-        Pair(RoomCommands.FIGHT, { fight() }),
-        Pair(RoomCommands.INVENTORY, { getInventoryString() }),
-        Pair(RoomCommands.WHAT, { getBiomeDescription() }),
-        Pair(RoomCommands.WHO, { getEnemyDescription() })
+    override val contextCommands: Map<ContextCommand, (List<ContextCommand>) -> String?> = hashMapOf(
+        Pair(RoomCommands.GO, { args -> go(args) }),
+        Pair(RoomCommands.WHERE, { args -> currentContext() }),
+        Pair(RoomCommands.UP, { args -> moveUp() }),
+        Pair(RoomCommands.DOWN, { args -> moveDown() }),
+        Pair(RoomCommands.LEFT, { args -> moveLeft() }),
+        Pair(RoomCommands.RIGHT, { args -> moveRight() }),
+        Pair(RoomCommands.FIGHT, { args -> fight() }),
+        Pair(RoomCommands.INVENTORY, { args -> getInventoryString() }),
+        Pair(RoomCommands.WHAT, { args -> getBiomeDescription() }),
+        Pair(RoomCommands.WHO, { args -> getEnemyDescription() })
 //        Pair("baby shark", { babyShark() })
 
         // Cheats
@@ -79,21 +80,50 @@ class Room @JvmOverloads internal constructor(
         return "in a room"
     }
 
+    private fun go(args: List<ContextCommand>): String? {
+        // Should have one arg
+        val direction: ContextCommand? = args.singleOrNull()
+
+        return when (direction) {
+            RoomCommands.UP -> {
+                contextManager.world.movePlayerUp()
+                contextManager.currentContext.currentContext()
+            }
+            RoomCommands.DOWN -> {
+                contextManager.world.movePlayerDown()
+                contextManager.currentContext.currentContext()
+            }
+            RoomCommands.RIGHT -> {
+                contextManager.world.movePlayerRight()
+                contextManager.currentContext.currentContext()
+            }
+            RoomCommands.LEFT -> {
+                contextManager.world.movePlayerLeft()
+                contextManager.currentContext.currentContext()
+            }
+            else -> null
+        }
+    }
+
+    @Deprecated("go")
     private fun moveUp(): String {
         contextManager.world.movePlayerUp()
         return contextManager.currentContext.currentContext()
     }
 
+    @Deprecated("go")
     private fun moveDown(): String {
         contextManager.world.movePlayerDown()
         return contextManager.currentContext.currentContext()
     }
 
+    @Deprecated("go")
     private fun moveRight(): String {
         contextManager.world.movePlayerRight()
         return contextManager.currentContext.currentContext()
     }
 
+    @Deprecated("go")
     private fun moveLeft(): String {
         contextManager.world.movePlayerLeft()
         return contextManager.currentContext.currentContext()

@@ -8,9 +8,9 @@ import com.josephbaca.parsing.ContextCommand
 interface Context {
 
     /**
-     * Commands that can be executed
+     * Commands that can be executed. Is null if given invalid arguments
      */
-    val contextCommands: Map<ContextCommand, () -> String>
+    val contextCommands: Map<ContextCommand, (List<ContextCommand>) -> String?>
 
     fun currentContext(): String
 }
