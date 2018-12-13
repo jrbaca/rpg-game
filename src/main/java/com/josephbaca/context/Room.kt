@@ -155,22 +155,6 @@ class Room @JvmOverloads internal constructor(
                 "Run away,…"
     }
 
-    enum class RoomCommands(
-        override val regex: Regex
-    ) : ContextCommand {
-
-        WHERE(Regex("where")),
-        UP(Regex("up")),
-        DOWN(Regex("down")),
-        LEFT(Regex("left")),
-        RIGHT(Regex("right")),
-        FIGHT(Regex("fight")),
-        INVENTORY(Regex("inventory")),
-        WHAT(Regex("what")),
-        WHO(Regex("who"));
-    }
-
-
     companion object {
 
         private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)

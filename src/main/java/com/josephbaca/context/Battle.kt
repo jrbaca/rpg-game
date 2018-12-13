@@ -78,14 +78,6 @@ class Battle(
         enemySet.removeIf { enemy -> !enemy.isAlive }
     }
 
-    enum class BattleCommands(
-        override val regex: Regex
-    ) : ContextCommand {
-
-        WHERE(Regex("where")),
-        FIGHT(Regex("fight"));
-    }
-
     companion object {
         private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
     }

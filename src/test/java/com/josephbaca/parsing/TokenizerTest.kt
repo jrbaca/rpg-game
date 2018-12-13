@@ -90,10 +90,11 @@ internal class TokenizerTest {
     }
 
     enum class BadTokens(
-        override val regex: Regex
+        override val regex: Regex,
+        override val numArgs: Int
     ) : ContextCommand {
 
-        DUP1(Regex("bad")),
-        DUP2(Regex("bad"));
+        DUP1(Regex("bad"), 0),
+        DUP2(Regex("bad"), 0);
     }
 }

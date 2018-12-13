@@ -1,8 +1,5 @@
 package com.josephbaca.parsing
 
-/**
- *
- */
 internal object Tokenizer {
 
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
