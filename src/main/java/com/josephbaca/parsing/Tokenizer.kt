@@ -23,33 +23,29 @@ internal object Tokenizer {
         return processedInput
     }
 
-    private fun iterativelyMatchTokens(input: String, contextCommands: Set<ContextCommand>): List<ContextCommand>? {
-        return iterativelyMatchTokens(input, contextCommands, 0, 0)
-    }
-
     private fun iterativelyMatchTokens(
         input: String,
-        contextCommands: Set<ContextCommand>,
-        startIndex: Int,
-        endIndex: Int
+        contextCommands: Set<ContextCommand>
     ): List<ContextCommand>? {
 
-        if (endIndex == input.length + 1) return listOf()
+        val foundTokens: MutableList<ContextCommand> = mutableListOf()
+        val matchedStrings: MutableList<String> = mutableListOf()
 
-        val searchString = input.substring(startIndex, endIndex).trim()
-        LOG.debug("Searching \"%s\" from \"%s\"".format(searchString, input))
+        var startIndex = 0
+        for (endIndex in 0..input.length) {
+            val searchString = input.substring(startIndex, endIndex).trim()
+            LOG.debug("Searching \"%s\" from \"%s\"".format(searchString, input))
 
-        val matchingCommand =
-            getMatchingContextCommand(searchString, contextCommands) ?: return null // Bad if too many matches
+            val matchingCommand =
+                getMatchingContextCommand(searchString, contextCommands) ?: return null // Bad if too many matches
 
-        val newStartIndex = if (matchingCommand.size == 1) endIndex - startIndex else startIndex
-
-        val remainingTokens =
-            iterativelyMatchTokens(input, contextCommands, newStartIndex, endIndex + 1) ?: return null // Propagate bad matches
-
-
-        return matchingCommand.plus(remainingTokens)
-        //TODO match on the correct substring
+            if (!matchingCommand.isEmpty()) {
+                startIndex = endIndex
+                foundTokens.add(matchingCommand.single())
+                matchedStrings.add(searchString)
+            }
+        }
+        return if (matchedStrings.joinToString(" ") == input) foundTokens else null // Didn't fully tokenize
     }
 
     private fun getMatchingContextCommand(
