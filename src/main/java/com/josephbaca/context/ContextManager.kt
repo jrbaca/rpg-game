@@ -5,7 +5,7 @@ import com.josephbaca.world.World
 import java.util.*
 
 /**
- * Internal representation of the contextManager to manage current game contextManager.
+ * Game state tracking and context management.
  */
 class ContextManager {
 
@@ -28,5 +28,10 @@ class ContextManager {
     fun replaceContextLayer(c: Context) {
         removeContextLayer()
         addContextLayer(c)
+    }
+
+    fun newGame(): String {
+        gameOver = true
+        return "New game started!"
     }
 }

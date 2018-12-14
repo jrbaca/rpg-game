@@ -14,7 +14,7 @@ import com.josephbaca.world.Biome.BiomeType
  * A room that a player can be in. May have any number of enemySet, items, curses, doors, etc.
  */
 class Room @JvmOverloads internal constructor(
-    private val contextManager: ContextManager,
+    override val contextManager: ContextManager,
     override val icon: String = "R"
 ) : Context, Mappable {
 
@@ -24,7 +24,7 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val verbsToken = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
+    override val localVerbTokens = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
         Pair(RoomVerbs.GO, { args -> go(args) }),
         Pair(RoomVerbs.WHERE, { args -> currentContext() }),
         Pair(RoomVerbs.FIGHT, { args -> fight() }),
@@ -38,7 +38,7 @@ class Room @JvmOverloads internal constructor(
 //        Pair("4ce7fca0eee7bf957796eb64b684a5af", { asdf() }) // Yes or yes Korean lyric MD5
     )
 
-    override val nounTokens: Set<NounToken> = setOf(
+    override val localNounTokens: Set<NounToken> = setOf(
         RoomNouns.UP,
         RoomNouns.DOWN,
         RoomNouns.LEFT,

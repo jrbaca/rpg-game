@@ -8,7 +8,7 @@ internal object Tokenizer {
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     /**
-     * Tokenizes an input given a set of possible tokens. Returns null if tokenizer fails.
+     * Tokenizes an input given a set of possible allTokens. Returns null if tokenizer fails.
      */
     fun tokenizeInput(
         input: String,
@@ -16,7 +16,7 @@ internal object Tokenizer {
     ): List<Token>? {
         val preProcessedInput = preProcessInput(input)
 
-        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, tokens))
+        LOG.info("Attempting to tokenize \"%s\" with allTokens %s".format(preProcessedInput, tokens))
         return iterativelyMatchTokens(preProcessedInput, tokens)
     }
 
@@ -27,8 +27,8 @@ internal object Tokenizer {
     }
 
     /**
-     * Algorithm for matching a set of tokens with regex against an input. Mutating form of a tail call recursion
-     * algorithm. Runs in O(nm^2) time, where n = the number of tokens, and m = length of the input. Matches substrings
+     * Algorithm for matching a set of allTokens with regex against an input. Mutating form of a tail call recursion
+     * algorithm. Runs in O(nm^2) time, where n = the number of allTokens, and m = length of the input. Matches substrings
      * of increasing lengths against each token, and when found, starts search again from the previous stopping point.
      * Returns null if the input could not be fully matched.
      */
@@ -68,7 +68,7 @@ internal object Tokenizer {
 
         val matchingTokens = getMatchingTokens(input, tokens)
         return if (matchingTokens.size > 1) {
-            LOG.warn("Too many tokens match!")
+            LOG.warn("Too many allTokens match!")
             null
         } else {
             matchingTokens

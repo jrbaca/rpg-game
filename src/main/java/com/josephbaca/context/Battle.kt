@@ -7,7 +7,7 @@ import com.josephbaca.parsing.VerbToken
 class Battle(
     private val player: Entity,
     private val enemySet: MutableSet<Entity>,
-    private val contextManager: ContextManager
+    override val contextManager: ContextManager
 ) : Context {
 
     init {
@@ -16,12 +16,12 @@ class Battle(
         LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
     }
 
-    override val verbsToken = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
+    override val localVerbTokens = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
         Pair(BattleCommands.WHERE, { args -> currentContext() }),
         Pair(BattleCommands.FIGHT, { args -> fight() })
     )
 
-    override val nounTokens: Set<NounToken> = setOf()
+    override val localNounTokens: Set<NounToken> = setOf()
 
     override fun currentContext(): String {
         return "In a battle"
