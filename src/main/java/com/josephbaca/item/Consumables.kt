@@ -7,5 +7,6 @@ enum class Consumables(
     override val healing: Int
 ) : Consumable {
 
-    HEALINGPOTION(2);
+    HEALINGPOTION(2),
+//    MYSTERYPOTION()
 }

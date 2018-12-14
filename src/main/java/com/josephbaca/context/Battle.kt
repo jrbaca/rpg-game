@@ -17,7 +17,7 @@ class Battle(
     }
 
     override val localVerbTokens = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
-        Pair(BattleCommands.FIGHT, { args -> fight() })
+        Pair(BattleCommands.ATTACK, { args -> fight() })
     )
 
     override val localNounTokens: Set<NounToken> = setOf()
