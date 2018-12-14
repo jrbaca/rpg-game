@@ -42,9 +42,10 @@ interface Context {
         get() = localVerbTokens.plus(globalVerbTokens)
 
     fun getTokenHelpStrings(): String {
-        return allVerbTokens.keys.joinToString(separator = "\n") { token ->
-            "%s: %s".format(token.helpUsage, token.helpString)
-        }
+        return allVerbTokens.keys.sortedBy { token -> token.helpUsage }
+            .joinToString(separator = "\n") { token ->
+                "%s: %s".format(token.helpUsage, token.helpString)
+            }
     }
 
 }

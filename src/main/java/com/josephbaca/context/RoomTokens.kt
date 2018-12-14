@@ -12,9 +12,10 @@ enum class RoomVerbs(
 
     GO(Regex("go"), 1, "go <direction>", "Takes you in a direction. direction=[up, down, left, right]"),
     FIGHT(Regex("fight"), 0, "fight", "Starts a fight with the enemy!"),
-    INVENTORY(Regex("inventory"), 0, "", ""),
-    WHAT(Regex("what"), 0, "", ""),
-    WHO(Regex("who"), 0, "", "");
+    INVENTORY(Regex("inventory"), 0, "inventory", ""),
+    WHAT(Regex("what"), 0, "what", ""),
+    ENEMIES(Regex("enemies"), 0, "enemies", ""),
+    WHO(Regex("who"), 0, "who", "");
 }
 
 enum class RoomNouns(

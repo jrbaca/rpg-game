@@ -7,6 +7,6 @@ enum class GlobalVerbTokens(
     override val helpString: String
 ) : VerbToken {
 
-    HELP(Regex("help"), 0, "", ""),
-    NEWGAME(Regex("new game"), 0, "", "");
+    HELP(Regex("help"), 0, "help", ""),
+    NEWGAME(Regex("new game"), 0, "new game", "");
 }

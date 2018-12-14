@@ -1,13 +1,14 @@
 package com.josephbaca.context
 
-import com.josephbaca.entity.*
+import com.josephbaca.entity.Entity
+import com.josephbaca.entity.Humanoids
 import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
 import com.josephbaca.parsing.NounToken
 import com.josephbaca.parsing.VerbToken
-import com.josephbaca.world.Mappable
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
+import com.josephbaca.world.Mappable
 
 
 /**
@@ -29,7 +30,8 @@ class Room @JvmOverloads internal constructor(
         Pair(RoomVerbs.FIGHT, { args -> fight() }),
         Pair(RoomVerbs.INVENTORY, { args -> getInventoryString() }),
         Pair(RoomVerbs.WHAT, { args -> getBiomeDescription() }),
-        Pair(RoomVerbs.WHO, { args -> getEnemyDescription() })
+        Pair(RoomVerbs.ENEMIES, { args -> getEnemyDescription() }),
+        Pair(RoomVerbs.WHO, { args -> enemySet.toString() })
 //        Pair("baby shark", { babyShark() })
 
         // Cheats
@@ -58,19 +60,19 @@ class Room @JvmOverloads internal constructor(
 
     private fun generateEnemyDescription(): String {
         return if (enemySet.isEmpty()) {
-            "Oof looks like you're alone :((("
+            "Oof looks like you're alone :(((."
         } else {
             listOf(
                 "Bad Guy???????",
-                "oh shit theres %s bad guy(s?).".format(enemySet.size),
-                "Theres %s bad men. Consider skrt skrting and or calling your mom :/".format(enemySet.size),
-                "Oh look a pal!!!!!!!!!! waiiitttt maybe not.",
-                "its an enemy.",
+                "oh there are %s bad guy(s?).".format(enemySet.size),
+                "There's %s bad men. Consider skrt skrting and or calling your mom :/.".format(enemySet.size),
+                "Oh look a pal!!!!!!!!!! waiiitttt maybe not. Yeah no it's a bad man.",
+                "It's an enemy.",
                 "uh oh spaghettio issa bad bih!",
                 "you're gonna have a bad time?",
                 "Enemy Encounter!",
                 "Jinkies!! it a bad man!!!!",
-                "OH theres a dude :/"
+                "OH theres a dude :/."
             ).random()
         }
     }
@@ -125,14 +127,14 @@ class Room @JvmOverloads internal constructor(
 
     private fun getBiomeDescription() = biomeDescription
 
-    private fun lolhack(): String {
+    private fun dgmssecret(): String {
         contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
-        return "Oh shit you unlocked a sister secret"
+        return "Oh you unlocked a sister secret."
     }
 
-    private fun asdf(): String {
+    private fun twice(): String {
         contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
-        return "Oh shit you unlocked a sister secret"
+        return "Hey boy. Look I'm gonna make this real simple for you. You got two options, yes or yes."
     }
 
     private fun babyShark(): String {
