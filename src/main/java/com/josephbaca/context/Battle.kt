@@ -17,15 +17,10 @@ class Battle(
     }
 
     override val localVerbTokens = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
-        Pair(BattleCommands.WHERE, { args -> currentContext() }),
         Pair(BattleCommands.FIGHT, { args -> fight() })
     )
 
     override val localNounTokens: Set<NounToken> = setOf()
-
-    override fun currentContext(): String {
-        return "In a battle"
-    }
 
     fun info(): String {
         return "%s (%s/%sHP) vs %s".format(

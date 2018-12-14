@@ -8,7 +8,6 @@ enum class RoomVerbs(
     override val numArgs: Int
 ) : VerbToken {
 
-    WHERE(Regex("where"), 0),
     GO(Regex("go"), 1),
     FIGHT(Regex("fight"), 0),
     INVENTORY(Regex("inventory"), 0),

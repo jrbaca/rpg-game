@@ -41,8 +41,6 @@ interface Context {
     val allVerbTokens: Map<VerbToken, (List<NounToken>) -> String?>
         get() = localVerbTokens.plus(globalVerbTokens)
 
-    fun currentContext(): String
-
     fun help(): String {
         return allVerbTokens.keys.toString()
     }

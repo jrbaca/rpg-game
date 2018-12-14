@@ -7,6 +7,5 @@ enum class BattleCommands(
     override val numArgs: Int
 ) : VerbToken {
 
-    WHERE(Regex("where"), 0),
     FIGHT(Regex("fight"), 0);
 }

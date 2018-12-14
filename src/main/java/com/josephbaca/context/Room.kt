@@ -26,7 +26,6 @@ class Room @JvmOverloads internal constructor(
 
     override val localVerbTokens = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
         Pair(RoomVerbs.GO, { args -> go(args) }),
-        Pair(RoomVerbs.WHERE, { args -> currentContext() }),
         Pair(RoomVerbs.FIGHT, { args -> fight() }),
         Pair(RoomVerbs.INVENTORY, { args -> getInventoryString() }),
         Pair(RoomVerbs.WHAT, { args -> getBiomeDescription() }),
@@ -80,7 +79,7 @@ class Room @JvmOverloads internal constructor(
         return String.format("Room (%s)", icon)
     }
 
-    override fun currentContext(): String {
+    fun nextRoomString(): String {
         return "in a room"
     }
 
@@ -90,19 +89,19 @@ class Room @JvmOverloads internal constructor(
         return when (direction) {
             RoomNouns.UP -> {
                 contextManager.world.movePlayerUp()
-                contextManager.currentContext.currentContext()
+                nextRoomString()
             }
             RoomNouns.DOWN -> {
                 contextManager.world.movePlayerDown()
-                contextManager.currentContext.currentContext()
+                nextRoomString()
             }
             RoomNouns.RIGHT -> {
                 contextManager.world.movePlayerRight()
-                contextManager.currentContext.currentContext()
+                nextRoomString()
             }
             RoomNouns.LEFT -> {
                 contextManager.world.movePlayerLeft()
-                contextManager.currentContext.currentContext()
+                nextRoomString()
             }
             else -> null
         }
