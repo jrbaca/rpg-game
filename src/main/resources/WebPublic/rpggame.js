@@ -21,8 +21,14 @@ function evalInput(input) {
 
 function outputText(input, response) {
     let textBox = $("#textOutput");
-    textBox.append("<b>&gt " + input + "</b><br>");
-    textBox.append("<p>" + response.replace(/\n/g,"<br>") + "</p>");
+
+    let formattedInput = "<b>&gt " + input + "</b><br>";
+    let formattedResponse = "<p>" + response.replace(/</g, "&lt")
+        .replace(/>/g, "&gt")
+        .replace(/\n/g, "<br>") + "</p>";
+
+    textBox.append(formattedInput);
+    textBox.append(formattedResponse);
     textBox.scrollTop(textBox.prop("scrollHeight")); // Go to bottom of page
 }
 
