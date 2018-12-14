@@ -27,7 +27,7 @@ object GameWebInterface {
             val game: Game = getGameFromSession(request)
             val input: String? = readInputFromRequest(request)
             val gameResponse = getResponseFromGame(input, game)
-            buildResponse(response, input, gameResponse)
+            buildResponse(response, gameResponse)
         }
     }
 
@@ -49,7 +49,7 @@ object GameWebInterface {
         return if (input != null) game.input(input) else "Bad command"
     }
 
-    private fun buildResponse(response: Response, input: String?, gameResponse: String): ObjectNode {
+    private fun buildResponse(response: Response, gameResponse: String): ObjectNode {
         // JSON builders
         val mapper = ObjectMapper()
         val objectNode = mapper.createObjectNode()
@@ -57,7 +57,7 @@ object GameWebInterface {
         // Build response
         response.status(200)
         response.header("cache-control", "no-cache")
-        objectNode.put("response", "<b>&gt %s</b><br/>%s".format(input, gameResponse))
+        objectNode.put("response", gameResponse)
         return objectNode
     }
 

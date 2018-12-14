@@ -14,19 +14,20 @@ function evalInput(input) {
         type: "GET",
         data: {'input': input},
         success: function (data) {
-            outputText(JSON.parse(data).response)
+            outputText(input, JSON.parse(data).response)
         }
     })
 }
 
-function outputText(text) {
+function outputText(input, response) {
     let textBox = $("#textOutput");
-    textBox.append("<p>" + text + "</p>");
+    textBox.append("<b>&gt " + input + "</b><br>");
+    textBox.append("<p>" + response.replace(/\n/g,"<br>") + "</p>");
     textBox.scrollTop(textBox.prop("scrollHeight")); // Go to bottom of page
 }
 
 $(document).ready(function () {
-    outputText("Type \"getTokenHelpStrings\" if you're stuck! Type \"new game\" to start over.");
+    outputText("intro", "Type \"help\" if you're stuck! Type \"new game\" to start over.");
 
     $("#submitButton").on("click", readInput);
 
