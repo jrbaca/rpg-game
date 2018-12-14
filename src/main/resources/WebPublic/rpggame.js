@@ -26,7 +26,7 @@ function outputText(text) {
 }
 
 $(document).ready(function () {
-    outputText("Type \"help\" if you're stuck! Type \"new game\" to start over.");
+    outputText("Type \"getTokenHelpStrings\" if you're stuck! Type \"new game\" to start over.");
 
     $("#submitButton").on("click", readInput);
 

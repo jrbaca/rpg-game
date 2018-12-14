@@ -6,4 +6,6 @@ package com.josephbaca.parsing
 interface VerbToken : Token {
 
     val numArgs: Int
+    val helpUsage: String
+    val helpString: String
 }

@@ -14,7 +14,7 @@ interface Context {
      */
     val globalVerbTokens: Map<VerbToken, (List<NounToken>) -> String?>
         get() = hashMapOf(
-            Pair(GlobalVerbTokens.HELP, { args -> help() }),
+            Pair(GlobalVerbTokens.HELP, { args -> getTokenHelpStrings() }),
             Pair(GlobalVerbTokens.NEWGAME, { args -> contextManager.newGame() })
         )
 
@@ -41,8 +41,10 @@ interface Context {
     val allVerbTokens: Map<VerbToken, (List<NounToken>) -> String?>
         get() = localVerbTokens.plus(globalVerbTokens)
 
-    fun help(): String {
-        return allVerbTokens.keys.toString()
+    fun getTokenHelpStrings(): String {
+        return allVerbTokens.keys.joinToString(separator = "\n") { token ->
+            "%s: %s".format(token.helpUsage, token.helpString)
+        }
     }
 
 }

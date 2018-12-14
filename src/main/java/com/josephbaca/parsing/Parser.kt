@@ -12,7 +12,7 @@ object Parser {
 
     /**
      * Uses the [Tokenizer] to tokenize an input using the [VerbToken] from the [Context]. It then
-     * validates the allTokens and invokes the appropriate commands.
+     * validates the tokens and invokes the appropriate commands.
      */
     fun tokenizeAndParseInput(input: String, context: Context): String {
 
@@ -29,13 +29,13 @@ object Parser {
     }
 
     private fun parseTokensToFunction(context: Context, tokens: List<Token>): (() -> String?)? {
-        LOG.info("Attempting to parse allTokens %s from context %s".format(tokens, context))
+        LOG.info("Attempting to parse tokens %s from context %s".format(tokens, context))
         return if (tokens.isEmpty()) null else createVerbTokenWithArgs(context, tokens)?.getInvocable()
     }
 
     private fun createVerbTokenWithArgs(context: Context, tokens: List<Token>): VerbTokenWithArgs? {
 
-        // Cast allTokens and return null if fail
+        // Cast tokens and return null if fail
         val verbToken = tokens[0] as? VerbToken ?: return null
         val nounTokens = tokens.drop(1).filterIsInstance<NounToken>()
             .apply { if (size != tokens.size - 1) return null }
@@ -48,7 +48,7 @@ object Parser {
     }
 
     private fun getFailureString(): String {
-        LOG.warn("Cannot parse allTokens.")
+        LOG.warn("Cannot parse tokens.")
 
         return listOf(
             "i dont think you're old enough for that mister",

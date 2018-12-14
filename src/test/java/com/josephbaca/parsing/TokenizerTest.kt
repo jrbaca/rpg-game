@@ -91,10 +91,12 @@ internal class TokenizerTest {
 
     enum class BadTokens(
         override val regex: Regex,
-        override val numArgs: Int
+        override val numArgs: Int,
+        override val helpUsage: String,
+        override val helpString: String
     ) : VerbToken {
 
-        DUP1(Regex("bad"), 0),
-        DUP2(Regex("bad"), 0);
+        DUP1(Regex("bad"), 0, "", ""),
+        DUP2(Regex("bad"), 0, "", "");
     }
 }

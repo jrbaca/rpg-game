@@ -5,14 +5,16 @@ import com.josephbaca.parsing.VerbToken
 
 enum class RoomVerbs(
     override val regex: Regex,
-    override val numArgs: Int
+    override val numArgs: Int,
+    override val helpUsage: String,
+    override val helpString: String
 ) : VerbToken {
 
-    GO(Regex("go"), 1),
-    FIGHT(Regex("fight"), 0),
-    INVENTORY(Regex("inventory"), 0),
-    WHAT(Regex("what"), 0),
-    WHO(Regex("who"), 0);
+    GO(Regex("go"), 1, "go <direction>", "Takes you in a direction. direction=[up, down, left, right]"),
+    FIGHT(Regex("fight"), 0, "fight", "Starts a fight with the enemy!"),
+    INVENTORY(Regex("inventory"), 0, "", ""),
+    WHAT(Regex("what"), 0, "", ""),
+    WHO(Regex("who"), 0, "", "");
 }
 
 enum class RoomNouns(
