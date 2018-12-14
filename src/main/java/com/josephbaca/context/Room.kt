@@ -24,7 +24,7 @@ class Room @JvmOverloads internal constructor(
     private val biomeDescription: String = generateBiomeDescription()
     private val enemyDescription: String = generateEnemyDescription()
 
-    override val verbsToken: Map<VerbToken, (List<NounToken>) -> String?> = hashMapOf(
+    override val verbsToken = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
         Pair(RoomVerbs.GO, { args -> go(args) }),
         Pair(RoomVerbs.WHERE, { args -> currentContext() }),
         Pair(RoomVerbs.FIGHT, { args -> fight() }),

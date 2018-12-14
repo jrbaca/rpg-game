@@ -27,7 +27,7 @@ internal class TokenizerTest {
             val token = it
             val input = token.toString()
 
-            val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+            val tokenList = Tokenizer.tokenizeInput(input, allTokens)
             assertEquals(listOf(token), tokenList)
         }
     }
@@ -42,7 +42,7 @@ internal class TokenizerTest {
 
         val input = "%s %s".format(token1.toString(), token2.toString())
 
-        val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+        val tokenList = Tokenizer.tokenizeInput(input, allTokens)
         assertEquals(listOf(token1, token2), tokenList)
     }
 
@@ -55,15 +55,15 @@ internal class TokenizerTest {
         val token2 = allTokens.random()
 
         val input1 = "%s   %s   ".format(token1.toString(), token2.toString())
-        val tokenList1 = Tokenizer.tokenizeInputWithContextCommandsRegex(input1, allTokens)
+        val tokenList1 = Tokenizer.tokenizeInput(input1, allTokens)
         assertEquals(listOf(token1, token2), tokenList1)
 
         val input2 = "    %s   %s".format(token1.toString(), token2.toString())
-        val tokenList2 = Tokenizer.tokenizeInputWithContextCommandsRegex(input2, allTokens)
+        val tokenList2 = Tokenizer.tokenizeInput(input2, allTokens)
         assertEquals(listOf(token1, token2), tokenList2)
 
         val input3 = "   %s   %s   ".format(token1.toString(), token2.toString())
-        val tokenList3 = Tokenizer.tokenizeInputWithContextCommandsRegex(input3, allTokens)
+        val tokenList3 = Tokenizer.tokenizeInput(input3, allTokens)
         assertEquals(listOf(token1, token2), tokenList3)
     }
 
@@ -73,7 +73,7 @@ internal class TokenizerTest {
         val allTokens = context.verbsToken.keys
 
         val input = "fakeinput"
-        val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+        val tokenList = Tokenizer.tokenizeInput(input, allTokens)
         assertNull(tokenList)
 
     }
@@ -84,7 +84,7 @@ internal class TokenizerTest {
         val allTokens = BadTokens.values().toSet()
 
         val input = "bad"
-        val tokenList = Tokenizer.tokenizeInputWithContextCommandsRegex(input, allTokens)
+        val tokenList = Tokenizer.tokenizeInput(input, allTokens)
         assertNull(tokenList)
 
     }

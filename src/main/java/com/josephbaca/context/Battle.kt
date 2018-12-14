@@ -16,7 +16,7 @@ class Battle(
         LOG.info("Enemies have HP: %s".format(enemySet.map { e -> "%s: %sHP".format(e.name, e.health) }))
     }
 
-    override val verbsToken: Map<VerbToken, (List<NounToken>) -> String?> = hashMapOf(
+    override val verbsToken = hashMapOf<VerbToken, (List<NounToken>) -> String?>(
         Pair(BattleCommands.WHERE, { args -> currentContext() }),
         Pair(BattleCommands.FIGHT, { args -> fight() })
     )
@@ -36,9 +36,9 @@ class Battle(
     }
 
     /**
-     * Carries out one round of fighting. Contains checking logic.
+     * Carries out one round of fighting.
      */
-    fun fight(): String {
+    private fun fight(): String {
         fightHelper()
         return if (enemySet.isEmpty()) {
             contextManager.removeContextLayer()

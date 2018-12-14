@@ -20,7 +20,7 @@ class Game {
 
         return when {
             commands.containsKey(input) -> commands[input]!!.invoke() // Run special commands
-            contextManager.player.isAlive -> Parser.parseInputWithCurrentContext(
+            contextManager.player.isAlive -> Parser.tokenizeAndParseInput(
                 input,
                 contextManager.currentContext
             )

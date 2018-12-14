@@ -3,8 +3,8 @@ package com.josephbaca.parsing
 import com.josephbaca.context.Context
 
 /**
- * Object used for both parsing and tokenizing user inputs given their current [Context].
- * Use [parseInputWithCurrentContext] to do so.
+ * Used for both parsing and tokenizing user inputs given their current [Context].
+ * Use [tokenizeAndParseInput] to do so.
  */
 object Parser {
 
@@ -14,60 +14,61 @@ object Parser {
      * Uses the [Tokenizer] to tokenize an input using the [VerbToken] from the [Context]. It then
      * validates the tokens and invokes the appropriate commands.
      */
-    internal fun parseInputWithCurrentContext(input: String, context: Context): String {
+    fun tokenizeAndParseInput(input: String, context: Context): String {
 
-        val tokenizedInput = Tokenizer.tokenizeInputWithContextCommandsRegex(input, context.tokens)
+        val tokenizedInput = Tokenizer.tokenizeInput(input, context.tokens)
 
-        val parsedInput = if (tokenizedInput != null) {
-            parseTokens(context, tokenizedInput)
+        val parsedTokens = if (tokenizedInput != null) {
+            parseTokensToFunction(context, tokenizedInput)
         } else {
             LOG.warn("Tokenizer failed")
             null
         }
 
-        return invokeParsedInput(parsedInput)
+        return invokeFunctionAndGetResponse(parsedTokens)
     }
 
-    private fun parseTokens(context: Context, tokens: List<Token>): (() -> String?)? {
+    private fun parseTokensToFunction(context: Context, tokens: List<Token>): (() -> String?)? {
         LOG.info("Attempting to parse tokens %s from context %s".format(tokens, context))
-        return if (tokens.isEmpty()) null else parseTokensHelper(context, tokens)?.getInvocable()
+        return if (tokens.isEmpty()) null else createVerbTokenWithArgs(context, tokens)?.getInvocable()
     }
 
-    private fun parseTokensHelper(context: Context, tokens: List<Token>): TokenWithArgs? {
+    private fun createVerbTokenWithArgs(context: Context, tokens: List<Token>): VerbTokenWithArgs? {
+
+        // Cast tokens and return null if fail
         val verbToken = tokens[0] as? VerbToken ?: return null
         val nounTokens = tokens.drop(1).filterIsInstance<NounToken>()
             .apply { if (size != tokens.size - 1) return null }
 
-        return TokenWithArgs(context, verbToken, nounTokens)
+        return VerbTokenWithArgs(context, verbToken, nounTokens)
     }
 
-    private fun invokeParsedInput(parsedInput: (() -> String?)?): String {
-        return parsedInput?.invoke() ?: getUnknownCommandString()
+    private fun invokeFunctionAndGetResponse(parsedInput: (() -> String?)?): String {
+        return parsedInput?.invoke() ?: getFailureString()
     }
 
-    private fun getUnknownCommandString(): String {
+    private fun getFailureString(): String {
         LOG.warn("Cannot parse tokens.")
+
         return listOf(
-            "i dont think youre old enough to access that content mister",
-            "i dont think youre old enough for that mister",
+            "i dont think you're old enough for that mister",
             "No no no I don't think so!",
             "Nah man, not today",
-            "Baby shark, doo doo doo doo doo doo"
+            "Baby shark says nuh uh"
         ).random()
     }
 
-    private class TokenWithArgs(
+    private class VerbTokenWithArgs(
         private val context: Context,
         private val verbToken: VerbToken,
         private val args: List<NounToken>
     ) {
-        private val numArgs = verbToken.numArgs
 
         fun getInvocable(): () -> String? {
-            val command = context.verbsToken[verbToken]
+            val invocableFunction = context.verbsToken[verbToken]
 
-            return if (verbToken.numArgs == numArgs) {
-                { command?.invoke(args) }
+            return if (args.size == verbToken.numArgs) {
+                { invocableFunction?.invoke(args) }
             } else {
                 { null }
             }

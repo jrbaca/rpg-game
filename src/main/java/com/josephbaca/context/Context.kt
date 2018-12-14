@@ -3,19 +3,26 @@ package com.josephbaca.context
 import com.josephbaca.parsing.NounToken
 import com.josephbaca.parsing.VerbToken
 import com.josephbaca.parsing.Token
+import com.josephbaca.parsing.Parser
 
 /**
- * Interface for any class that can be used in contextManager in the parsing etc.
+ * Interface for any class that can be used in [ContextManager],  [Parser], etc.
  */
 interface Context {
 
     /**
-     * Commands that can be executed. Is null if given invalid arguments
+     * Tokens that are mapped to functions. Returns null if given invalid arguments.
      */
     val verbsToken: Map<VerbToken, (List<NounToken>) -> String?>
 
+    /**
+     * Tokens that are mapped to concepts or nothing.
+     */
     val nounTokens: Set<NounToken>
 
+    /**
+     * Set of all tokens.
+     */
     val tokens: Set<Token>
         get() = verbsToken.keys.toSet().plus(nounTokens)
 

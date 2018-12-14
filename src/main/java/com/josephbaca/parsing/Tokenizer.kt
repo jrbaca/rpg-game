@@ -1,17 +1,23 @@
 package com.josephbaca.parsing
 
+/**
+ * Used to tokenize input using a set of [Token]. It is generally recommended to use [Parser.tokenizeAndParseInput]
+ */
 internal object Tokenizer {
 
     private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
-    fun tokenizeInputWithContextCommandsRegex(
+    /**
+     * Tokenizes an input given a set of possible tokens. Returns null if tokenizer fails.
+     */
+    fun tokenizeInput(
         input: String,
-        contextTokens: Set<Token>
+        tokens: Set<Token>
     ): List<Token>? {
         val preProcessedInput = preProcessInput(input)
 
-        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, contextTokens))
-        return iterativelyMatchTokens(preProcessedInput, contextTokens)
+        LOG.info("Attempting to tokenize \"%s\" with tokens %s".format(preProcessedInput, tokens))
+        return iterativelyMatchTokens(preProcessedInput, tokens)
     }
 
     private fun preProcessInput(input: String): String {
@@ -20,9 +26,15 @@ internal object Tokenizer {
         return processedInput
     }
 
+    /**
+     * Algorithm for matching a set of tokens with regex against an input. Mutating form of a tail call recursion
+     * algorithm. Runs in O(nm^2) time, where n = the number of tokens, and m = length of the input. Matches substrings
+     * of increasing lengths against each token, and when found, starts search again from the previous stopping point.
+     * Returns null if the input could not be fully matched.
+     */
     private fun iterativelyMatchTokens(
         input: String,
-        contextTokens: Set<Token>
+        tokens: Set<Token>
     ): List<Token>? {
 
         val foundTokens: MutableList<Token> = mutableListOf()
@@ -33,33 +45,44 @@ internal object Tokenizer {
             val searchString = input.substring(startIndex, endIndex).trim()
             LOG.debug("Searching \"%s\" from \"%s\"".format(searchString, input))
 
-            val matchingCommand =
-                getMatchingContextCommand(searchString, contextTokens) ?: return null // Bad if too many matches
+            // Empty list if no match, List of one if single match, return null if multiple matches
+            val matchingToken: List<Token> =
+                getSingleMatchingToken(searchString, tokens) ?: return null
 
-            if (!matchingCommand.isEmpty()) {
+            if (!matchingToken.isEmpty()) {
                 startIndex = endIndex
-                foundTokens.add(matchingCommand.single())
+                foundTokens.add(matchingToken.single())
                 matchedStrings.add(searchString)
             }
         }
         return if (matchedStrings.joinToString(" ") == input) foundTokens else null // Didn't fully tokenize
     }
 
-    private fun getMatchingContextCommand(
+    /**
+     * Matches each token against a string. Returns null if more than one match, and an empty list if no matches.
+     */
+    private fun getSingleMatchingToken(
         input: String,
-        contextTokens: Set<Token>
+        tokens: Set<Token>
     ): List<Token>? {
 
-        val matchingCommands = contextTokens.filter { command -> inputMatchesContextCommandRegex(input, command) }
-        return if (matchingCommands.size > 1) {
+        val matchingTokens = getMatchingTokens(input, tokens)
+        return if (matchingTokens.size > 1) {
             LOG.warn("Too many tokens match!")
             null
         } else {
-            matchingCommands
+            matchingTokens
         }
     }
 
-    private fun inputMatchesContextCommandRegex(input: String, contextToken: Token): Boolean {
-        return input.matches(contextToken.regex)
+    private fun getMatchingTokens(
+        input: String,
+        tokens: Set<Token>
+    ): List<Token> {
+        return tokens.filter { token -> inputMatchesTokenRegex(input, token) }
+    }
+
+    private fun inputMatchesTokenRegex(input: String, token: Token): Boolean {
+        return input.matches(token.regex)
     }
 }
