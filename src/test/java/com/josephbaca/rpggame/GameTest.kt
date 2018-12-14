@@ -50,8 +50,29 @@ internal class GameTest {
         game!!.contextManager.world.movePlayer(RoomNouns.LEFT)
         newContext = game!!.contextManager.currentContext
         assertEquals(currentContext, newContext)
+    }
 
-        // TODO test add/remove from stack
+    @Test
+    fun addContext() {
+        // Test default contextManager is in room
+        val currentContext = game!!.contextManager.currentContext
+        assertTrue(currentContext is Room)
+
+        game!!.input("fight")
+        val newContext = game!!.contextManager.currentContext
+        assertNotEquals(currentContext, newContext)
+    }
+
+    @Test
+    fun removeContext() {
+        // Test default contextManager is in room
+        val currentContext = game!!.contextManager.currentContext
+        assertTrue(currentContext is Room)
+
+        game!!.input("fight")
+        game!!.contextManager.removeContextLayer()
+        val newContext = game!!.contextManager.currentContext
+        assertEquals(currentContext, newContext)
     }
 
 }
