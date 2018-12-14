@@ -7,29 +7,68 @@ import org.junit.jupiter.api.Test
 internal class RoomTest {
 
     @Test
-    fun testRoomMovement() {
+    fun roomMovementChangesRoom() {
 
-        val commands = listOf("up", "right", "left", "down")
+        val commands = listOf("forward", "back", "left", "right").map { "go $it" }
 
-        val success = commands.map { command ->
-            List(10) { false }.map {
-                val g = Game()
+        commands.map { command ->
+            val game = Game()
+            val contextManager = game.contextManager
 
-                // Ensure not at edge of world
-                g.input("up")
-                g.input("right")
+            // Ensure not at edge of world
+            game.input("go forward")
+            game.input("go right")
 
-                val description1 = g.input("what")
-                val description2 = g.input(command)
+            val room1 = contextManager.currentContext
+            game.input(command)
+            val room2 = contextManager.currentContext
 
-                description1 != description2
-            }
-        }
+            room1 != room2
+        }.forEach { assertTrue(it) }
 
-        for (llb in success) {
-            LOG.info(llb.toString())
-            assertTrue(llb.fold(false) { l, r -> l || r })
-        }
+    }
+
+    @Test
+    fun roomMovementChangesOrientation() {
+
+        val commands = listOf("back", "left", "right").map { "go $it" }
+
+        commands.map { command ->
+            val game = Game()
+            val contextManager = game.contextManager
+
+            // Ensure not at edge of world
+            game.input("go forward")
+            game.input("go right")
+
+            val orientation1 = contextManager.world.playerOrientation
+            game.input(command)
+            val orientation2 = contextManager.world.playerOrientation
+
+            orientation1 != orientation2
+        }.forEach { assertTrue(it) }
+
+    }
+
+    fun roomMovementDoesntChangeOrientation() {
+
+        val commands = listOf("forward").map { "go $it" }
+
+        commands.map { command ->
+            val game = Game()
+            val contextManager = game.contextManager
+
+            // Ensure not at edge of world
+            game.input("go forward")
+            game.input("go right")
+
+            val orientation1 = contextManager.world.playerOrientation
+            game.input(command)
+            val orientation2 = contextManager.world.playerOrientation
+
+            orientation1 == orientation2
+        }.forEach { assertTrue(it) }
+
     }
 
     companion object {

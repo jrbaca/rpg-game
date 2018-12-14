@@ -2,6 +2,7 @@ package com.josephbaca.world
 
 import com.josephbaca.context.ContextManager
 import com.josephbaca.context.Room
+import com.josephbaca.context.RoomNouns
 
 /**
  * Contains all the geography about the world the player is in. Specifically,
@@ -16,9 +17,6 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
     private val grid: CoordinateGrid<Room> =
         CoordinateGrid(maxx, maxy)
 
-    /**
-     * Player coordinates.
-     */
     private var playerCoords: Coordinate = Coordinate(0, 0)
         set(value) {
             if (value.x >= 0 && value.x < grid.sizeX && value.y >= 0 && value.y < grid.sizeY) {
@@ -33,6 +31,8 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
             }
         }
 
+    var playerOrientation: Directions = Directions.NORTH
+
     private val currentRoom: Room
         get() = grid.getCoordinate(playerCoords)
 
@@ -43,32 +43,40 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
         LOG.debug("Context is: %s".format(contextManager.contextStack))
     }
 
-    /**
-     * Move the player up one unit.
-     */
-    fun movePlayerUp() {
-        playerCoords = Coordinate(playerCoords.x, playerCoords.y + 1)
+    fun movePlayer(relativeDirection: RoomNouns): String? {
+
+        val oldPlayerOrientation = playerOrientation
+        val oldPlayerCoords = playerCoords
+
+        playerOrientation = getNewPlayerOrientation(relativeDirection) ?: return null
+        playerCoords = getNewPlayerCoords()
+
+        return if (oldPlayerCoords == playerCoords) {
+            playerOrientation = oldPlayerOrientation
+            "Oh heck! Sorry there's a wall there..."
+        } else {
+            "Okay cool you went that way!"
+        }
     }
 
-    /**
-     * Move the player down one unit.
-     */
-    fun movePlayerDown() {
-        playerCoords = Coordinate(playerCoords.x, playerCoords.y - 1)
+    private fun getNewPlayerOrientation(relativeDirection: RoomNouns): World.Directions? {
+
+        return when (relativeDirection) {
+            RoomNouns.FORWARD -> playerOrientation
+            RoomNouns.BACK -> playerOrientation.reverse()
+            RoomNouns.RIGHT -> playerOrientation.right()
+            RoomNouns.LEFT -> playerOrientation.left()
+            else -> return null // Didn't pass a direction
+        }
     }
 
-    /**
-     * Move the player right one unit.
-     */
-    fun movePlayerRight() {
-        playerCoords = Coordinate(playerCoords.x + 1, playerCoords.y)
-    }
-
-    /**
-     * Move the player left one unit.
-     */
-    fun movePlayerLeft() {
-        playerCoords = Coordinate(playerCoords.x - 1, playerCoords.y)
+    private fun getNewPlayerCoords(): Coordinate {
+        return when (playerOrientation) {
+            Directions.NORTH -> Coordinate(playerCoords.x, playerCoords.y + 1)
+            Directions.SOUTH -> Coordinate(playerCoords.x, playerCoords.y - 1)
+            Directions.EAST -> Coordinate(playerCoords.x + 1, playerCoords.y)
+            Directions.WEST -> Coordinate(playerCoords.x - 1, playerCoords.y)
+        }
     }
 
     /**
@@ -92,6 +100,40 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
      */
     fun toDisplayString(): String {
         return grid.toDisplayString()
+    }
+
+    enum class Directions {
+        EAST,
+        WEST,
+        NORTH,
+        SOUTH;
+
+        fun reverse(): Directions {
+            return when (this) {
+                EAST -> WEST
+                WEST -> EAST
+                NORTH -> SOUTH
+                SOUTH -> NORTH
+            }
+        }
+
+        fun right(): Directions {
+            return when (this) {
+                EAST -> SOUTH
+                WEST -> NORTH
+                NORTH -> EAST
+                SOUTH -> WEST
+            }
+        }
+
+        fun left(): Directions {
+            return when (this) {
+                EAST -> NORTH
+                WEST -> SOUTH
+                NORTH -> WEST
+                SOUTH -> EAST
+            }
+        }
     }
 
     companion object {

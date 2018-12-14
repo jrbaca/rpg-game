@@ -1,6 +1,7 @@
 package com.josephbaca.rpggame
 
 import com.josephbaca.context.Room
+import com.josephbaca.context.RoomNouns
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -25,28 +26,28 @@ internal class GameTest {
 
         // Test we properly enter/exist new contexts (room (replace), battle (stack), etc)
         // Up should be different than base
-        game!!.contextManager.world.movePlayerUp()
+        game!!.contextManager.world.movePlayer(RoomNouns.FORWARD)
         var newContext = game!!.contextManager.currentContext
         assertNotEquals(currentContext, newContext)
 
         // Up then down should be the same
-        game!!.contextManager.world.movePlayerDown()
+        game!!.contextManager.world.movePlayer(RoomNouns.BACK)
         newContext = game!!.contextManager.currentContext
         assertEquals(currentContext, newContext)
 
         // Right should be different from base
-        game!!.contextManager.world.movePlayerRight()
+        game!!.contextManager.world.movePlayer(RoomNouns.LEFT)
         newContext = game!!.contextManager.currentContext
         assertNotEquals(currentContext, newContext)
 
         // Right then left should be the same
-        game!!.contextManager.world.movePlayerLeft()
+        game!!.contextManager.world.movePlayer(RoomNouns.BACK)
         newContext = game!!.contextManager.currentContext
         assertEquals(currentContext, newContext)
 
         // Can't walk off world
-        game!!.contextManager.world.movePlayerDown()
-        game!!.contextManager.world.movePlayerLeft()
+        game!!.contextManager.world.movePlayer(RoomNouns.FORWARD)
+        game!!.contextManager.world.movePlayer(RoomNouns.LEFT)
         newContext = game!!.contextManager.currentContext
         assertEquals(currentContext, newContext)
 

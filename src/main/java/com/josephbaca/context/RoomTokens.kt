@@ -10,7 +10,7 @@ enum class RoomVerbs(
     override val helpString: String
 ) : VerbToken {
 
-    GO(Regex("go"), 1, "Go <direction>", "Takes you in a direction. direction=[up, down, left, right]"),
+    GO(Regex("go"), 1, "Go <direction>", "Takes you in a direction. direction=[forward, back, left, right]"),
     FIGHT(Regex("fight"), 0, "Fight", "Starts a fight with the enemy!"),
     INVENTORY(Regex("inventory"), 0, "Inventory", "Tells you what's in your inventory!"),
     WHAT(Regex("what"), 0, "What", "Lets you know what the room you're in looks like!"),
@@ -21,8 +21,9 @@ enum class RoomVerbs(
 enum class RoomNouns(
     override val regex: Regex
 ) : NounToken {
-    UP(Regex("up")),
-    DOWN(Regex("down")),
+    FORWARD(Regex("forward")),
+    BACK(Regex("back")),
     LEFT(Regex("left")),
     RIGHT(Regex("right")),
+    TEST(Regex("right"))
 }

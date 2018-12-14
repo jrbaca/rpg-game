@@ -32,7 +32,6 @@ class Room @JvmOverloads internal constructor(
         Pair(RoomVerbs.WHAT, { args -> getBiomeDescription() }),
         Pair(RoomVerbs.ENEMIES, { args -> getEnemyDescription() }),
         Pair(RoomVerbs.WHO, { args -> enemySet.toString() })
-//        Pair("baby shark", { babyShark() })
 
         // Cheats
 //        Pair("Remember, reality is an illusion, the universe is a hologram, buy gold,bye!", { lolhack() }),
@@ -40,8 +39,8 @@ class Room @JvmOverloads internal constructor(
     )
 
     override val localNounTokens: Set<NounToken> = setOf(
-        RoomNouns.UP,
-        RoomNouns.DOWN,
+        RoomNouns.FORWARD,
+        RoomNouns.BACK,
         RoomNouns.LEFT,
         RoomNouns.RIGHT
     )
@@ -81,31 +80,11 @@ class Room @JvmOverloads internal constructor(
         return String.format("Room (%s)", icon)
     }
 
-    fun nextRoomString(): String {
-        return "in a room"
-    }
-
     private fun go(args: List<NounToken>): String? {
-        val direction: NounToken? = args.singleOrNull()
 
-        return when (direction) {
-            RoomNouns.UP -> {
-                contextManager.world.movePlayerUp()
-                nextRoomString()
-            }
-            RoomNouns.DOWN -> {
-                contextManager.world.movePlayerDown()
-                nextRoomString()
-            }
-            RoomNouns.RIGHT -> {
-                contextManager.world.movePlayerRight()
-                nextRoomString()
-            }
-            RoomNouns.LEFT -> {
-                contextManager.world.movePlayerLeft()
-                nextRoomString()
-            }
-            else -> null
+        // Checks that only one arg was passed, casts it, and moves the player
+        (args.singleOrNull() as? RoomNouns).also {
+            return if (it != null) contextManager.world.movePlayer(it) else null
         }
     }
 
@@ -135,34 +114,6 @@ class Room @JvmOverloads internal constructor(
     private fun twice(): String {
         contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
         return "Hey boy. Look I'm gonna make this real simple for you. You got two options, yes or yes."
-    }
-
-    private fun babyShark(): String {
-        return "doo doo doo doo doo doo\n" +
-                "Baby shark, doo doo doo doo doo doo\n" +
-                "Baby shark, doo doo doo doo doo doo\n" +
-                "Baby shark!\n" +
-                "Mommy shark, doo doo doo doo doo doo\n" +
-                "Mommy shark, doo doo doo doo doo doo\n" +
-                "Mommy shark, doo doo doo doo doo doo\n" +
-                "Mommy shark!\n" +
-                "Daddy shark, doo doo doo doo doo doo\n" +
-                "Daddy shark, doo doo doo doo doo doo\n" +
-                "Daddy shark, doo doo doo doo doo doo\n" +
-                "Daddy shark!\n" +
-                "Grandma shark, doo doo doo doo doo doo\n" +
-                "Grandma shark, doo doo doo doo doo doo\n" +
-                "Grandma shark, doo doo doo doo doo doo\n" +
-                "Grandma shark!\n" +
-                "Grandpa shark, doo doo doo doo doo doo\n" +
-                "Grandpa shark, doo doo doo doo doo doo\n" +
-                "Grandpa shark, doo doo doo doo doo doo\n" +
-                "Grandpa shark!\n" +
-                "Let’s go hunt, doo doo doo doo doo doo\n" +
-                "Let’s go hunt, doo doo doo doo doo doo\n" +
-                "Let’s go hunt, doo doo doo doo doo doo\n" +
-                "Let’s go hunt!\n" +
-                "Run away,…"
     }
 
     companion object {
