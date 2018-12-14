@@ -13,7 +13,8 @@ enum class RoomVerbs(
     FIGHT(Regex("fight"), 0),
     INVENTORY(Regex("inventory"), 0),
     WHAT(Regex("what"), 0),
-    WHO(Regex("who"), 0);
+    ENEMIES(Regex("enemies"), 0),
+    WHO(Regex("who"), 0)
 }
 
 enum class RoomNouns(
