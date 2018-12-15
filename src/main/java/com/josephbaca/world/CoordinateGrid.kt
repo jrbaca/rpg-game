@@ -5,9 +5,7 @@ package com.josephbaca.world
  */
 class CoordinateGrid<T : Mappable> internal constructor(val sizeX: Int, val sizeY: Int) {
 
-    /**
-     * Internal storage as y lists of x coords
-     */
+    //Internal storage as y lists of x coords
     private val grid: MutableList<MutableList<T?>> = MutableList(sizeY) { MutableList<T?>(sizeX) { null } }
 
 

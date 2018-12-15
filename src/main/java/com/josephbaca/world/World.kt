@@ -11,30 +11,29 @@ import com.josephbaca.context.RoomNouns
  */
 class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
 
-    /**
-     * Internal representation of the world.
-     */
-    private val grid: CoordinateGrid<Room> =
-        CoordinateGrid(maxx, maxy)
+    private val worldGrid: CoordinateGrid<Room> = CoordinateGrid(maxx, maxy)
 
-    private var playerCoords: Coordinate = Coordinate(0, 0)
+    private var playerCoordinates: Coordinate = Coordinate(0, 0)
         set(value) {
-            if (value.x >= 0 && value.x < grid.sizeX && value.y >= 0 && value.y < grid.sizeY) {
+            if (value.x in 0 until worldGrid.sizeX && value.y in 0 until worldGrid.sizeY) {
                 LOG.info(
                     "Player moving from (%s, %s) to (%s, %s)"
-                        .format(playerCoords.x, playerCoords.y, value.x, value.y)
+                        .format(playerCoordinates.x, playerCoordinates.y, value.x, value.y)
                 )
                 field = value
                 contextManager.replaceContextLayer(currentRoom)
             } else {
-                LOG.info("Player tried to walk off the world of size (%s, %s).".format(grid.sizeX, grid.sizeY))
+                LOG.info(
+                    "Player tried to walk off the world. Still at (%s, %s)."
+                        .format(playerCoordinates.x, playerCoordinates.y)
+                )
             }
         }
 
     var playerOrientation: Directions = Directions.NORTH
 
     private val currentRoom: Room
-        get() = grid.getCoordinate(playerCoords)
+        get() = worldGrid.getCoordinate(playerCoordinates)
 
     init {
         generateWorld()
@@ -43,15 +42,27 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
         LOG.debug("Context is: %s".format(contextManager.contextStack))
     }
 
+    /**
+     * World generator function.
+     */
+    private fun generateWorld() {
+        for (x in 0 until worldGrid.sizeX) {
+            for (y in 0 until worldGrid.sizeY) {
+                val r = Room(contextManager)
+                worldGrid.setCoordinate(Coordinate(x, y), r)
+            }
+        }
+    }
+
     fun movePlayer(relativeDirection: RoomNouns): String? {
 
         val oldPlayerOrientation = playerOrientation
-        val oldPlayerCoords = playerCoords
+        val oldPlayerCoords = playerCoordinates
 
         playerOrientation = getNewPlayerOrientation(relativeDirection) ?: return null
-        playerCoords = getNewPlayerCoords()
+        playerCoordinates = getNewPlayerCoords()
 
-        return if (oldPlayerCoords == playerCoords) {
+        return if (oldPlayerCoords == playerCoordinates) {
             playerOrientation = oldPlayerOrientation
             "Oh heck! Sorry there's a wall there..."
         } else {
@@ -63,7 +74,7 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
 
         return when (relativeDirection) {
             RoomNouns.FORWARD -> playerOrientation
-            RoomNouns.BACK -> playerOrientation.reverse()
+            RoomNouns.BACK -> playerOrientation.back()
             RoomNouns.RIGHT -> playerOrientation.right()
             RoomNouns.LEFT -> playerOrientation.left()
             else -> return null // Didn't pass a direction
@@ -72,34 +83,15 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
 
     private fun getNewPlayerCoords(): Coordinate {
         return when (playerOrientation) {
-            Directions.NORTH -> Coordinate(playerCoords.x, playerCoords.y + 1)
-            Directions.SOUTH -> Coordinate(playerCoords.x, playerCoords.y - 1)
-            Directions.EAST -> Coordinate(playerCoords.x + 1, playerCoords.y)
-            Directions.WEST -> Coordinate(playerCoords.x - 1, playerCoords.y)
-        }
-    }
-
-    /**
-     * World generator function.
-     */
-    private fun generateWorld() {
-        for (x in 0 until grid.sizeX) {
-            for (y in 0 until grid.sizeY) {
-                val r = Room(contextManager)
-                grid.setCoordinate(Coordinate(x, y), r)
-            }
+            Directions.NORTH -> Coordinate(playerCoordinates.x, playerCoordinates.y + 1)
+            Directions.SOUTH -> Coordinate(playerCoordinates.x, playerCoordinates.y - 1)
+            Directions.EAST -> Coordinate(playerCoordinates.x + 1, playerCoordinates.y)
+            Directions.WEST -> Coordinate(playerCoordinates.x - 1, playerCoordinates.y)
         }
     }
 
     override fun toString(): String {
-        return "World (%sx%s)".format(grid.sizeX, grid.sizeY)
-    }
-
-    /**
-     * Returns a print friendly version of the world.
-     */
-    fun toDisplayString(): String {
-        return grid.toDisplayString()
+        return "World (%sx%s)".format(worldGrid.sizeX, worldGrid.sizeY)
     }
 
     enum class Directions {
@@ -108,7 +100,7 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
         NORTH,
         SOUTH;
 
-        fun reverse(): Directions {
+        fun back(): Directions {
             return when (this) {
                 EAST -> WEST
                 WEST -> EAST
