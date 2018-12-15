@@ -1,6 +1,6 @@
 package com.josephbaca.world
 
-import com.josephbaca.context.ContextManager
+import com.josephbaca.rpggame.GameStateManager
 import com.josephbaca.context.Room
 import com.josephbaca.context.RoomNouns
 
@@ -9,7 +9,7 @@ import com.josephbaca.context.RoomNouns
  * it contains the coordinates of every [Room] and the current location
  * of the player.
  */
-class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
+class World(maxx: Int, maxy: Int, private val gameStateManager: GameStateManager) {
 
     private val worldGrid: CoordinateGrid<Room> = CoordinateGrid(maxx, maxy)
 
@@ -21,7 +21,7 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
                         .format(playerCoordinates.x, playerCoordinates.y, value.x, value.y)
                 )
                 field = value
-                contextManager.replaceContextLayer(currentRoom)
+                gameStateManager.replaceContextLayer(currentRoom)
             } else {
                 LOG.info(
                     "Player tried to walk off the world. Still at (%s, %s)."
@@ -37,9 +37,9 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
 
     init {
         generateWorld()
-        contextManager.addContextLayer(currentRoom) // Add current room to contextManager
+        gameStateManager.addContextLayer(currentRoom) // Add current room to gameStateManager
         LOG.debug("Added current room (%s) to context.".format(currentRoom))
-        LOG.debug("Context is: %s".format(contextManager.contextStack))
+        LOG.debug("Context is: %s".format(gameStateManager.contextStack))
     }
 
     /**
@@ -48,7 +48,7 @@ class World(maxx: Int, maxy: Int, private val contextManager: ContextManager) {
     private fun generateWorld() {
         for (x in 0 until worldGrid.sizeX) {
             for (y in 0 until worldGrid.sizeY) {
-                val r = Room(contextManager)
+                val r = Room(gameStateManager)
                 worldGrid.setCoordinate(Coordinate(x, y), r)
             }
         }

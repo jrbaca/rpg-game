@@ -1,10 +1,9 @@
 package com.josephbaca.rpggame
 
-import com.josephbaca.util.setLogLevel
 import java.util.*
 import kotlin.text.Charsets.UTF_8
 
-object GameConsoleInterface {
+object ConsoleInterface {
 
     /**
      * Runs loop to accept user interaction from a console.
@@ -12,7 +11,7 @@ object GameConsoleInterface {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val game = Game()
+        val game = GameWrapper()
 
         // Scanner for reading player input
         val sc = Scanner(System.`in`, UTF_8.name())
@@ -21,7 +20,7 @@ object GameConsoleInterface {
         while (true) {
             print("> ")
             input = sc.nextLine()
-            if (input == "quit") break else println(game.input(input))
+            if (input == "quit") break else println(game.getGameReponseFromInput(input))
         }
     }
 }

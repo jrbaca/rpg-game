@@ -8,5 +8,5 @@ enum class GlobalVerbTokens(
 ) : VerbToken {
 
     HELP(Regex("help"), 0, "help", "Asks for commands."),
-    NEWGAME(Regex("new game"), 0, "new game", "Starts a new game!");
+    KILL(Regex("kill"), 0, "kill", "Kill yourself to start a new game!");
 }

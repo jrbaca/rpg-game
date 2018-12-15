@@ -1,6 +1,6 @@
 package com.josephbaca.parsing
 
-import com.josephbaca.context.ContextManager
+import com.josephbaca.rpggame.GameStateManager
 import com.josephbaca.context.Room
 import com.josephbaca.util.setLogLevel
 import org.junit.jupiter.api.Test
@@ -10,11 +10,11 @@ import org.junit.jupiter.api.BeforeEach
 
 internal class TokenizerTest {
 
-    private var contextManager = ContextManager()
+    private var contextManager = GameStateManager()
 
     @BeforeEach
     internal fun setUp() {
-        contextManager = ContextManager()
+        contextManager = GameStateManager()
         setLogLevel("DEBUG")
     }
 

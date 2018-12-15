@@ -9,5 +9,5 @@ enum class BattleCommands(
     override val helpString: String
 ) : VerbToken {
 
-    ATTACK(Regex("fight"), 0, "fight", "Attacks the guy you're fighting!");
+    ATTACK(Regex("attack"), 0, "attack", "Attacks the guy you're fighting!");
 }

@@ -1,6 +1,6 @@
 package com.josephbaca.world
 
-import com.josephbaca.context.ContextManager
+import com.josephbaca.rpggame.GameStateManager
 import com.josephbaca.context.Room
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 
 internal class CoordinateGridTest {
 
-    private var contextManager: ContextManager? = null
+    private var gameStateManager: GameStateManager? = null
     private var world: World? = null
 
     @BeforeEach
     fun setUp() {
-        contextManager = ContextManager()
-        world = World(10, 10, contextManager!!)
+        gameStateManager = GameStateManager()
+        world = World(10, 10, gameStateManager!!)
     }
 
     @Test
@@ -23,7 +23,7 @@ internal class CoordinateGridTest {
 
         for (i in 0 until grid.sizeX) {
             for (j in 0 until grid.sizeX) {
-                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!))
+                grid.setCoordinate(Coordinate(i, j), Room(gameStateManager!!))
             }
         }
 
@@ -31,7 +31,7 @@ internal class CoordinateGridTest {
         assertEquals("R R\nR R", grid.toDisplayString())
 
         // Set top left
-        grid.setCoordinate(Coordinate(0, 1), Room(contextManager!!, "T"))
+        grid.setCoordinate(Coordinate(0, 1), Room(gameStateManager!!, "T"))
         assertEquals("T R\nR R", grid.toDisplayString())
     }
 
@@ -42,7 +42,7 @@ internal class CoordinateGridTest {
 
         for (i in 0 until grid.sizeX) {
             for (j in 0 until grid.sizeY) {
-                grid.setCoordinate(Coordinate(i, j), Room(contextManager!!))
+                grid.setCoordinate(Coordinate(i, j), Room(gameStateManager!!))
             }
         }
 

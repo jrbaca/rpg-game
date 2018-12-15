@@ -6,6 +6,7 @@ import com.josephbaca.item.Weapon
 import com.josephbaca.item.Weapons
 import com.josephbaca.parsing.NounToken
 import com.josephbaca.parsing.VerbToken
+import com.josephbaca.rpggame.GameStateManager
 import com.josephbaca.world.Biome
 import com.josephbaca.world.Biome.BiomeType
 import com.josephbaca.world.Mappable
@@ -15,7 +16,7 @@ import com.josephbaca.world.Mappable
  * A room that a player can be in. May have any number of enemySet, items, curses, doors, etc.
  */
 class Room @JvmOverloads internal constructor(
-    override val contextManager: ContextManager,
+    override val gameStateManager: GameStateManager,
     override val icon: String = "R"
 ) : Context, Mappable {
 
@@ -84,7 +85,7 @@ class Room @JvmOverloads internal constructor(
 
         // Checks that only one arg was passed, casts it, and moves the player
         (args.singleOrNull() as? RoomNouns).also {
-            return if (it != null) contextManager.world.movePlayer(it) else null
+            return if (it != null) gameStateManager.world.movePlayer(it) else null
         }
     }
 
@@ -92,14 +93,14 @@ class Room @JvmOverloads internal constructor(
         return if (enemySet.isEmpty()) {
             "No enemies to fight!"
         } else {
-            val battle = Battle(contextManager.player, enemySet, contextManager)
-            contextManager.addContextLayer(battle)
+            val battle = Battle(gameStateManager.player, enemySet, gameStateManager)
+            gameStateManager.addContextLayer(battle)
             battle.makeBattleIntroduction()
         }
     }
 
     private fun getInventoryString(): String {
-        return contextManager.player.inventory.toString()
+        return gameStateManager.player.inventory.toString()
     }
 
     private fun getEnemyDescription() = enemyDescription
@@ -107,17 +108,12 @@ class Room @JvmOverloads internal constructor(
     private fun getBiomeDescription() = biomeDescription
 
     private fun dgmssecret(): String {
-        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
+        gameStateManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.DEMONGALAXYMASTERSWORD))
         return "Oh you unlocked a sister secret."
     }
 
     private fun twice(): String {
-        contextManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
+        gameStateManager.player.inventory.addItem(Weapon.buildWeapon(Weapons.TWICESWORD))
         return "Hey boy. Look I'm gonna make this real simple for you. You got two options, yes or yes."
-    }
-
-    companion object {
-
-        private val LOG = org.slf4j.LoggerFactory.getLogger(this::class.java)
     }
 }

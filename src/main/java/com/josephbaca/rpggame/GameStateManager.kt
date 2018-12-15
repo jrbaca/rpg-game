@@ -1,21 +1,24 @@
-package com.josephbaca.context
+package com.josephbaca.rpggame
 
+import com.josephbaca.context.Context
 import com.josephbaca.entity.Entity
 import com.josephbaca.world.World
 import java.util.*
 
 /**
- * Game state tracking and context management.
+ * GameWrapper state tracking and context management.
  */
-class ContextManager {
+class GameStateManager {
 
-    var gameOver = false
     val contextStack = ArrayList<Context>()
     val currentContext: Context
         get() = contextStack.last()
 
     val player: Entity = Entity.buildFromScratch("player", 10, 1, "The player")
     val world: World = World(10, 10, this)
+
+    val gameOver
+        get() = !player.isAlive
 
     fun addContextLayer(c: Context) {
         contextStack.add(c)
@@ -30,8 +33,8 @@ class ContextManager {
         addContextLayer(c)
     }
 
-    fun newGame(): String {
-        gameOver = true
-        return "New game started!"
+    fun reducePlayerHealthToZero(): String {
+        player.health = 0
+        return "U ded now."
     }
 }

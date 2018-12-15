@@ -8,7 +8,7 @@ import spark.Request
 import spark.Response
 import spark.Spark.*
 
-object GameWebInterface {
+object WebInterface {
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -24,19 +24,19 @@ object GameWebInterface {
 
         // Path for server to respond to requests
         get("/rpgserver/") { request, response ->
-            val game: Game = getGameFromSession(request)
+            val gameWrapper: GameWrapper = getGameFromSession(request)
             val input: String? = readInputFromRequest(request)
-            val gameResponse = getResponseFromGame(input, game)
+            val gameResponse = getResponseFromGame(input, gameWrapper)
             buildResponse(response, gameResponse)
         }
     }
 
-    private fun getGameFromSession(request: Request): Game {
-        val sessionGame: Game? = request.session().attribute("game")
-        return if (sessionGame != null && !sessionGame.contextManager.gameOver) {
-            sessionGame
+    private fun getGameFromSession(request: Request): GameWrapper {
+        val sessionGameWrapper: GameWrapper? = request.session().attribute("game")
+        return if (sessionGameWrapper != null) {
+            sessionGameWrapper
         } else {
-            request.session().attribute("game", Game())
+            request.session().attribute("game", GameWrapper())
             request.session().attribute("game")
         }
     }
@@ -45,8 +45,8 @@ object GameWebInterface {
         return request.queryParams("input")
     }
 
-    private fun getResponseFromGame(input: String?, game: Game): String {
-        return if (input != null) game.input(input) else "Bad command"
+    private fun getResponseFromGame(input: String?, gameWrapper: GameWrapper): String {
+        return if (input != null) gameWrapper.getGameReponseFromInput(input) else "Bad command"
     }
 
     private fun buildResponse(response: Response, gameResponse: String): ObjectNode {

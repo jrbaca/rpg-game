@@ -3,11 +3,12 @@ package com.josephbaca.context
 import com.josephbaca.entity.Entity
 import com.josephbaca.parsing.NounToken
 import com.josephbaca.parsing.VerbToken
+import com.josephbaca.rpggame.GameStateManager
 
 class Battle(
     private val player: Entity,
     private val enemySet: MutableSet<Entity>,
-    override val contextManager: ContextManager
+    override val gameStateManager: GameStateManager
 ) : Context {
 
     init {
@@ -51,7 +52,7 @@ class Battle(
 
     private fun makeResultString(): String {
         return if (enemySet.isEmpty()) {
-            contextManager.removeContextLayer()
+            gameStateManager.removeContextLayer()
             getWinString()
         } else if (!player.isAlive) {
             getDeathString()

@@ -1,7 +1,7 @@
 package com.josephbaca.parsing
 
 /**
- * Used to tokenize input using a set of [Token]. It is generally recommended to use [Parser.tokenizeAndParseInput]
+ * Used to tokenize getGameReponseFromInput using a set of [Token]. It is generally recommended to use [Parser.tokenizeAndParseInput]
  */
 internal object Tokenizer {
 

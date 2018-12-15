@@ -1,13 +1,14 @@
 package com.josephbaca.context
 
 import com.josephbaca.parsing.*
+import com.josephbaca.rpggame.GameStateManager
 
 /**
- * Interface for any class that can be used in [ContextManager],  [Parser], etc.
+ * Interface for any class that can be used in [GameStateManager],  [Parser], etc.
  */
 interface Context {
 
-    val contextManager: ContextManager
+    val gameStateManager: GameStateManager
 
     /**
      * Verb allTokens that are always accessible.
@@ -15,7 +16,7 @@ interface Context {
     val globalVerbTokens: Map<VerbToken, (List<NounToken>) -> String?>
         get() = hashMapOf(
             Pair(GlobalVerbTokens.HELP, { args -> getTokenHelpStrings() }),
-            Pair(GlobalVerbTokens.NEWGAME, { args -> contextManager.newGame() })
+            Pair(GlobalVerbTokens.KILL, { args -> gameStateManager.reducePlayerHealthToZero() })
         )
 
     /**
