@@ -94,7 +94,7 @@ class Room @JvmOverloads internal constructor(
         } else {
             val battle = Battle(contextManager.player, enemySet, contextManager)
             contextManager.addContextLayer(battle)
-            battle.info()
+            battle.makeBattleIntroduction()
         }
     }
 
